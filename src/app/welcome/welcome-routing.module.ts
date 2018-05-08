@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import { MaterialModule } from '../material.module';
 import { WelcomeComponent } from './welcome.component';
 
 const routes: Routes = [
@@ -9,7 +10,10 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [ WelcomeComponent ],
-  imports: [ RouterModule.forChild(routes) ],
+  imports: [
+    RouterModule.forChild(routes),
+    MaterialModule,
+  ],
   exports: [ RouterModule ],
 })
 export class WelcomeRoutingModule { }
