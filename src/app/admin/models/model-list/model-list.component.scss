@@ -1,0 +1,15 @@
+.model-list {
+	position: relative;
+	margin-top: 24px;
+
+	&__add-button {
+		top: -30px;
+		right: 50px;
+		z-index: 1;
+		position: absolute;
+	}
+
+	&__form-field {
+		width: 100%;
+	}
+}

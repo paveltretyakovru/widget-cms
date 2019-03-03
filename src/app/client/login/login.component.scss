@@ -1,0 +1,33 @@
+.login {
+  margin-top: 24px;
+  text-align: initial;
+
+  &__form-field {
+    width: 100%;
+  }
+  
+  &__actions {
+  display: flex;
+  justify-content: space-between;
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+.error {
+  color: red;
+
+  &-msg {
+    display: block;
+    position: absolute;
+    font-size: 75%;
+    bottom: -2em;
+  }
+}
+
+.mat-input-container {
+  margin-bottom: .5em;
+}

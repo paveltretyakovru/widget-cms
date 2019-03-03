@@ -1,15 +1,39 @@
 import { NgModule } from '@angular/core';
+import {CdkTableModule} from '@angular/cdk/table';
 
 import {
-  MatButtonModule,
+	MatProgressBarModule,
   MatCardModule,
-  MatToolbarModule
+  MatIconModule,
+  MatTableModule,
+  MatInputModule,
+  MatButtonModule,
+  MatToolbarModule,
+  MatSnackBarModule,
+  MatFormFieldModule,
+  MatSlideToggleModule,
+  MatProgressSpinnerModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatListModule,
 } from '@angular/material';
 
 export const MATERIAL_COMPONENTS = [
-  MatButtonModule,
   MatCardModule,
-  MatToolbarModule
+  MatIconModule,
+  MatTableModule,
+  MatInputModule,
+  MatButtonModule,
+  MatToolbarModule,
+  MatSnackBarModule,
+  MatFormFieldModule,
+  MatSlideToggleModule,
+  MatProgressSpinnerModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatListModule,
+	MatProgressBarModule,
+	CdkTableModule,
 ];
 
 @NgModule({

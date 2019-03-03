@@ -1,0 +1,34 @@
+<mat-drawer-container class="client">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12">
+        <mat-toolbar color="primary" class="mat-elevation-z6">
+          <mat-toolbar-row>
+            <button
+              mat-button
+              routerLink="/">CMS
+            </button>
+  
+            <span class="spacer"></span>
+
+            <button
+              class="client__button-sign"
+              *ngIf="!user"
+              mat-button
+              routerLink="/login">Signin
+            </button>
+
+            <button
+              class="client__button-cabinet"
+              mat-button
+              *ngIf="user"
+              routerLink="/">{{user.email}}
+            </button>
+          </mat-toolbar-row>
+        </mat-toolbar>
+      </div>
+    </div>
+		<app-loader></app-loader> 
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>

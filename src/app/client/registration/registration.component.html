@@ -1,0 +1,49 @@
+<div class="row center-xs registration">
+  <div class="col-md-6 col-xs-12">
+    <mat-card>
+      <mat-card-header>
+        <div mat-card-avatar>
+          <mat-icon>account_circle</mat-icon>
+        </div>
+        <mat-card-title>Registration</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="registrationForm">
+          <mat-form-field class="registration__form-field">
+            <input
+              matInput
+              type="email"
+              required="required"
+              placeholder="Email"
+              formControlName="email"
+            >
+            <div *ngIf="registrationForm.controls['email'].errors && !registrationForm.controls['email'].pristine" class="error-msg">
+              <div [hidden]="!registrationForm.controls['email'].errors.required">Email is required.</div>
+              <div [hidden]="!registrationForm.controls['email'].errors.patternInvalid">Email is invalid.</div>
+            </div>
+          </mat-form-field>
+
+          <mat-form-field class="registration__form-field">
+            <input
+              type="text"
+              matInput
+              required
+              placeholder="Password"
+              formControlName="password">
+
+            <div *ngIf="registrationForm.controls['password'].errors && !registrationForm.controls['password'].pristine" class="error-msg">
+              <div [hidden]="!registrationForm.controls['password'].errors.required">Password is required.</div>
+            </div>
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+					class="btn"
+					[disabled]="registrationForm.invalid"
+					(click)="registrate()"
+					mat-button>Submit</button>
+       </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

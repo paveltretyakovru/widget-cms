@@ -1,0 +1,20 @@
+<mat-drawer-container>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12">
+        <mat-toolbar color="primary" class="mat-elevation-z6">
+          <mat-toolbar-row>
+            <button
+              mat-button
+              routerLink="/admin">CMS Admin
+            </button>
+  
+            <span class="spacer"></span>
+          </mat-toolbar-row>
+        </mat-toolbar>
+      </div>
+    </div>
+		<app-loader></app-loader>
+		<router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>

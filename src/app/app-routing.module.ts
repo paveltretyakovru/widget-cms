@@ -3,10 +3,22 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NotFoundComponent } from './not-found.component';
+import { AuthGuard } from './shared/guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', loadChildren: './welcome/welcome.module#WelcomeModule' },
-  { path: '**', component: NotFoundComponent }
+  {
+    path: '',
+    loadChildren: './client/client.module#ClientModule'
+  },
+  {
+    path: 'admin',
+    loadChildren: './admin/admin.module#AdminModule',
+    canActivateChild: [AuthGuard],
+  },
+  {
+    path: '**',
+    component: NotFoundComponent,
+  }
 ];
 
 @NgModule({

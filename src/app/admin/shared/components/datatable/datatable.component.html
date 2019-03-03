@@ -1,0 +1,21 @@
+<table
+	mat-table
+	*ngIf="displayedColumns.length"
+	[dataSource]="dataSource"
+	class="mat-elevation-z8 datatable"
+>
+	<ng-container *ngFor="let attr of displayedColumns">
+		<ng-container [cdkColumnDef]="attr">
+			<th mat-header-cell *cdkHeaderCellDef md-sort-header>
+				{{attr}}
+			</th>
+			
+			<td mat-cell *cdkCellDef="let row" (click)="rowClick(row.model)">
+      	{{ row.clone[attr] }}
+			</td>
+    </ng-container>
+  </ng-container>
+
+  <tr mat-header-row *cdkHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *cdkRowDef="let row; columns: displayedColumns;"></tr>
+</table>

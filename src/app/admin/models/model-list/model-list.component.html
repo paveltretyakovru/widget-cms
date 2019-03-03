@@ -1,0 +1,27 @@
+<div class="row center model-list">
+	<button
+		class="model-list__add-button"
+		
+		mat-fab
+		routerLink="/admin/models/add" 
+	>
+		<mat-icon aria-label="Add model">add</mat-icon>
+	</button>
+
+	<div class="col-xs-12">
+		<mat-card>
+			<mat-card-header>
+        <div mat-card-avatar>
+          <mat-icon>account_circle</mat-icon>
+        </div>
+
+        <mat-card-title>Models</mat-card-title>
+			</mat-card-header>
+
+			<mat-card-content>
+				<app-datatable  [data]="models$" (rowClicked)="onClickRowDatatable($event)">
+				</app-datatable>
+			</mat-card-content>
+		</mat-card>
+	</div>
+</div>
