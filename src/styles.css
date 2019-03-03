@@ -11,6 +11,6 @@ html, body {
   padding: 0;
 }
 
-.mat-drawer-container {
+.mat-drawer-container, .container-fluid {
   height: 100%;
 }
