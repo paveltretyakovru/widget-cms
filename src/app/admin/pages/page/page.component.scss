@@ -1,3 +1,44 @@
 .page {
-  margin-top: 24px;
+  height: 100%;
+
+  &__tabs {
+    min-height: 150px;
+  }
+
+  &__button-trash {
+    z-index: 21;
+    float: right;
+  }
+
+  .grid-control {
+    padding: 8px;
+    display: flex;
+    justify-content: space-around;
+
+    & > div {
+      width: 100%;
+    }
+
+    &__buttons {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    &__checkboxes {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+    }
+
+    &__inputs {
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+}
+
+.dashboard-container {
+  height: 100%;
+  position: relative;
 }
