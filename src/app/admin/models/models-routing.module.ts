@@ -9,20 +9,20 @@ const routes: Routes = [
   {
     path: '',
     component: ModelsComponent,
-		children: [
-			{
-				path: '',
-				component: ModelListComponent
-			},
-			{
-				path: 'add',
-				component: ModelComponent,
-			},
-			{
-				path: ':id',
-				component: ModelComponent,
-			},
-		],
+    children: [
+      {
+        path: '',
+        component: ModelListComponent
+      },
+      {
+        path: 'add',
+        component: ModelComponent,
+      },
+      {
+        path: ':id',
+        component: ModelComponent,
+      },
+    ],
   }
 ];
 
