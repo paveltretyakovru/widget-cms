@@ -16,10 +16,10 @@ export class PanelComponent implements OnInit {
       name: 'Models',
       route: '/admin/models',
     },
-		{
-			name: 'Pages',
-			route: '/admin/pages',
-		},
+    {
+      name: 'Pages',
+      route: '/admin/pages',
+    },
   ];
 
   constructor() { }

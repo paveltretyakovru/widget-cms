@@ -1,80 +1,85 @@
-<div class="dashboard-container">
-  <div class="form">
-    <button class="btn btn-sm"
+<div class="page">
+  <mat-tab-group class="page__tabs">
+    <mat-tab label="Page"> Content 3 </mat-tab>
+
+    <mat-tab label="Grid">
+      <div class="grid-control">
+        <div class="grid-control__buttons">
+          <button
+            mat-raised-button class="btn btn-sm"
             [class.btn-primary]="editable"
-            (click)="editable = !editable">
-      <span shape="pencil"
-                *ngIf="!editable">pencil</span>
-      {{editable&&'Done'||'Edit'}}
-    </button>
-    <button class="btn btn-sm"
+            (click)="editable = !editable">{{ editable && 'Done'||'Edit'}}
+          </button>
+          
+          <button
+            mat-raised-button
             [hidden]="!editable"
-            (mouseover)="toggleHighlight(true)"
-            (mouseleave)="toggleHighlight(false)"
-            (click)="addWidget()">
-      +
-      Widget
-    </button>
-    <div class="toggle-switch"
-         [hidden]="!editable">
-      <input type="checkbox"
-             id="swapper"
-             [(ngModel)]="swapWidgets">
-      <label for="swapper">Swap Widgets</label>
-    </div>
-    <div class="toggle-switch">
-      <input type="checkbox"
-             id="grid"
-             [(ngModel)]="showGrid">
-      <label for="grid">Grid</label>
-    </div>
-    Rows: <b>{{rows}}</b>
-    <div class="btn-group">
-      <button class="btn btn-sm btn-icon"
-              (click)="doRows(false)">
-        -
-      </button>
-      <button class="btn btn-sm btn-icon"
-              (click)="doRows(true)">
-        +
-      </button>
-    </div>
-    Cols: <b>{{cols}}</b>
-    <div class="btn-group">
-      <button class="btn btn-sm btn-icon"
-              (click)="doCols(false)">
-        -
-      </button>
-      <button class="btn btn-sm btn-icon"
-              (click)="doCols(true)">
-        +
-      </button>
-    </div>
-  </div>
-  <div class="dashboard-page">
-    <ngx-widget-grid [rows]="rows"
-                     [columns]="cols"
-                     [highlightNextPosition]="highlightNextPosition"
-                     #grid
-                     [showGrid]="showGrid"
-                     (gridFull)="onGridFull($event)"
-                     (widgetPositionChange)="onWidgetChange($event)">
-      <ngx-widget *ngFor="let widget of widgets;let $index = index;"
-                  [position]="widget"
-                  [movable]="editable"
-                  [resizable]="editable"
-                  [swapOnMove]="swapWidgets">
-        <div style="height:100%;width:100%; display:flex;">
-          <div class="my-widgets"
-               style="height:100%;width:100%; padding:10px;"
-               [ngStyle]="{'background-color':widget.color}">
-            <button mat-button (click)="askDeleteWidget($index)" *ngIf="editable">trash</button>
-            <div>
-              {{widget.text}}
+            (click)="addWidget()">Add Widget
+          </button>
+        </div>
+        
+        <div class="grid-control__checkboxes">
+          <mat-checkbox [(ngModel)]="showGrid">Show grid</mat-checkbox>
+          <mat-checkbox [(ngModel)]="swapWidgets">Swap widgets</mat-checkbox>
+        </div>
+        
+        <div class="grid-control__inputs">
+          <mat-form-field>
+            <input matInput type="number" placeholder="Cols" [(ngModel)]="cols" min="2" [disabled]="!editable">
+          </mat-form-field>
+      
+          <mat-form-field>
+            <input matInput type="number" placeholder="Rows" [(ngModel)]="rows" min="2" [disabled]="!editable">
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-tab>
+  
+    <mat-tab label="Widgets">
+      Widgets tab
+    </mat-tab>
+  </mat-tab-group>
+  
+  <div class="dashboard-container">  
+    <div class="dashboard-page">
+      <ngx-widget-grid
+        #grid
+        [rows]="rows"
+        [columns]="cols"
+        [showGrid]="showGrid"
+        (gridFull)="onGridFull($event)"
+        (widgetPositionChange)="onWidgetChange($event)"
+        [highlightNextPosition]="highlightNextPosition"
+      >
+        <ngx-widget
+          *ngFor="let widget of widgets;let $index = index;"
+          [position]="widget"
+          [movable]="editable"
+          [resizable]="editable"
+          [swapOnMove]="swapWidgets">
+          
+          <div style="height:100%;width:100%; display:flex;">
+            <div
+              class="my-widgets"
+              style="height:100%;width:100%; padding:10px;"
+              [ngStyle]="{'background-color':widget.color}">
+
+              <button mat-icon-button
+                class="page__button-trash"
+                *ngIf="editable"
+                (click)="askDeleteWidget($index)">
+                <mat-icon aria-label="Clear">clear</mat-icon>
+              </button>
+  
+              <mat-card>
+                <mat-form-field>
+                  <textarea matInput placeholder="Leave a comment"></textarea>
+                </mat-form-field>
+              </mat-card>
             </div>
           </div>
-        </div>
-      </ngx-widget>
-    </ngx-widget-grid>
+        </ngx-widget>
+      </ngx-widget-grid>
+    </div>
   </div>
 </div>

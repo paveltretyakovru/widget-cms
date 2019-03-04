@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import {CdkTableModule} from '@angular/cdk/table';
 
 import {
-	MatProgressBarModule,
+  MatProgressBarModule,
   MatCardModule,
   MatIconModule,
   MatTableModule,
@@ -16,6 +16,8 @@ import {
   MatSelectModule,
   MatSidenavModule,
   MatListModule,
+  MatCheckboxModule,
+  MatTabsModule,
 } from '@angular/material';
 
 export const MATERIAL_COMPONENTS = [
@@ -32,8 +34,10 @@ export const MATERIAL_COMPONENTS = [
   MatSelectModule,
   MatSidenavModule,
   MatListModule,
-	MatProgressBarModule,
-	CdkTableModule,
+  MatProgressBarModule,
+  CdkTableModule,
+  MatCheckboxModule,
+  MatTabsModule,
 ];
 
 @NgModule({

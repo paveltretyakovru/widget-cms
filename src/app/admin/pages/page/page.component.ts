@@ -10,35 +10,34 @@ export class PageComponent implements OnInit {
   @ViewChild('grid') grid: NgxWidgetGridComponent;
   public rows = 6;
   public cols = 6;
+  public showGrid = false;
+  public swapWidgets = false;
+  public highlightNextPosition = false;
+
   public widgets: any[] = [
     {
       top: 1,
       left: 1,
-      height: 2,
+      height: 1,
       width: 2,
-      color: this.generateHslaColors(),
-      text: 'Hello'
+      color: this.getWidgetColor(),
     },
     {
-      top: 3,
+      top: 1,
       left: 3,
       height: 1,
       width: 1,
-      color: this.generateHslaColors(),
-      text: 'Foo'
+      color: this.getWidgetColor(),
     }, {
-      top: 4,
-      left: 4,
-      height: 2,
+      top: 1,
+      left: 5,
+      height: 1,
       width: 2,
-      color: this.generateHslaColors(),
-      text: 'Bar'
+      color: this.getWidgetColor(),
     }
   ];
-  public swapWidgets = false;
-  public showGrid = false;
-  public highlightNextPosition = false;
   private _editable = false;
+
   public set editable(editable: boolean) {
     this._editable = editable;
     this.showGrid = editable;
@@ -53,14 +52,10 @@ export class PageComponent implements OnInit {
   ngOnInit() {
   }
 
-  toggleHighlight(doHighlight: boolean) {
-    this.highlightNextPosition = !!doHighlight;
-  }
-
   addWidget() {
     const nextPosition = this.grid.getNextPosition();
     if (nextPosition) {
-      this.widgets.push({color: this.generateHslaColors(), ...nextPosition});
+      this.widgets.push({color: this.getWidgetColor(), ...nextPosition});
     } else {
       console.warn('No Space Available!! ');
     }
@@ -77,32 +72,8 @@ export class PageComponent implements OnInit {
   onWidgetChange(event: WidgetPositionChange) {
   }
 
-  doRows(add: boolean) {
-    if (add) {
-      this.rows++;
-    } else {
-      if (this.rows > 1) {
-        this.rows--;
-      }
-    }
-  }
-
-  doCols(add: boolean) {
-    if (add) {
-      this.cols++;
-    } else {
-      if (this.cols > 1) {
-        this.cols--;
-      }
-    }
-  }
-
-  generateHslaColors(saturation?, lightness?, alpha?) {
-    const h = this.getRandomIntInclusive(0, 360 * 10);
-    const s = saturation >= 0 && saturation <= 100 ? saturation : 80;
-    const l = lightness >= 0 && lightness <= 100 ? lightness : 80;
-    const a = alpha >= 0 && alpha <= 100 ? alpha : 100;
-    return `hsla(${h / 10},${s}%,${l}%,${a})`;
+  getWidgetColor() {
+    return 'rgba(0,0,0,.0)';
   }
 
   getRandomIntInclusive(min, max) {
