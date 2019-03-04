@@ -1,0 +1,11 @@
+.page-list {
+	position: relative;
+	margin-top: 16px;
+
+	&__add-button {
+		top: 34px;
+		right: 50px;
+		z-index: 1;
+		position: absolute;
+	}
+}
