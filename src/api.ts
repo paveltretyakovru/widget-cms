@@ -1,10 +1,11 @@
 import { ngExpressEngine, NgSetupOptions } from '@nguniversal/express-engine';
 
 // Routers
-import { usersRouter } from './server/users/users.router';
 import { authRouter  } from './server/auth/auth.router';
-import { registrationRouter } from './server/registration/registration.router';
+import { usersRouter } from './server/users/users.router';
 import { modelsRouter } from './server/models/models.router';
+import { collectionsRouter } from './server/collections/collections.router';
+import { registrationRouter } from './server/registration/registration.router';
 
 // Libraires
 import * as express from 'express';
@@ -33,10 +34,11 @@ export function createApi(distPath: string, ngSetupOptions: NgSetupOptions) {
   api.use(jwt());
 
   // Routes
-	api.use('/api/auth', authRouter);
+  api.use('/api/auth', authRouter);
   api.use('/api/users', usersRouter);
-	api.use('/api/models', modelsRouter);
-	api.use('/api/registration', registrationRouter);
+  api.use('/api/models', modelsRouter);
+  api.use('/api/collections', collectionsRouter);
+  api.use('/api/registration', registrationRouter);
 
   // Working with error excetions
   api.use(errorHandler);

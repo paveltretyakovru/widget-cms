@@ -11,17 +11,17 @@ import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
-		ModelsComponent,
-		ModelComponent,
-		ModelListComponent,
-		],
+    ModelsComponent,
+    ModelComponent,
+    ModelListComponent,
+    ],
   imports: [
     CommonModule,
-		FormsModule,
-		ReactiveFormsModule,
+    FormsModule,
+    ReactiveFormsModule,
     MaterialModule,
     ModelsRoutingModule,
-		SharedModule,
+    SharedModule,
   ]
 })
 export class ModelsModule { }

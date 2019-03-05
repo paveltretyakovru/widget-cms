@@ -10,20 +10,20 @@ import { ApiService } from 'src/app/shared/services/api.service';
   styleUrls: ['./model-list.component.scss']
 })
 export class ModelListComponent implements OnInit {
-	models = [];
-	models$: Observable<any>;
+  models = [];
+  models$: Observable<any>;
 
   constructor(
-		private api: ApiService,
-		private router: Router
-	) { }
+    private api: ApiService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
-		this.models$ = this.api.getAll('models');
+    this.models$ = this.api.getAll$('models');
   }
-	
-	onClickRowDatatable(model) {
-		console.log('Clicked on datatable row', model);
-		this.router.navigate([`/admin/models/${model._id}`]);
-	}
+
+  onClickRowDatatable(model) {
+    console.log('Clicked on datatable row', model);
+    this.router.navigate([`/admin/models/${model._id}`]);
+  }
 }

@@ -19,7 +19,9 @@
 			</mat-card-header>
 
 			<mat-card-content>
-				<app-datatable  [data]="models$" (rowClicked)="onClickRowDatatable($event)">
+				<app-datatable
+					[data]="models$"
+					(rowClicked)="onClickRowDatatable($event)">
 				</app-datatable>
 			</mat-card-content>
 		</mat-card>

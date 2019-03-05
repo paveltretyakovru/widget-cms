@@ -1,3 +1,47 @@
-<p>
-  collection works!
-</p>
+<div class="collection">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2 class="mat-title collection__title">
+          {{ collection?.id ? collection.name : 'Create' }} collection
+      </h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Collection settings</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <form [formGroup]="form">
+            <mat-form-field class="collection__form-field">
+              <input
+                matInput
+                type="text"
+                placeholder="Name"
+                formControlName="name">
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-select
+                  placeholder="Model of collection"
+                  formControlName="modelId"
+                >
+                  <mat-option *ngFor="let model of models" [value]="model.id">
+                    {{model.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+          </form>	
+        </mat-card-content>
+    
+        <mat-card-actions class="login__actions">
+          <button (click)="collection?.id ? save() : submit()" mat-button>
+            {{ collection?.id ? 'Save' : 'Submit' }}
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

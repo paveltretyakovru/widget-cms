@@ -8,9 +8,9 @@ import { SnackBarComponent } from '../components/snack-bar/snack-bar.component';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(
-		private authenticationService: AuthenticationService,
-		private snackBar: SnackBarComponent
-	) {}
+    private authenticationService: AuthenticationService,
+    private snackBar: SnackBarComponent
+  ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(catchError((err) => {
@@ -19,8 +19,8 @@ export class ErrorInterceptor implements HttpInterceptor {
         location.reload(true);
       }
 
-      const error = err.error.message || err.statusText;
-			this.snackBar.open(error, '');
+      const error = (err && err.error) ? err.error.message || err.statusText : '';
+      this.snackBar.open(error, '');
 
       return throwError(error);
     }));
