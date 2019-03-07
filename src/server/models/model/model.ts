@@ -1,11 +1,12 @@
 import { Schema, model } from 'mongoose';
 
-const ModelFieldSchema = new Schema({
-  fieldName: {
+export const ModelFieldSchema = new Schema({
+  name: {
     type: String,
     required: true,
   },
-  fieldType: { type: String },
+  type: { type: String },
+  value: { type: Schema.Types.Mixed, default: null },
 });
 
 const ModelSchema = new Schema({

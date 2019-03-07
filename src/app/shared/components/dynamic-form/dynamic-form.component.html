@@ -1,0 +1,72 @@
+<div *ngIf="dialog" class="dynamic-form__dialog">
+  <h1 mat-dialog-title *ngIf="title">{{ title }}</h1>
+  <div mat-dialog-content>
+    <div class="model-field" *ngFor="let field of specificFields">
+      <ng-container
+        *ngTemplateOutlet="typedFormField; context: { $implicit: field }">
+      </ng-container>
+    </div>
+
+    <div class="model-field" *ngFor="let field of fields">
+      <ng-container
+        *ngTemplateOutlet="typedFormField; context: { $implicit: field }">
+      </ng-container>
+    </div>
+  </div>
+
+  <div mat-dialog-actions class="dynamic-form__actions">
+    <button
+      mat-button
+      cdkFocusInitial
+      [mat-dialog-close]="dialogClickYesHandler()">Ok
+    </button>
+    <button mat-button (click)="dialogClickNoHandler()">No Thanks</button>
+  </div>
+</div>
+
+<div *ngIf="!dialog" class="dynamic-form">
+  <div *ngIf="!dialog" class="dynamic-form__static">
+    Static content
+  </div>
+</div>
+
+<!-- TEMPLATES -->
+
+<!-- Template o typed form field -->
+<ng-template let-field #typedFormField>
+    <!-- Field for TEXT type information -->
+    <mat-form-field
+      *ngIf="field.type === 'text'"
+      class="dynamic-form__field"
+    >
+      <textarea
+        matInput
+        [(ngModel)]="field.value"
+        [placeholder]="field.name">
+      </textarea>
+    </mat-form-field>
+
+    <!-- Field for STRING type infromation -->
+    <mat-form-field        
+      *ngIf="field.type === 'string'"
+      class="dynamic-form__field"
+    >
+      <input
+        matInput
+        [(ngModel)]="field.value"
+        [placeholder]="field.name"
+      >
+    </mat-form-field>
+
+    <!-- Field for NUMBER type information -->
+    <mat-form-field
+      *ngIf="field.type === 'number'"
+      class="dynamic-form__field"
+    >
+      <input
+        matInput
+        [(ngModel)]="field.value"
+        [placeholder]="field.name"
+      >
+    </mat-form-field>
+  </ng-template>

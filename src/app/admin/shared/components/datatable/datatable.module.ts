@@ -8,9 +8,9 @@ import {CdkTableModule} from '@angular/cdk/table';
   declarations: [ DatatableComponent ],
   imports: [
     CommonModule,
-		CdkTableModule,
-		MatTableModule,
+    CdkTableModule,
+    MatTableModule,
   ],
-	exports: [ DatatableComponent ],
+  exports: [ DatatableComponent ],
 })
 export class DatatableModule { }

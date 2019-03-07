@@ -13,6 +13,7 @@ import * as mongoose from 'mongoose';
 import * as bodyParser from 'body-parser';
 import { errorHandler } from './server/shared/helpers/error-handler';
 import { jwt } from './server/shared/helpers/jwt';
+import { documentsRouter } from './server/docuemnts/documents.router';
 
 export function createApi(distPath: string, ngSetupOptions: NgSetupOptions) {
   const api = express();
@@ -37,6 +38,7 @@ export function createApi(distPath: string, ngSetupOptions: NgSetupOptions) {
   api.use('/api/auth', authRouter);
   api.use('/api/users', usersRouter);
   api.use('/api/models', modelsRouter);
+  api.use('/api/documents', documentsRouter);
   api.use('/api/collections', collectionsRouter);
   api.use('/api/registration', registrationRouter);
 

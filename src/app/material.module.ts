@@ -18,6 +18,7 @@ import {
   MatListModule,
   MatCheckboxModule,
   MatTabsModule,
+  MatDialogModule,
 } from '@angular/material';
 
 export const MATERIAL_COMPONENTS = [
@@ -38,6 +39,7 @@ export const MATERIAL_COMPONENTS = [
   CdkTableModule,
   MatCheckboxModule,
   MatTabsModule,
+  MatDialogModule,
 ];
 
 @NgModule({

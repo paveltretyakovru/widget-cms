@@ -20,10 +20,11 @@ import { ModelsService } from '../models.service';
 export class ModelComponent implements OnInit {
   model;
   form: FormGroup;
-  fieldTypes = [
+  types = [
     { name: 'string', label: 'String' },
     { name: 'text', label: 'Text' },
-    { name: 'nubmer', label: 'Number' },
+    { name: 'nubmer', label: '!!!Number' },
+    { name: 'number', label: 'Number' },
   ];
   get formData() { return this.form.get('fields'); }
 
@@ -44,29 +45,26 @@ export class ModelComponent implements OnInit {
       name: new FormControl(''),
       fields: new FormArray([
         new FormGroup({
-          fieldName: new FormControl(''),
-          fieldType: new FormControl('string'),
+          name: new FormControl(''),
+          type: new FormControl('string'),
         }),
       ]),
     });
   }
 
   addNext() {
-    (this.form.controls['fields'] as FormArray).push(this.createItem())
+    (this.form.controls['fields'] as FormArray).push(this.createItem());
   }
 
   createItem() {
     return new FormGroup({
-      fieldName: new FormControl(''),
-      fieldType: new FormControl('string'),
+      name: new FormControl(''),
+      type: new FormControl('string'),
     });
   }
 
   submit() {
-    this.models.create(this.form.value)
-      .subscribe((model) => {
-        console.log('ModelComponent submit form', model);
-      });
+    this.api.create$('models', this.form.value).subscribe();
   }
 
   save() {
@@ -94,8 +92,8 @@ export class ModelComponent implements OnInit {
 
           model.fields.forEach((field) => fields.push(
             new FormGroup({
-              fieldName: new FormControl(field.fieldName),
-              fieldType: new FormControl(field.fieldType),
+              name: new FormControl(field.name),
+              type: new FormControl(field.type),
             })
           ));
       });

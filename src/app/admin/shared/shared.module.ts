@@ -5,10 +5,10 @@ import { DatatableModule } from './components/datatable/datatable.module';
 @NgModule({
   imports: [
     CommonModule,
-		DatatableModule,
+    DatatableModule,
   ],
-	exports: [
-		DatatableModule,
-	],
+  exports: [
+    DatatableModule,
+  ],
 })
 export class SharedModule { }

@@ -30,14 +30,14 @@
 										matInput
 										type="text"
 										placeholder="Field name"
-										formControlName="fieldName">
+										formControlName="name">
 								</mat-form-field>
 							</div>
 							<div class="col-xs-12 col-md-6">
 								<mat-form-field class="model__form-field">
-									<mat-select formControlName="fieldType"  placeholder="Field type">
+									<mat-select formControlName="type"  placeholder="Field type">
 										<mat-option
-											*ngFor="let type of fieldTypes"
+											*ngFor="let type of types"
 											[value]="type.name"
 										>
 											{{type.label}}

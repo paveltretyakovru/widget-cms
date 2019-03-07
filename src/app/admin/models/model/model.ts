@@ -1,7 +1,9 @@
 export interface Model {
+  _id: string;
   name: string;
   fields: {
-    fieldName: string;
-    fieldType: string;
+    name: string;
+    type: string;
+    value: any;
   }[];
 }

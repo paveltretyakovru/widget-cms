@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-xs-12">
       <h2 class="mat-title collection__title">
-          {{ collection?.id ? collection.name : 'Create' }} collection
+          {{ collection?._id ? collection.name : 'Create' }} collection
       </h2>
     </div>
   </div>
@@ -24,10 +24,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <mat-select
-                  placeholder="Model of collection"
-                  formControlName="modelId"
-                >
+                <mat-select placeholder="Model" formControlName="modelId">
                   <mat-option *ngFor="let model of models" [value]="model.id">
                     {{model.name}}
                   </mat-option>
@@ -37,11 +34,38 @@
         </mat-card-content>
     
         <mat-card-actions class="login__actions">
-          <button (click)="collection?.id ? save() : submit()" mat-button>
-            {{ collection?.id ? 'Save' : 'Submit' }}
+          <button (click)="collection?._id ? save() : submit()" mat-button>
+            {{ collection?._id ? 'Save' : 'Submit' }}
           </button>
         </mat-card-actions>
       </mat-card>
+    </div>
+  </div>
+
+  <div class="row documents">
+    <div class="col-xs-12">
+      <h2 class="mat-title documents__title">
+        Documents
+      </h2>
+      
+      <div class="documents__actions">
+        <button
+          (click)="openAddDocumentDialog()"
+          mat-raised-button color="accent">Add document
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row documents-list">
+    <div class="col-xs-12">
+      <div class="mat-card" *ngIf="collection?.documents.length === 0">
+        <h3 class="mat-subheading-2">There is no documents yet</h3>
+      </div>
+      <app-datatable
+        [data]="documents"
+        (rowClicked)="onClickDocumentRow($event)">
+      </app-datatable>
     </div>
   </div>
 </div>

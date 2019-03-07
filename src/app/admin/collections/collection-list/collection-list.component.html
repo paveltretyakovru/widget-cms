@@ -3,10 +3,10 @@
     <mat-icon aria-label="Add model">add</mat-icon>
   </button>
   <h2 class="mat-title">Collections</h2>
-  <mat-card class="col-xs-12">
+  <div class="col-xs-12">
     <app-datatable
       [data]="collections$"
       (rowClicked)="onClickRowDatatable($event)">
     </app-datatable>
-  </mat-card>
+  </div>
 </div>

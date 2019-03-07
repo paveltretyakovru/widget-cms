@@ -4,6 +4,10 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Collection } from './collection';
 import { Model } from '../../models/model/model';
 import { ActivatedRoute } from '@angular/router';
+import { CmsDocument } from '../../documents/document/cms-document';
+import { from, Observable, isObservable } from 'rxjs';
+import { MatDialog } from '@angular/material';
+import { DynamicFormComponent } from 'src/app/shared/components/dynamic-form/dynamic-form.component';
 
 @Component({
   selector: 'app-collection',
@@ -12,12 +16,14 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class CollectionComponent implements OnInit {
   form: FormGroup;
-  models: Model[] | null;
+  models: Model[];
+  documents: CmsDocument[];
   collection: Collection;
 
   constructor(
     private api: ApiService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -35,8 +41,9 @@ export class CollectionComponent implements OnInit {
   }
 
   fetchCollection(id: string): void {
-    this.api.getById$('collections', id)
-    .subscribe((collection: Collection) => {
+    this.api.getById$('collections', id).subscribe((collection: Collection) => {
+      console.log('CollectionComponent#fetchCollection()', { collection });
+      this.documents = collection.documents;
       this.collection = collection;
       this.form.patchValue(collection);
     });
@@ -61,4 +68,31 @@ export class CollectionComponent implements OnInit {
       .subscribe((collection) => this.collection = collection);
   }
 
+  onClickDocumentRow($event) {
+    console.log('CollectionComponent#..rowClick()', { $event });
+  }
+
+  openAddDocumentDialog() {
+    const dialogRef = this.dialog.open(DynamicFormComponent, {
+      width: '50%',
+      data: {
+        title: 'Add document to collection',
+        dialog: true,
+        collectionId: this.collection._id,
+
+        model: this.models.find((model) => (
+          model._id === this.form.get('modelId').value
+        )),
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: Observable<any>) => {
+      if (isObservable(result)) {
+        result.subscribe((document: CmsDocument) => {
+          this.documents.unshift(document);
+          this.documents = [...this.documents];
+        });
+      }
+    });
+  }
 }

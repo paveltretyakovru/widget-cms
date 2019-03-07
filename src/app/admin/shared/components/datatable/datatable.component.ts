@@ -1,5 +1,8 @@
 import { Input, Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject, from, isObservable } from 'rxjs';
+import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
+import { DataSource } from '@angular/cdk/table';
+// import { takeWhile } from 'rxjs/operators';
 
 @Component({
   selector: 'app-datatable',
@@ -8,10 +11,13 @@ import { Observable } from 'rxjs';
 })
 export class DatatableComponent implements OnInit {
   displayedColumns = [];
-  dataSource: any[] | null;
+  dataSource: any[] | null = [];
+  private _data = new BehaviorSubject<CmsDocument[]>([]);
 
-  @Input() data: Observable<any>;
   @Output() rowClicked = new EventEmitter<any>();
+  @Input()
+  set data(value) { this._data.next(value); }
+  get data() { return this._data.getValue(); }
 
   meta: any = {
     attributes: []
@@ -20,12 +26,24 @@ export class DatatableComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.data.subscribe((data) => {
-      if(data.length > 0 && typeof data[0] !== 'undefined') {
-        this.displayedColumns = this.prepareColumns(Object.keys(data[0]));
-        this.dataSource = this.prepareData(data);
-      }
-    });
+    this._data
+      .subscribe((data: CmsDocument[] | Observable<CmsDocument[]>) => {
+        if (isObservable(data)) {
+          data.subscribe((documents: CmsDocument[]) => {
+            if (documents && documents.length > 0) {
+              const keys = Object.keys(documents.find(document => !!document));
+
+              this.displayedColumns = this.prepareColumns(keys);
+              this.dataSource = this.prepareData(documents);
+            }
+          });
+        } else {
+          if (data && data.length > 0 && typeof data[0] !== 'undefined') {
+            this.displayedColumns = this.prepareColumns(Object.keys(data[0]));
+            this.dataSource = this.prepareData(data);
+          }
+        }
+      });
   }
 
   prepareColumns(columns: string[]) {

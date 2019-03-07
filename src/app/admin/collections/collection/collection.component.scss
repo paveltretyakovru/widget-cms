@@ -2,8 +2,18 @@
   &__title {
     margin-top: 16px;
   }
-
+  
   &__form-field {
     width: 100%;
+  }
+  
+  .documents {
+    &__title {
+      margin-top: 16px;
+    }
+
+    &__actions {
+      margin-bottom: 16px;
+    }
   }
 }

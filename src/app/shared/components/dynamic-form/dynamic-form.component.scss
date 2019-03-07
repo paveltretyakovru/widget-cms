@@ -1,0 +1,10 @@
+.dynamic-form {
+  &__field {
+    width: 100%;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+  }
+}
