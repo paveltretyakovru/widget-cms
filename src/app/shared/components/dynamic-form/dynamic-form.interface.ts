@@ -15,6 +15,8 @@ export interface DynamicFormField {
 }
 
 export interface DynamicFormOptions {
+  _id?: string;
+  name?: string;
   title?: string;
   model?: Model;
   fields?: DynamicFormField[];

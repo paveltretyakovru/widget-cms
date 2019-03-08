@@ -42,12 +42,20 @@ export class DynamicFormComponent
 
   prepareFileds() {
     const { fields, model } = this.options;
-    const nameField = { name: 'document name', type: 'string', value: '' };
+    const nameField = {
+      name: 'document name',
+      type: 'string',
+      value: this.options.name || '',
+    };
 
-    const pushToFields = (arr: DynamicFormField[] = [], specific = false) => {
-      ((specific) ? this.specificFields : this.fields)
-        .push(...arr.map((field) => ({ ...field, value: field.value || '' }))
-      );
+    const pushToFields = (src: DynamicFormField[] = [], specific = false) => {
+      const toFields = (specific) ? this.specificFields : this.fields;
+
+      toFields
+        .push(...src
+          .filter((field) => !toFields.find(item => item.name === field.name))
+          .map((field) => ({ ...field, value: field.value || '' }))
+        );
     };
 
     pushToFields(fields ? fields : []);
@@ -55,6 +63,8 @@ export class DynamicFormComponent
 
     // If model exists that working with document and that need document field
     pushToFields((model) ? [nameField] : [], true);
+
+    console.log('DynamicFormComponent#preapreFIelds()', { fields, model });
   }
 
   dialogClickYesHandler(): DynamicFormOptions | Observable<CmsDocument> {
@@ -68,11 +78,13 @@ export class DynamicFormComponent
         name: (nameField) ? nameField.value : 'no name document',
         modelId: options.model._id,
         collectionId: options.collectionId ? options.collectionId : null,
-        fields: fields.map(({ name, value }) => ({ name, value })),
+        fields: fields.map(({ name, type, value }) => ({ name, type, value })),
       };
 
-      // And return Observable request to create CMSDocuemnt
-      return this.api.create$('documents', requestData);
+      // And return Observable request to create or update CMSDocuemnt
+      return !!this.options._id
+        ? this.api.update$('documents', this.options._id, requestData)
+        : this.api.create$('documents', requestData);
     }
 
     // // Else we should return updated data to continue working with data
@@ -81,5 +93,12 @@ export class DynamicFormComponent
 
   dialogClickNoHandler() {
     this.dialogRef.close();
+  }
+
+  disableField(field) {
+    switch (field.name) {
+      case '_id': return true;
+      default: return false;
+    }
   }
 }

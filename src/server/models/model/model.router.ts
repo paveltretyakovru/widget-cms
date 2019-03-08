@@ -16,7 +16,7 @@ modelRouter.get('', (req, res, next) => {
 
 modelRouter.put('', (req, res, next) => {
   console.log('[PUT]/api/models/', req.params.id);
-  
+
   new ModelService().update(req.params.id, req.body)
     .then((model) => res.json({
       data: model,

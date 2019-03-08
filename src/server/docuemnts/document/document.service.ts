@@ -36,4 +36,17 @@ export class DocuemntService {
     await document.save();
     return document;
   }
+
+  async update(id, data) {
+    const document = await Document.findById(id);
+
+    if (!document) {
+      throw 'Document not found!';
+    }
+
+    Object.assign(document, data);
+    await document.save();
+
+    return document;
+  }
 }

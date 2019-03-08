@@ -35,16 +35,22 @@
 <!-- Template o typed form field -->
 <ng-template let-field #typedFormField>
     <!-- Field for TEXT type information -->
-    <mat-form-field
+    <div
       *ngIf="field.type === 'text'"
       class="dynamic-form__field"
     >
-      <textarea
+      <!-- <textarea
         matInput
         [(ngModel)]="field.value"
         [placeholder]="field.name">
-      </textarea>
-    </mat-form-field>
+      </textarea> -->
+
+      <app-ngx-editor
+        [placeholder]="field.name"
+        [spellcheck]="true"
+        [(ngModel)]="field.value"
+      ></app-ngx-editor>
+    </div>
 
     <!-- Field for STRING type infromation -->
     <mat-form-field        
@@ -53,6 +59,7 @@
     >
       <input
         matInput
+        [disabled]="disableField(field)"
         [(ngModel)]="field.value"
         [placeholder]="field.name"
       >

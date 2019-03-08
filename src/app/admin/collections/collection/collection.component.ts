@@ -70,11 +70,37 @@ export class CollectionComponent implements OnInit {
 
   onClickDocumentRow($event) {
     console.log('CollectionComponent#..rowClick()', { $event });
+    const dialogRef = this.dialog.open(DynamicFormComponent, {
+      width: '90%',
+      data: {
+        _id: $event._id || '',
+        name: $event.name || '',
+        title: 'Change document',
+        dialog: true,
+        fields: $event.fields,
+        collectionId: this.collection._id,
+
+        model: this.models.find((model) => (
+          model._id === this.form.get('modelId').value
+        )),
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: Observable<any>) => {
+      if (isObservable(result)) {
+        result.subscribe((document: CmsDocument) => {
+          Object.assign(
+            this.documents.find(doc => doc._id === document._id),
+            document
+          );
+        });
+      }
+    });
   }
 
   openAddDocumentDialog() {
     const dialogRef = this.dialog.open(DynamicFormComponent, {
-      width: '50%',
+      width: '90%',
       data: {
         title: 'Add document to collection',
         dialog: true,

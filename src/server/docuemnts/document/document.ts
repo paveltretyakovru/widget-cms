@@ -5,6 +5,9 @@ const documentFiledsSchema = new Schema({
     type: String,
     required: true,
   },
+  type: {
+    type: String,
+  },
   value: {
     type: Schema.Types.Mixed,
   }
