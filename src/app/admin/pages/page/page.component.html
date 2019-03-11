@@ -2,7 +2,11 @@
   <h2 class="mat-title">Create page</h2>
 
   <mat-tab-group class="page__tabs">
-    <mat-tab label="Page"> Content 3 </mat-tab>
+    <mat-tab label="Widgets">
+      <app-widgets-panel
+        (addedWidget)="onAddedWidget($event)"
+      ></app-widgets-panel>
+    </mat-tab>
 
     <mat-tab label="Grid">
       <div class="grid-control">
@@ -36,10 +40,8 @@
         </div>
       </div>
     </mat-tab>
-  
-    <mat-tab label="Widgets">
-      Widgets tab
-    </mat-tab>
+
+    <mat-tab label="Page"> Content 3 </mat-tab>
   </mat-tab-group>
 
     <div class="dashboard-container">  
@@ -72,24 +74,9 @@
                   (click)="askDeleteWidget($index)">
                   <mat-icon aria-label="Clear">clear</mat-icon>
                 </button>
-    
-                <mat-card>
-                  <mat-form-field>
-                    <textarea matInput placeholder="Leave a comment"></textarea>
-                    <br />
-                    test
-                    <br />
-                    test
-                    <br />
-                    test
-                    <br />
-                    test
-                    <br />
-                    test
-                    <br />
-                    test
-                  </mat-form-field>
-                </mat-card>
+
+                <div class="widgets-body" #mylist>
+                </div>
               </div>
             </div>
           </ngx-widget>

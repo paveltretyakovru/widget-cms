@@ -8,6 +8,8 @@ import { PageComponent } from './page/page.component';
 import { PageListComponent } from './page-list/page-list.component';
 import { MaterialModule } from 'src/app/material.module';
 import { FormsModule } from '@angular/forms';
+import { WidgetsModule } from 'src/app/shared/components/widgets/widgets.module';
+import { HeadlineComponent } from 'src/app/shared/components/widgets/widgets-panel/widgets-panel.component';
 
 @NgModule({
   declarations: [PagesComponent, PageComponent, PageListComponent],
@@ -17,6 +19,8 @@ import { FormsModule } from '@angular/forms';
     PagesRoutingModule,
     MaterialModule,
     NgxWidgetGridModule,
-  ]
+    WidgetsModule,
+  ],
+  entryComponents: [ HeadlineComponent ]
 })
 export class PagesModule { }
