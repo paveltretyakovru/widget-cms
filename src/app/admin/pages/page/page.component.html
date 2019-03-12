@@ -57,7 +57,7 @@
         >
           <ngx-widget
             *ngFor="let widget of widgets;let $index = index;"
-            [position]="widget"
+            [position]="widget.config"
             [movable]="editable"
             [resizable]="editable"
             [swapOnMove]="swapWidgets">
@@ -66,7 +66,7 @@
               <div
                 class="my-widgets"
                 style="height:100%;width:100%; padding:10px;"
-                [ngStyle]="{'background-color':widget.color}">
+                [ngStyle]="{'background-color':widget.config.color}">
   
                 <button mat-icon-button
                   class="page__button-trash"
@@ -75,8 +75,7 @@
                   <mat-icon aria-label="Clear">clear</mat-icon>
                 </button>
 
-                <div class="widgets-body" #mylist>
-                </div>
+                <div data-id={{widget.id}} #widgetsList></div>
               </div>
             </div>
           </ngx-widget>

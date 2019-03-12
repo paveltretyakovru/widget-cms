@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-// *ngFor="let widget of widgets;let $index = index;"
+import { makeId } from 'src/app/shared/helpers/make-id';
 
 @Component({
   selector: 'app-my-foo',
@@ -29,7 +29,10 @@ export class WidgetsPanelComponent implements OnInit {
 
   addWidgetHandler() {
     console.log('WidgetPanelComponent#addWidgetHandler()');
-    this.addedWidget.emit(HeadlineComponent);
+    this.addedWidget.emit({
+      id: `widget-${makeId()}`,
+      component: HeadlineComponent
+    });
   }
 
 }

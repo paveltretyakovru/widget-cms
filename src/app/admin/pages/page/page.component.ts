@@ -1,32 +1,31 @@
 import {
   Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver,
-  ViewChildren, QueryList, ElementRef
+  ViewChildren, QueryList, ElementRef, AfterViewInit
 } from '@angular/core';
 import { NgxWidgetGridComponent, WidgetPositionChange } from 'ngx-widget-grid';
+import { HeadlineComponent } from 'src/app/shared/components/widgets/widgets-panel/widgets-panel.component';
 
 @Component({
   selector: 'app-page',
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss']
 })
-export class PageComponent implements OnInit {
+export class PageComponent implements OnInit, AfterViewInit {
 
-  @ViewChildren('mylist', { read: ViewContainerRef }) mylistWidgets: QueryList<ViewContainerRef>;
   @ViewChild('grid') grid: NgxWidgetGridComponent;
-  @ViewChild('grid', { read: ViewContainerRef }) container: ViewContainerRef;
+  @ViewChildren('widgetsList', { read: ViewContainerRef })
+    widgetsList: QueryList<ViewContainerRef>;
 
   components = [];
 
   public rows = 32;
   public cols = 32;
-  public showGrid = false;
+  public showGrid = true;
   public swapWidgets = false;
   public highlightNextPosition = false;
 
-  public widgets: any[] = [
-    { top: 1, left: 1, height: 1, width: 2, color: this.getWidgetColor() },
-  ];
-  private _editable = false;
+  public widgets: any[] = [];
+  private _editable = true;
 
   public set editable(editable: boolean) {
     this._editable = editable;
@@ -41,26 +40,56 @@ export class PageComponent implements OnInit {
     private componentFactoryResolver: ComponentFactoryResolver
   ) { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  ngAfterViewInit() {
+    this.initWidgetsListChangeWatcher();
   }
 
-  onAddedWidget(widgetComponent) {
-    console.log('PageComponent#onAddedWidget()', { widgetComponent });
+  initWidgetsListChangeWatcher() {
+    // When widget grid have updated
+    this.widgetsList.notifyOnChanges = () => {
+      for (let i = 0; i < this.widgets.length; i++) {
+        const widget = this.widgets[i];
 
-    const componentFactory = this.componentFactoryResolver
-      .resolveComponentFactory(widgetComponent);
+        // If vidget don't have touched widget view
+        if (!widget.view) {
+          // Search widget view with widget id
+          const view = this.widgetsList.find((item) => {
+            return widget.id === item.element.nativeElement.id;
+          });
 
-      this.mylistWidgets.forEach((el, index, array) => {
-        if (index === array.length - 1) {
-          console.log('FOR EACH EL LIST', { el });
-          const component = el.createComponent(componentFactory);
-          this.components.push(component);
+          if (view) {
+            widget.view = view;
+
+            // Insert widget component to the widget
+            view.createComponent(
+              this.componentFactoryResolver.resolveComponentFactory(
+                widget.component
+              )
+            );
+          }
         }
-      });
+      }
+    };
+  }
 
-      // const component = '';
-    //   const component = this.container.createComponent(componentFactory);
-    // this.components.push(component);
+  onAddedWidget({ component, id }) {
+    console.log('PageComponent#onAddedWidget()', { component });
+
+    const color = this.getWidgetColor();
+    const nextPosition = this.grid.getNextPosition();
+
+    if (nextPosition) {
+      this.widgets.push({
+        id,
+        view: null,
+        config: { ...nextPosition, color, width: 5, height: 5 },
+        component: component,
+      });
+    } else {
+      console.warn('No Space Available!! ');
+    }
 
   }
 
@@ -75,8 +104,6 @@ export class PageComponent implements OnInit {
     } else {
       console.warn('No Space Available!! ');
     }
-
-    console.log('LIST!!! =>', { list: this.mylistWidgets });
   }
 
   askDeleteWidget(index) {
