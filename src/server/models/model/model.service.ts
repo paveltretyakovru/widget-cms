@@ -3,7 +3,7 @@ import { Model } from './model';
 export class ModelService {
   async create(modelData) {
     if (await Model.findOne({name: modelData.name})) {
-      throw `Model with a ${modelData.name} name is exists`;
+      throw new Error(`Model with a ${modelData.name} name is exists`);
     }
 
     const model = new Model(modelData);
@@ -16,6 +16,16 @@ export class ModelService {
     return await Model.findById(id);
   }
 
+  async getByName(name = '') {
+    const model = await Model.findOne({ name });
+
+    if (!model) {
+      throw new Error(`${name} model not founded`);
+    }
+
+    return model;
+  }
+
   async getAll() {
     return await Model.find();
   }
@@ -24,7 +34,7 @@ export class ModelService {
     const model = await Model.findById(id);
 
     if (!model) {
-      throw 'Model not found!';
+      throw new Error('Model not found!');
     }
 
     Object.assign(model, data);

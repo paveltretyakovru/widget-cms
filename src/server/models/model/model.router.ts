@@ -4,6 +4,17 @@ import { ModelService } from './model.service';
 export const modelRouter = Router({ mergeParams: true });
 
 modelRouter.get('', (req, res, next) => {
+  console.log('[GET]/api/models/name/:name', req.params.name);
+
+  new ModelService().getByName(req.params.name)
+    .then((model) => res.json({
+      data: model,
+      success: true,
+      message: 'Model was founed by name',
+    })).catch(err => next(err));
+});
+
+modelRouter.get('', (req, res, next) => {
   console.log('[GET]/api/models/', req.params.id);
 
   new ModelService().getById(req.params.id)
