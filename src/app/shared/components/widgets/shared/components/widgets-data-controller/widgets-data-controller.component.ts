@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
@@ -37,6 +37,8 @@ export class WidgetsDataControllerComponent implements OnInit {
   stateForm: FormGroup = this.fb.group({ stateGroup: '' });
   stateGroups: StateGroup[] = [];
   stateGroupOptions: Observable<StateGroup[]>;
+
+  @Output() dataSelected: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(
     private fb: FormBuilder,
@@ -94,6 +96,11 @@ export class WidgetsDataControllerComponent implements OnInit {
     return (val && val._id) ? val.name : val;
   }
 
+  documentCreated(document: CmsDocument) {
+    console.log('WidgetsDataControllerComponent#documentCreated()', document);
+    this.selectedDocument = document;
+  }
+
   private _filterGroup(value: string): StateGroup[] {
     if (value) {
       return this.stateGroups
@@ -111,5 +118,9 @@ export class WidgetsDataControllerComponent implements OnInit {
     }
 
     return this.stateGroups;
+  }
+
+  returnDocumentFieldData() {
+    this.dataSelected.emit(this.selectedDocumentField.value);
   }
 }

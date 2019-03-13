@@ -1,0 +1,65 @@
+<div class="document-form">
+  <mat-form-field class="dynamic-form__field">
+    <input
+      matInput
+      [(ngModel)]="documentName"
+      placeholder="Document name (id)">
+  </mat-form-field>
+
+  <div *ngFor="let field of fields">
+    <ng-container
+      *ngTemplateOutlet="typedFormField; context: { $implicit: field }">
+    </ng-container>
+  </div>
+
+  <div class="document-form__actions">
+    <button mat-stroked-button
+            color="accent"
+            (click)="documentId ? save() : create()">
+      {{ documentId ? 'Save document' : 'Create document' }}
+    </button>
+    <button mat-stroked-button (click)="clear()">Clear form</button>
+  </div>
+</div>
+
+<!-- Template o typed form field -->
+<ng-template let-field #typedFormField>
+
+    <!-- Field for TEXT type information -->
+    <div
+      *ngIf="field.type === 'text'"
+      class="dynamic-form__field"
+    >
+
+      <app-ngx-editor
+        [placeholder]="field.name"
+        [spellcheck]="true"
+        [(ngModel)]="field.value"
+      ></app-ngx-editor>
+    </div>
+
+    <!-- Field for STRING type infromation -->
+    <mat-form-field        
+      *ngIf="field.type === 'string'"
+      class="dynamic-form__field"
+    >
+      <input
+        matInput
+        [disabled]="disableField(field)"
+        [(ngModel)]="field.value"
+        [placeholder]="field.name"
+      >
+    </mat-form-field>
+
+    <!-- Field for NUMBER type information -->
+    <mat-form-field
+      *ngIf="field.type === 'number'"
+      class="dynamic-form__field"
+    >
+      <input
+        matInput
+        [(ngModel)]="field.value"
+        [placeholder]="field.name"
+      >
+    </mat-form-field>
+  </ng-template>

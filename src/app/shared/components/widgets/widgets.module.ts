@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
   HeadlineComponent,
@@ -8,9 +9,8 @@ import {
   HeadlineControlComponent
 } from './widgets-panel/widgets-panel.component';
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WidgetsDataControllerComponent } from './shared/components/widgets-data-controller/widgets-data-controller.component';
-import { DynamicFormModule } from '../dynamic-form/dynamic-form.module';
+import { ComponentsModule } from '../components.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,7 @@ import { DynamicFormModule } from '../dynamic-form/dynamic-form.module';
     FormsModule,
     CommonModule,
     MaterialModule,
-    DynamicFormModule,
+    ComponentsModule,
     ReactiveFormsModule,
   ],
   exports: [ WidgetsPanelComponent ],

@@ -1,16 +1,17 @@
 import {
   Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver,
-  ViewChildren, QueryList, ElementRef, AfterViewInit
+  ViewChildren, QueryList, ElementRef, AfterViewInit, OnDestroy
 } from '@angular/core';
 import { NgxWidgetGridComponent, WidgetPositionChange } from 'ngx-widget-grid';
 import { MatDialog } from '@angular/material';
+import { HeadlineComponent } from 'src/app/shared/components/widgets/widgets-panel/widgets-panel.component';
 
 @Component({
   selector: 'app-page',
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss']
 })
-export class PageComponent implements OnInit, AfterViewInit {
+export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('grid') grid: NgxWidgetGridComponent;
   @ViewChildren('widgetsList', { read: ViewContainerRef })
@@ -63,16 +64,31 @@ export class PageComponent implements OnInit, AfterViewInit {
           if (view) {
             widget.view = view;
 
-            // Insert widget component to the widget
-            view.createComponent(
-              this.componentFactoryResolver.resolveComponentFactory(
-                widget.component
-              )
+            const factory = this.componentFactoryResolver.resolveComponentFactory(
+              widget.component
             );
+
+            this.ngOnDestroy();
+
+            // Insert widget component to the widget
+            widget.factory = view.createComponent(factory);
+            widget.factory.changeDetectorRef.detectChanges();
+
+            // (<HeadlineComponent>widget.factory.instance).options = { value: 'test' };
           }
         }
       }
     };
+  }
+
+  ngOnDestroy() {
+    for (let i = 0; i < this.widgets.length; i++) {
+      const widget = this.widgets[i];
+
+      if (widget.factory) {
+        widget.factory.changeDetectorRef.detach();
+      }
+    }
   }
 
   onAddedWidget({ component, id, control }) {
@@ -97,6 +113,7 @@ export class PageComponent implements OnInit, AfterViewInit {
 
   addWidget() {
     const nextPosition = this.grid.getNextPosition();
+
     if (nextPosition) {
       this.widgets.push({...nextPosition, height: 5, width: 5});
     } else {
@@ -114,9 +131,15 @@ export class PageComponent implements OnInit, AfterViewInit {
 
   openWidgetSettings(widget) {
     console.log('Widget settings', widget);
-    this.dialog.open(widget.control, {
+
+    const dialogRef = this.dialog.open(widget.control, {
       width: '90%',
       height: '90%',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log('DATA SELECTED!', {result, widget});
+      widget.factory.instance.options = result;
     });
   }
 
