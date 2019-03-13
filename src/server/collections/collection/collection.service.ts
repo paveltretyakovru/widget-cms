@@ -32,4 +32,15 @@ export class CollectionService {
 
     return collection;
   }
+
+  /**
+   * Search collections by ids array
+   * @param { [String] } ids: Collections ids to search
+   * @returns { Collection[] } Return colection of collection
+   */
+  async getByIds(ids: string[]) {
+    return (ids.length)
+      ? await Collection.find({ '_id': { $in: ids } })
+      : [];
+  }
 }
