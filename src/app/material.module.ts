@@ -19,6 +19,8 @@ import {
   MatCheckboxModule,
   MatTabsModule,
   MatDialogModule,
+  MatAutocompleteModule,
+  MatRadioModule,
 } from '@angular/material';
 
 export const MATERIAL_COMPONENTS = [
@@ -40,6 +42,8 @@ export const MATERIAL_COMPONENTS = [
   MatCheckboxModule,
   MatTabsModule,
   MatDialogModule,
+  MatAutocompleteModule,
+  MatRadioModule,
 ];
 
 @NgModule({
