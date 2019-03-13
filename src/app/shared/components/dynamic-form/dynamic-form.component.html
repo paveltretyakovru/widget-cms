@@ -25,8 +25,16 @@
 </div>
 
 <div *ngIf="!dialog" class="dynamic-form">
-  <div *ngIf="!dialog" class="dynamic-form__static">
-    Static content
+  <div class="model-field" *ngFor="let field of specificFields">
+    <ng-container
+      *ngTemplateOutlet="typedFormField; context: { $implicit: field }">
+    </ng-container>
+  </div>
+
+  <div class="model-field" *ngFor="let field of fields">
+    <ng-container
+      *ngTemplateOutlet="typedFormField; context: { $implicit: field }">
+    </ng-container>
   </div>
 </div>
 

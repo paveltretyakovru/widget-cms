@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
@@ -19,7 +19,12 @@ export class DynamicFormComponent
   options: DynamicFormOptions;
   specificFields: DynamicFormField[] = [];
 
-  @Input() propertyOptions: DynamicFormOptions;
+  private _propertyOptions = new BehaviorSubject<DynamicFormOptions>(null);
+  @Input()
+    get propertyOptions() { return this._propertyOptions.getValue(); }
+    set propertyOptions(value: DynamicFormOptions) {
+      this._propertyOptions.next(value);
+    }
 
   constructor(
     private api: ApiService,
@@ -29,15 +34,26 @@ export class DynamicFormComponent
 
   ngOnInit() {
     this.prepareOptions();
-    this.prepareFileds();
-    this.title = this.options.title || '';
-    this.dialog = !!this.options.dialog;
   }
 
   prepareOptions() {
-    this.options = (this.matDialogOptions)
-      ? this.matDialogOptions
-      : this.propertyOptions;
+    if (this.matDialogOptions) {
+      this.options = this.matDialogOptions;
+      this.prepareFileds();
+      this.title = this.options.title || '';
+      this.dialog = !!this.options.dialog;
+    } else {
+      this._propertyOptions.subscribe((options: DynamicFormOptions) => {
+        console.log('DynamicFormComponent#prepareOptions().subscribe()', {options});
+
+        if (options) {
+          this.options = options;
+          this.prepareFileds();
+          this.title = this.options.title || '';
+          this.dialog = !!this.options.dialog;
+        }
+      });
+    }
   }
 
   prepareFileds() {
