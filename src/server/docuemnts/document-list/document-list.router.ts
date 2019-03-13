@@ -12,3 +12,13 @@ documentListRouter.post('', (req, res, next) => {
         message: 'Document created',
       })).catch((err) => next(err));
 });
+
+documentListRouter.get('', (req, res, next) => {
+  new DocuemntService()
+    .getAll()
+      .then((documents) => res.json({
+        data: documents,
+        success: true,
+        message: 'Documents fetched success',
+      })).catch(err => next(err));
+});

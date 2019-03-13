@@ -1,9 +1,27 @@
 import { Types } from 'mongoose';
 import { Document } from './document';
+import { CollectionService } from 'src/server/collections/collection/collection.service';
 
 const ObjectId = Types.ObjectId;
 
 export class DocuemntService {
+  async getAll() {
+    const documents = await Document.find();
+    const collections = await new CollectionService().getByIds(
+        documents
+          .filter(document => document.collectionId)
+          .map(document => document.collectionId)
+      );
+
+    return documents.map((doc) => {
+      const collection = (doc.collectionId)
+        ? collections.find((col) => String(col._id) === String(doc.collectionId))
+        : null;
+
+      return { ...doc._doc, collection };
+    });
+  }
+
   async getByCollectionId(collectionId) {
     return await Document.find({ collectionId });
   }
