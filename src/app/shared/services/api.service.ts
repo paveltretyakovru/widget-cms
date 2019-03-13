@@ -20,6 +20,11 @@ export class ApiService {
       .pipe(map((res: ApiResponse) => this.prepareDefaultResponse(res)));
   }
 
+  get$(route: string): Observable<any> {
+    return this.http.get<any>(route)
+      .pipe(map((res: ApiResponse) => this.prepareDefaultResponse(res)));
+  }
+
   getAll$(name: string): Observable<any[]> {
     return this.http.get<any>(`/api/${name}`)
       .pipe(map((res: ApiResponse) => this.prepareDefaultResponse(res)));
