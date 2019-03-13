@@ -4,8 +4,6 @@ import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
-import { Model } from 'src/app/admin/models/model/model';
-import { DynamicFormOptions } from 'src/app/shared/components/dynamic-form/dynamic-form.interface';
 
 export const _filter = (
   opt: { name: string; document: any }[],
@@ -35,9 +33,6 @@ export interface StateGroup {
 export class WidgetsDataControllerComponent implements OnInit {
   selectedDocument: CmsDocument;
   selectedDocumentField: any;
-
-  textDocumentModel: Model;
-  displayNewDocumentForm = false;
 
   stateForm: FormGroup = this.fb.group({ stateGroup: '' });
   stateGroups: StateGroup[] = [];

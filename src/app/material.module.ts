@@ -21,6 +21,7 @@ import {
   MatDialogModule,
   MatAutocompleteModule,
   MatRadioModule,
+  MatExpansionModule,
 } from '@angular/material';
 
 export const MATERIAL_COMPONENTS = [
@@ -44,6 +45,7 @@ export const MATERIAL_COMPONENTS = [
   MatDialogModule,
   MatAutocompleteModule,
   MatRadioModule,
+  MatExpansionModule,
 ];
 
 @NgModule({

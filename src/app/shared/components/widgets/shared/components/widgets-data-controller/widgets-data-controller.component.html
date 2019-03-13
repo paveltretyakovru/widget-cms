@@ -1,74 +1,68 @@
 <div class="widgets-data-controller">
-  <form [formGroup]="stateForm">
-    <mat-form-field class="widgets-data-controller__form-field">
-      <input
-        type="text"
-        matInput
-        placeholder="Search document to set value"
-        formControlName="stateGroup"
-        required [matAutocomplete]="autoGroup">
+  <h1 class="mat-headline">Get or create data</h1>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Document
+        </mat-panel-title>
+        <mat-panel-description>
+          Searching and use exists document
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      
+      <form [formGroup]="stateForm">
+        <mat-form-field class="widgets-data-controller__form-field">
+          <input
+            type="text"
+            matInput
+            placeholder="Search document to set value"
+            formControlName="stateGroup"
+            required [matAutocomplete]="autoGroup">
+    
+          <mat-autocomplete
+            [displayWith]="displayFn"
+            #autoGroup="matAutocomplete"
+            (optionSelected)='optionSelected($event.option.value)'
+            autoActiveFirstOption>
 
-        <mat-autocomplete
-          [displayWith]="displayFn"
-          #autoGroup="matAutocomplete"
-          (optionSelected)='optionSelected($event.option.value)'
-          autoActiveFirstOption
-        >
-          <mat-optgroup
-            *ngFor="let group of stateGroupOptions | async"
-            [label]="group.letter"
-          >
-            <mat-option
-              *ngFor="let name of group.names"
-              [value]="name.document"
-            >
-              {{name.name}}
-            </mat-option>
-        </mat-optgroup>
-      </mat-autocomplete>
-    </mat-form-field>
-  </form>
+            <mat-optgroup
+              *ngFor="let group of stateGroupOptions | async"
+              [label]="group.letter">
 
-  <div>
-    <button
-      mat-button
-      (click)="displayNewDocumentForm = !displayNewDocumentForm"
-      [disabled]="selectedDocument"
-    >
-      {{
-        displayNewDocumentForm
-          ? 'Hide new text document form'
-          : 'Create new text document'
-      }}
-    </button>
+              <mat-option
+                *ngFor="let name of group.names"
+                [value]="name.document">{{name.name}}
+              </mat-option>
+            </mat-optgroup>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
 
-    <div *ngIf="displayNewDocumentForm">
-      New text document form 
-    </div>
-  </div>
+        <div *ngIf="selectedDocument">
+          <p>Select document field to insert:</p>
+      
+          <mat-radio-group
+            class="document-fields__radio-group"
+            [(ngModel)]="selectedDocumentField">
 
-  <div *ngIf="selectedDocument">
-    <p>Select document field to insert:</p>
+            <mat-radio-button
+              class="document-fields__radio-button"
+              *ngFor="let field of selectedDocument.fields"
+              [value]="field">
 
-    <mat-radio-group
-      class="document-fields__radio-group"
-      [(ngModel)]="selectedDocumentField"
-    >
-      <mat-radio-button
-        class="document-fields__radio-button"
-        *ngFor="let field of selectedDocument.fields"
-        [value]="field"
-      >
-      <span class="mat-body-strong">{{field.name}}</span>: 
-      {{field.value | slice:0:31}}
-      </mat-radio-button>
-    </mat-radio-group>
-
-    <div *ngIf="selectedDocumentField" class="document-fields__selected-value">
-      <p class="mat-body-strong">
-        Selected value:
-      </p> 
-      <div [innerHtml]="selectedDocumentField.value"></div>
-    </div>
-  </div>
+              <span class="mat-body-strong">{{field.name}}</span>: 
+              {{field.value | slice:0:31}}
+            </mat-radio-button>
+          </mat-radio-group>
+      
+          <div *ngIf="selectedDocumentField" class="document-fields__selected-value">
+            <p class="mat-body-strong">
+              Selected value:
+            </p> 
+            <div [innerHtml]="selectedDocumentField.value"></div>
+          </div>
+        </div>
+    </mat-expansion-panel>
+  </mat-accordion>
 </div>
