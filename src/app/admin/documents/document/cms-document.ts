@@ -1,3 +1,5 @@
+import { Collection } from '../../collections/collection/collection';
+
 export interface CmsDocument {
   _id?: string;
   name: string;
@@ -7,4 +9,5 @@ export interface CmsDocument {
     name: string;
     value: any;
   }[];
+  collection?: Collection;
 }
