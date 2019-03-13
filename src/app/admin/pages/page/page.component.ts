@@ -3,7 +3,7 @@ import {
   ViewChildren, QueryList, ElementRef, AfterViewInit
 } from '@angular/core';
 import { NgxWidgetGridComponent, WidgetPositionChange } from 'ngx-widget-grid';
-import { HeadlineComponent } from 'src/app/shared/components/widgets/widgets-panel/widgets-panel.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-page',
@@ -37,7 +37,8 @@ export class PageComponent implements OnInit, AfterViewInit {
   }
 
   constructor(
-    private componentFactoryResolver: ComponentFactoryResolver
+    public dialog: MatDialog,
+    private componentFactoryResolver: ComponentFactoryResolver,
   ) { }
 
   ngOnInit() { }
@@ -74,18 +75,19 @@ export class PageComponent implements OnInit, AfterViewInit {
     };
   }
 
-  onAddedWidget({ component, id }) {
+  onAddedWidget({ component, id, control }) {
     console.log('PageComponent#onAddedWidget()', { component });
 
-    const color = this.getWidgetColor();
     const nextPosition = this.grid.getNextPosition();
 
     if (nextPosition) {
       this.widgets.push({
         id,
+        control,
+        component,
+
         view: null,
-        config: { ...nextPosition, color, width: 5, height: 5 },
-        component: component,
+        config: { ...nextPosition, width: 5, height: 5 },
       });
     } else {
       console.warn('No Space Available!! ');
@@ -93,14 +95,10 @@ export class PageComponent implements OnInit, AfterViewInit {
 
   }
 
-  testClickButtonWidget() {
-    console.log('Click on test buton');
-  }
-
   addWidget() {
     const nextPosition = this.grid.getNextPosition();
     if (nextPosition) {
-      this.widgets.push({color: this.getWidgetColor(), ...nextPosition, height: 5, width: 5});
+      this.widgets.push({...nextPosition, height: 5, width: 5});
     } else {
       console.warn('No Space Available!! ');
     }
@@ -114,11 +112,15 @@ export class PageComponent implements OnInit, AfterViewInit {
   deleteWidget() {
   }
 
-  onWidgetChange(event: WidgetPositionChange) {
+  openWidgetSettings(widget) {
+    console.log('Widget settings', widget);
+    this.dialog.open(widget.control, {
+      width: '90%',
+      height: '90%',
+    });
   }
 
-  getWidgetColor() {
-    return 'rgba(0,0,0,.0)';
+  onWidgetChange(event: WidgetPositionChange) {
   }
 
   getRandomIntInclusive(min, max) {

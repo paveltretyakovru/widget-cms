@@ -1,5 +1,23 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { makeId } from 'src/app/shared/helpers/make-id';
+import { MAT_DIALOG_DATA } from '@angular/material';
+
+@Component({
+  selector: 'app-headline-component-control',
+  template: `
+    <div>
+      <h2 class="mat-title">Headline widget settings</h2>
+
+      <app-widgets-data-controller>
+      </app-widgets-data-controller>
+    </div>
+  `
+})
+export class HeadlineControlComponent {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+    console.log('HeadlineControlComponent#constructor()', { data });
+  }
+}
 
 @Component({
   selector: 'app-my-foo',
@@ -31,7 +49,8 @@ export class WidgetsPanelComponent implements OnInit {
     console.log('WidgetPanelComponent#addWidgetHandler()');
     this.addedWidget.emit({
       id: `widget-${makeId()}`,
-      component: HeadlineComponent
+      control: HeadlineControlComponent,
+      component: HeadlineComponent,
     });
   }
 

@@ -2,25 +2,29 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxWidgetGridModule } from 'ngx-widget-grid';
 
-import { PagesRoutingModule } from './pages-routing.module';
-import { PagesComponent } from './pages.component';
 import { PageComponent } from './page/page.component';
+import { PagesComponent } from './pages.component';
 import { PageListComponent } from './page-list/page-list.component';
-import { MaterialModule } from 'src/app/material.module';
+
 import { FormsModule } from '@angular/forms';
 import { WidgetsModule } from 'src/app/shared/components/widgets/widgets.module';
-import { HeadlineComponent } from 'src/app/shared/components/widgets/widgets-panel/widgets-panel.component';
+import { MaterialModule } from 'src/app/material.module';
+import { PagesRoutingModule } from './pages-routing.module';
 
 @NgModule({
-  declarations: [PagesComponent, PageComponent, PageListComponent],
+  declarations: [
+    PageComponent,
+    PagesComponent,
+    PageListComponent,
+  ],
+
   imports: [
     FormsModule,
     CommonModule,
-    PagesRoutingModule,
-    MaterialModule,
-    NgxWidgetGridModule,
     WidgetsModule,
+    MaterialModule,
+    PagesRoutingModule,
+    NgxWidgetGridModule,
   ],
-  entryComponents: [ HeadlineComponent ]
 })
 export class PagesModule { }

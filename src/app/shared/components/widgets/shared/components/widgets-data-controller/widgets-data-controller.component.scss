@@ -1,0 +1,22 @@
+.widgets-data-controller {
+  position: relative;
+
+  &__form-field {
+    width: 100%;
+  }
+
+  .document-fields {
+    &__radio-group {
+      display: inline-flex;
+      flex-direction: column;
+    }
+    
+    &__radio-button {
+      margin: 5px;
+    }
+    
+    &__selected-value {
+      margin: 15px 0;
+    }
+  }
+}
