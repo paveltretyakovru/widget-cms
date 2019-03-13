@@ -12,6 +12,10 @@ html, body {
   padding: 0;
 }
 
+body {
+  font-family: 'Roboto';
+}
+
 .mat-drawer-container, .container-fluid {
   height: 100%;
 }
