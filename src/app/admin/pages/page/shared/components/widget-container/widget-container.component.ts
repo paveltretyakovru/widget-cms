@@ -1,11 +1,12 @@
-import { Component, Input, } from '@angular/core';
+import { Component, Input, ViewEncapsulation, } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-widget-container',
   templateUrl: './widget-container.component.html',
-  styleUrls: ['./widget-container.component.scss']
+  styleUrls: ['./widget-container.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class WidgetContainerComponent {
 
