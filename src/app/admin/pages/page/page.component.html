@@ -53,53 +53,52 @@
     </div>
   </div>
 
-
-    <mat-card [style.height]="'100%'">
-      <div class="dashboard-container">  
-        <div class="dashboard-page">
-          <ngx-widget-grid
-            #grid
-            [rows]="rows"
-            [columns]="cols"
-            [showGrid]="showGrid"
-            (gridFull)="onGridFull($event)"
-            (widgetPositionChange)="onWidgetChange($event)"
-            [highlightNextPosition]="highlightNextPosition"
-          >
-            <ngx-widget
-              *ngFor="let widget of widgets;let $index = index;"
-              [position]="widget.config"
-              [movable]="editable"
-              [resizable]="editable"
-              [swapOnMove]="swapWidgets">
-              
-              <div style="height:100%;width:100%; display:flex;">
-                <div
-                  class="my-widgets"
-                  style="height:100%;width:100%; padding:10px;"
-                  [ngStyle]="{'background-color':widget.config.color}">
-    
-                  <button mat-icon-button
-                    class="page__button-trash"
-                    *ngIf="editable"
-                    (click)="askDeleteWidget($index)">
-                    <mat-icon aria-label="Clear">clear</mat-icon>
-                  </button>
-
-                  <button mat-icon-button
-                    class="page__button-settings"
-                    *ngIf="editable"
-                    (click)="openWidgetSettings(widget)">
-                    <mat-icon aria-label="Clear">settings</mat-icon>
-                  </button>
+  <mat-card [style.height]="'100%'">
+    <div class="dashboard-container">  
+      <div class="dashboard-page">
+        <ngx-widget-grid
+          #grid
+          [rows]="rows"
+          [columns]="cols"
+          [showGrid]="showGrid"
+          (gridFull)="onGridFull($event)"
+          (widgetPositionChange)="onWidgetChange($event)"
+          [highlightNextPosition]="highlightNextPosition"
+        >
+          <ngx-widget
+            *ngFor="let widget of widgets;let $index = index;"
+            [position]="widget.config"
+            [movable]="editable"
+            [resizable]="editable"
+            [swapOnMove]="swapWidgets">
+            
+            <div style="height:100%;width:100%; display:flex;">
+              <div
+                class="my-widgets"
+                style="height:100%;width:100%; padding:10px;"
+                [ngStyle]="{'background-color':widget.config.color}">
   
-                  <div data-id={{widget.id}} #widgetsList></div>
-                </div>
+                <button mat-icon-button
+                  class="page__button-trash"
+                  *ngIf="editable"
+                  (click)="askDeleteWidget($index)">
+                  <mat-icon aria-label="Clear">clear</mat-icon>
+                </button>
+
+                <button mat-icon-button
+                  class="page__button-settings"
+                  *ngIf="editable"
+                  (click)="openWidgetSettings(widget)">
+                  <mat-icon aria-label="Clear">settings</mat-icon>
+                </button>
+
+                <div data-id={{widget.id}} #widgetsList></div>
               </div>
-            </ngx-widget>
-          </ngx-widget-grid>
-        </div>
+            </div>
+          </ngx-widget>
+        </ngx-widget-grid>
       </div>
-    </mat-card>
+    </div>
+  </mat-card>
 
 </div>

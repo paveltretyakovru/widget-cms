@@ -64,9 +64,8 @@ export class DocumentFormComponent implements OnInit {
   }
 
   clear(): void {
-    this.model = null;
-    this.fields = [];
     this.documentId = null;
     this.documentName = null;
+    this.fields.forEach(field => field.value = null);
   }
 }
