@@ -1,40 +1,14 @@
 .page {
   height: 100%;
 
-  &__tabs {
-    min-height: 150px;
+  &__form-field {
+    width: 100%;
+    margin-top: 13px;
   }
 
   &__button-trash, &__button-settings {
     z-index: 21;
     float: right;
-  }
-
-  .grid-control {
-    padding: 8px;
-    display: flex;
-    justify-content: space-around;
-
-    & > div {
-      width: 100%;
-    }
-
-    &__buttons {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-    }
-
-    &__checkboxes {
-      display: flex;
-      justify-content: space-evenly;
-      align-items: center;
-    }
-
-    &__inputs {
-      display: flex;
-      justify-content: space-around;
-    }
   }
 }
 

@@ -2,8 +2,8 @@ import {
   Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver,
   ViewChildren, QueryList, AfterViewInit, OnDestroy
 } from '@angular/core';
-import { NgxWidgetGridComponent, WidgetPositionChange } from 'ngx-widget-grid';
 import { MatDialog } from '@angular/material';
+import { NgxWidgetGridComponent, WidgetPositionChange } from 'ngx-widget-grid';
 
 import { makeId } from 'src/app/shared/helpers/make-id';
 import { WidgetSettingsComponent } from './shared/components/widget-settings/widget-settings.component';
@@ -15,29 +15,25 @@ import { WidgetContainerComponent } from './shared/components/widget-container/w
   styleUrls: ['./page.component.scss']
 })
 export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
-
   @ViewChild('grid') grid: NgxWidgetGridComponent;
-  @ViewChildren('widgetsList', { read: ViewContainerRef })
+  @ViewChildren('widgetsList', {read: ViewContainerRef })
     widgetsList: QueryList<ViewContainerRef>;
 
+  rows = 31;
+  cols = 31;
+  widgets: any[] = [];
+  showGrid = true;
+  pageName = 'Untiteled';
   components = [];
+  swapWidgets = false;
+  highlightNextPosition = false;
 
-  public rows = 32;
-  public cols = 32;
-  public showGrid = true;
-  public swapWidgets = false;
-  public highlightNextPosition = false;
-
-  public widgets: any[] = [];
   private _editable = true;
 
-  public set editable(editable: boolean) {
+  get editable() { return this._editable; }
+  set editable(editable: boolean) {
     this._editable = editable;
     this.showGrid = editable;
-  }
-
-  public get editable() {
-    return this._editable;
   }
 
   constructor(
@@ -46,10 +42,7 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   ngOnInit() { }
-
-  ngAfterViewInit() {
-    this.initWidgetsListChangeWatcher();
-  }
+  ngAfterViewInit() { this.initWidgetsListChangeWatcher(); }
 
   initWidgetsListChangeWatcher() {
     // When widget grid have updated
@@ -108,11 +101,9 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-
-
   openWidgetSettings(widget) {
-    const dialogRef = this.dialog
-      .open(WidgetSettingsComponent, { width: '90%', height: '90%' });
+    const settings = { width: '90%', height: '90%' };
+    const dialogRef = this.dialog.open(WidgetSettingsComponent, settings);
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -124,14 +115,17 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
   getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
-    const random = Math.floor(Math.random() * (max - min + 1)) + min; // The maximum is inclusive and the minimum is inclusive
-    return random;
+
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  onGridFull(e) {
+    console.log(e);
+  }
 
-  askDeleteWidget(index) { this.widgets.splice(index, 1); }
-
-  onGridFull(e) { console.log(e); }
+  askDeleteWidget(index) {
+    this.widgets.splice(index, 1);
+  }
 
   deleteWidget() {}
   onWidgetChange(event: WidgetPositionChange) {}
