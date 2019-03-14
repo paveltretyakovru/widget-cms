@@ -1,9 +1,10 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
 import { ApiService } from 'src/app/shared/services/api.service';
-import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
+import { startWith, map } from 'rxjs/operators';
 
 export const _filter = (
   opt: { name: string; document: any }[],
@@ -26,11 +27,11 @@ export interface StateGroup {
 }
 
 @Component({
-  selector: 'app-widgets-data-controller',
-  templateUrl: './widgets-data-controller.component.html',
-  styleUrls: ['./widgets-data-controller.component.scss']
+  selector: 'app-widget-settings',
+  templateUrl: './widget-settings.component.html',
+  styleUrls: ['./widget-settings.component.scss']
 })
-export class WidgetsDataControllerComponent implements OnInit {
+export class WidgetSettingsComponent implements OnInit {
   selectedDocument: CmsDocument;
   selectedDocumentField: any;
 
@@ -38,11 +39,11 @@ export class WidgetsDataControllerComponent implements OnInit {
   stateGroups: StateGroup[] = [];
   stateGroupOptions: Observable<StateGroup[]>;
 
-  @Output() dataSelected: EventEmitter<any> = new EventEmitter<any>();
-
   constructor(
     private fb: FormBuilder,
     private api: ApiService,
+    public dialogRef: MatDialogRef<WidgetSettingsComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
 
   ngOnInit() {
@@ -53,6 +54,10 @@ export class WidgetsDataControllerComponent implements OnInit {
         startWith(''),
         map(value => this._filterGroup(value))
       );
+  }
+
+  dataSelected($event) {
+    this.dialogRef.close($event);
   }
 
   fetchDocuments() {
@@ -121,6 +126,7 @@ export class WidgetsDataControllerComponent implements OnInit {
   }
 
   returnDocumentFieldData() {
-    this.dataSelected.emit(this.selectedDocumentField.value);
+    this.dataSelected(this.selectedDocumentField.value);
   }
+
 }

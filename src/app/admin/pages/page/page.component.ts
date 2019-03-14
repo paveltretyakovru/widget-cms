@@ -1,10 +1,13 @@
 import {
   Component, OnInit, ViewChild, ViewContainerRef, ComponentFactoryResolver,
-  ViewChildren, QueryList, ElementRef, AfterViewInit, OnDestroy
+  ViewChildren, QueryList, AfterViewInit, OnDestroy
 } from '@angular/core';
 import { NgxWidgetGridComponent, WidgetPositionChange } from 'ngx-widget-grid';
 import { MatDialog } from '@angular/material';
-import { HeadlineComponent } from 'src/app/shared/components/widgets/widgets-panel/widgets-panel.component';
+
+import { makeId } from 'src/app/shared/helpers/make-id';
+import { WidgetSettingsComponent } from './shared/components/widget-settings/widget-settings.component';
+import { WidgetContainerComponent } from './shared/components/widget-container/widget-container.component';
 
 @Component({
   selector: 'app-page',
@@ -64,9 +67,8 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
           if (view) {
             widget.view = view;
 
-            const factory = this.componentFactoryResolver.resolveComponentFactory(
-              widget.component
-            );
+            const factory = this.componentFactoryResolver
+              .resolveComponentFactory(widget.component);
 
             this.ngOnDestroy();
 
@@ -74,7 +76,7 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
             widget.factory = view.createComponent(factory);
             widget.factory.changeDetectorRef.detectChanges();
 
-            // (<HeadlineComponent>widget.factory.instance).options = { value: 'test' };
+            // (<WidgetContainerComponent>widget.factory.instance).options = { value: 'test' };
           }
         }
       }
@@ -91,62 +93,32 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  onAddedWidget({ component, id, control }) {
-    console.log('PageComponent#onAddedWidget()', { component });
-
-    const nextPosition = this.grid.getNextPosition();
-
-    if (nextPosition) {
-      this.widgets.push({
-        id,
-        control,
-        component,
-
-        view: null,
-        config: { ...nextPosition, width: 5, height: 5 },
-      });
-    } else {
-      console.warn('No Space Available!! ');
-    }
-
-  }
-
   addWidget() {
     const nextPosition = this.grid.getNextPosition();
 
     if (nextPosition) {
-      this.widgets.push({...nextPosition, height: 5, width: 5});
+      this.widgets.push({
+        id: `widget-${makeId()}`,
+        view: null,
+        config: { ...nextPosition, width: 10, height: 10 },
+        component: WidgetContainerComponent,
+      });
     } else {
       console.warn('No Space Available!! ');
     }
   }
 
-  askDeleteWidget(index) {
-    console.log('deleting', index);
-    this.widgets.splice(index, 1);
-  }
 
-  deleteWidget() {
-  }
 
   openWidgetSettings(widget) {
-    console.log('Widget settings', widget);
-
-    const dialogRef = this.dialog.open(widget.control, {
-      width: '90%',
-      height: '90%',
-    });
+    const dialogRef = this.dialog
+      .open(WidgetSettingsComponent, { width: '90%', height: '90%' });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('DATA SELECTED!', {result, widget});
-
       if (result) {
         widget.factory.instance.options = result;
       }
     });
-  }
-
-  onWidgetChange(event: WidgetPositionChange) {
   }
 
   getRandomIntInclusive(min, max) {
@@ -156,7 +128,11 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
     return random;
   }
 
-  public onGridFull(e) {
-    console.log(e);
-  }
+
+  askDeleteWidget(index) { this.widgets.splice(index, 1); }
+
+  onGridFull(e) { console.log(e); }
+
+  deleteWidget() {}
+  onWidgetChange(event: WidgetPositionChange) {}
 }
