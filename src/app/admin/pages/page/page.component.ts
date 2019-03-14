@@ -139,7 +139,10 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log('DATA SELECTED!', {result, widget});
-      widget.factory.instance.options = result;
+
+      if (result) {
+        widget.factory.instance.options = result;
+      }
     });
   }
 
