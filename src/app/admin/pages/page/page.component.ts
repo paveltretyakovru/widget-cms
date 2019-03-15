@@ -94,7 +94,7 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
       this.widgets.push({
         id: `widget-${makeId()}`,
         view: null,
-        config: { ...nextPosition, width: 12, height: 12 },
+        config: { ...nextPosition },
         component: WidgetContainerComponent,
         // component: WidgetEditorComponent,
       });
@@ -131,6 +131,7 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   deleteWidget() {}
   onWidgetChange(event: WidgetPositionChange) {
-    console.log('Widget changed', event);
+    const widget = this.widgets[event.index];
+    widget.config = { ...widget.config, ...event.newPosition };
   }
 }
