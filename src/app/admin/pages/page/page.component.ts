@@ -7,7 +7,8 @@ import { NgxWidgetGridComponent, WidgetPositionChange } from 'ngx-widget-grid';
 
 import { makeId } from 'src/app/shared/helpers/make-id';
 import { WidgetSettingsComponent } from './shared/components/widget-settings/widget-settings.component';
-import { WidgetContainerComponent } from './shared/components/widget-container/widget-container.component';
+import { WidgetContainerComponent, WidgetContainerOptions } from './shared/components/widget-container/widget-container.component';
+import { WidgetEditorComponent } from './shared/components/widget-editor/widget-editor.component';
 
 @Component({
   selector: 'app-page',
@@ -19,8 +20,8 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChildren('widgetsList', {read: ViewContainerRef })
     widgetsList: QueryList<ViewContainerRef>;
 
-  rows = 31;
-  cols = 31;
+  rows = 12;
+  cols = 12;
   widgets: any[] = [];
   showGrid = true;
   pageName = 'Untiteled';
@@ -95,6 +96,7 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
         view: null,
         config: { ...nextPosition, width: 10, height: 10 },
         component: WidgetContainerComponent,
+        // component: WidgetEditorComponent,
       });
     } else {
       console.warn('No Space Available!! ');
@@ -105,7 +107,7 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
     const settings = { width: '90%', height: '90%' };
     const dialogRef = this.dialog.open(WidgetSettingsComponent, settings);
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result: WidgetContainerOptions) => {
       if (result) {
         widget.factory.instance.options = result;
       }

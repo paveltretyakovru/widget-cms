@@ -5,6 +5,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { startWith, map } from 'rxjs/operators';
+import { WidgetContainerOptions } from '../widget-container/widget-container.component';
 
 export const _filter = (
   opt: { name: string; document: any }[],
@@ -32,6 +33,8 @@ export interface StateGroup {
   styleUrls: ['./widget-settings.component.scss']
 })
 export class WidgetSettingsComponent implements OnInit {
+  widgetEditorOptions = null;
+
   selectedDocument: CmsDocument;
   selectedDocumentField: any;
 
@@ -56,14 +59,9 @@ export class WidgetSettingsComponent implements OnInit {
       );
   }
 
-  dataSelected($event) {
-    this.dialogRef.close($event);
-  }
-
   fetchDocuments() {
     this.api.getAll$('documents')
       .subscribe((documents) => {
-        console.log('Fetched documents!', documents);
         const fields = [{
           letter: 'Single document',
           names: [],
@@ -93,7 +91,6 @@ export class WidgetSettingsComponent implements OnInit {
   }
 
   optionSelected(value) {
-    console.log('optionSelected()', value);
     this.selectedDocument = value;
   }
 
@@ -102,7 +99,6 @@ export class WidgetSettingsComponent implements OnInit {
   }
 
   documentCreated(document: CmsDocument) {
-    console.log('WidgetsDataControllerComponent#documentCreated()', document);
     this.selectedDocument = document;
   }
 
@@ -126,7 +122,27 @@ export class WidgetSettingsComponent implements OnInit {
   }
 
   returnDocumentFieldData() {
-    this.dataSelected(this.selectedDocumentField.value);
+    const result: WidgetContainerOptions = {
+      type: 'field',
+      document: this.selectedDocument,
+      fieldName: this.selectedDocumentField.name,
+    };
+
+    this.dialogRef.close(result);
+  }
+
+  addDocumentToWidgetEditor() {
+    const config = {
+      type: 'field',
+      document: this.selectedDocument,
+      fieldName: this.selectedDocumentField.name,
+    };
+
+    this.widgetEditorOptions = config;
+  }
+
+  addWidgetToPage($event: WidgetContainerOptions) {
+    this.dialogRef.close($event);
   }
 
 }

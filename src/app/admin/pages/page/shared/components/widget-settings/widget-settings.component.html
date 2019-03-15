@@ -1,94 +1,101 @@
 <div class="widget-settings">
-  <div class="widgets-data-controller">
-    <h1 class="mat-headline">Widget settings</h1>
-    <mat-accordion>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Exists Document
-          </mat-panel-title>
-          <mat-panel-description>
-            Searching and use exists document
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        
-        <form [formGroup]="stateForm">
-          <mat-form-field class="widgets-data-controller__form-field">
-            <input
-              type="text"
-              matInput
-              placeholder="Start type document name to search it"
-              formControlName="stateGroup"
-              required [matAutocomplete]="autoGroup">
+  <h1 class="mat-headline">Widget settings</h1>
+  <h3 class="mat-subheading-2">Select data source</h3>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Exists Document
+        </mat-panel-title>
+        <mat-panel-description>
+          Searching and use exists document
+        </mat-panel-description>
+      </mat-expansion-panel-header>
       
-            <mat-autocomplete
-              [displayWith]="displayFn"
-              #autoGroup="matAutocomplete"
-              (optionSelected)='optionSelected($event.option.value)'
-              autoActiveFirstOption>
-  
-              <mat-optgroup
-                *ngFor="let group of stateGroupOptions | async"
-                [label]="group.letter">
-  
-                <mat-option
-                  *ngFor="let name of group.names"
-                  [value]="name.document">{{name.name}}
-                </mat-option>
-              </mat-optgroup>
-            </mat-autocomplete>
-          </mat-form-field>
-        </form>
-      </mat-expansion-panel>
-  
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Create Document
-          </mat-panel-title>
-          <mat-panel-description>
-            Create new page text document
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-  
-        <app-document-form [name]="'text'" (prepared)="documentCreated($event)">
-        </app-document-form>
-      </mat-expansion-panel>
-    </mat-accordion>
-  
-    <div *ngIf="selectedDocument">
-      <p>Select document field to insert:</p>
-  
-      <mat-radio-group
-        class="document-fields__radio-group"
-        [(ngModel)]="selectedDocumentField">
+      <form [formGroup]="stateForm">
+        <mat-form-field class="widget-settings__form-field">
+          <input
+            type="text"
+            matInput
+            placeholder="Start type document name to search it"
+            formControlName="stateGroup"
+            required [matAutocomplete]="autoGroup">
+    
+          <mat-autocomplete
+            [displayWith]="displayFn"
+            #autoGroup="matAutocomplete"
+            (optionSelected)='optionSelected($event.option.value)'
+            autoActiveFirstOption>
 
-        <mat-radio-button
-          class="document-fields__radio-button"
-          *ngFor="let field of selectedDocument.fields"
-          [value]="field">
+            <mat-optgroup
+              *ngFor="let group of stateGroupOptions | async"
+              [label]="group.letter">
 
-          <span class="mat-body-strong">{{field.name}}</span>: 
-          {{field.value | slice:0:31}}
-        </mat-radio-button>
-      </mat-radio-group>
+              <mat-option
+                *ngFor="let name of group.names"
+                [value]="name.document">{{name.name}}
+              </mat-option>
+            </mat-optgroup>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </mat-expansion-panel>
 
-      <div>
-          <button
-            color="accent"
-            (click)="returnDocumentFieldData()"
-            [disabled]="!selectedDocumentField"
-            [style.marginTop]="'13px'"
-            mat-flat-button>Use this value
-          </button>
-      </div>
-  
-      <div *ngIf="selectedDocumentField" class="document-fields__selected-value">
-        <p class="mat-body-strong">
-          Selected value:
-        </p> 
-        <div [innerHtml]="selectedDocumentField.value"></div>
-      </div>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Create Document
+        </mat-panel-title>
+        <mat-panel-description>
+          Create new page text document
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <app-document-form [name]="'text'" (prepared)="documentCreated($event)">
+      </app-document-form>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <div *ngIf="selectedDocument" class="widget-settings__selected-document">
+    <h3 class="mat-subheading-2">Select document field to insert:</h3>
+
+    <mat-radio-group
+      class="document-fields__radio-group"
+      [(ngModel)]="selectedDocumentField">
+
+      <mat-radio-button
+        class="document-fields__radio-button"
+        *ngFor="let field of selectedDocument.fields"
+        [value]="field">
+
+        <span class="mat-body-strong">{{field.name}}</span>: 
+        {{field.value | slice:0:31}}
+      </mat-radio-button>
+    </mat-radio-group>
+
+    <div class="widget-settings__selected-document-buttons">
+        <button
+          color="primary"
+          (click)="returnDocumentFieldData()"
+          [disabled]="!selectedDocumentField"
+          [style.marginTop]="'13px'"
+          mat-stroked-button>Add to page and close settings
+        </button>
+        <button
+          color="accent"
+          (click)="addDocumentToWidgetEditor()"
+          [disabled]="!selectedDocumentField"
+          [style.marginTop]="'13px'"
+          mat-stroked-button>Add to widget editor
+        </button>
     </div>
+  </div>
+
+  <div class="widget-settings__widget-editor">
+    <h3 class="mat-subheading-2">Widget Editor</h3>
+    <app-widget-editor
+      [options]="widgetEditorOptions"
+      (widgetCompleted)="addWidgetToPage($event)">
+    </app-widget-editor>
   </div>
 </div>
