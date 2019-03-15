@@ -94,7 +94,7 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
       this.widgets.push({
         id: `widget-${makeId()}`,
         view: null,
-        config: { ...nextPosition, width: 10, height: 10 },
+        config: { ...nextPosition, width: 12, height: 12 },
         component: WidgetContainerComponent,
         // component: WidgetEditorComponent,
       });
@@ -104,7 +104,7 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openWidgetSettings(widget) {
-    const settings = { width: '90%', height: '90%' };
+    const settings = { width: '90%', height: '90%', data: { widget } };
     const dialogRef = this.dialog.open(WidgetSettingsComponent, settings);
 
     dialogRef.afterClosed().subscribe((result: WidgetContainerOptions) => {
@@ -130,5 +130,7 @@ export class PageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   deleteWidget() {}
-  onWidgetChange(event: WidgetPositionChange) {}
+  onWidgetChange(event: WidgetPositionChange) {
+    console.log('Widget changed', event);
+  }
 }

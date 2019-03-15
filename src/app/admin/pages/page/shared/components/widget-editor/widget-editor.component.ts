@@ -27,8 +27,8 @@ export class WidgetEditorComponent implements OnInit, AfterViewInit, OnDestroy {
       this._options.next(value);
     }
 
-  public rows = 6;
-  public cols = 6;
+  public rows = 12;
+  public cols = 12;
   public widgets: any[] = [];
   public editable = true;
   public showGrid = true;
@@ -123,6 +123,14 @@ export class WidgetEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     };
 
     this.widgetCompleted.emit(config);
+  }
+
+  onWidgetChange($event) {
+    console.log('Widget editor, position', $event);
+    this.widgets[$event.index].config = {
+      ...this.widgets[$event.index].config,
+      ...$event.newPosition,
+    };
   }
 
 }

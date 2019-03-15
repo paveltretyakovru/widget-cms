@@ -1,11 +1,10 @@
-<div class="widget-viewer" style="height:100%;width:100%" [style.minHeight]="minHeight + 'px'">
+<div class="widget-viewer" [style.minHeight]="minHeight + 'px'">
   <ngx-widget-grid
     #widgetViewerGrid
     class="widget-viewer__grid"
     [rows]="rows"
     [columns]="cols"
-    [showGrid]="showGrid"
-    style="height:100%;width:100%">
+    [showGrid]="showGrid">
 
     <ngx-widget
       *ngFor="let widget of widgets;let $index = index;"
@@ -14,20 +13,13 @@
       [resizable]="editable"
       [swapOnMove]="swapWidgets">
       
-      <div style="height:100%;width:100%; display:flex;">
-        <div
-          class="my-widgets"
-          style="height:100%;width:100%; padding:10px;">
+      <span
+        class="widget-viewer__button-trash"
+        *ngIf="editable"
+        (click)="askDeleteWidget($index)">x
+      </span>
 
-          <span
-            class="widget-viewer__button-trash"
-            *ngIf="editable"
-            (click)="askDeleteWidget($index)">[x]
-          </span>
-
-          <div data-id={{widget.id}} #widgetsViewerList></div>
-        </div>
-      </div>
+      <div data-id={{widget.id}} #widgetsViewerList></div>
     </ngx-widget>
   </ngx-widget-grid>
 </div>

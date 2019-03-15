@@ -60,7 +60,8 @@
     class="mat-elevation-z2 widget-editor__grid"
     [rows]="rows"
     [columns]="cols"
-    [showGrid]="showGrid">
+    [showGrid]="showGrid"
+    (widgetPositionChange)="onWidgetChange($event)">
 
     <ngx-widget
       *ngFor="let widget of widgets;let $index = index;"
@@ -69,20 +70,12 @@
       [resizable]="editable"
       [swapOnMove]="swapWidgets">
       
-      <div style="height:100%;width:100%; display:flex;">
-        <div
-          class="my-widgets"
-          style="height:100%;width:100%; padding:10px;">
-
-          <span
-            class="widget-editor__button-trash"
-            *ngIf="editable"
-            (click)="askDeleteWidget($index)">x
-          </span>
-
-          <div data-id={{widget.id}} #widgetsEditorList></div>
-        </div>
-      </div>
+      <span
+        class="widget-editor__button-trash"
+        *ngIf="editable"
+        (click)="askDeleteWidget($index)">x
+      </span>
+      <div data-id={{widget.id}} #widgetsEditorList></div>
     </ngx-widget>
   </ngx-widget-grid>
 </div>

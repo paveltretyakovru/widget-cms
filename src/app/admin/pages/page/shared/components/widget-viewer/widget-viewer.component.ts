@@ -24,8 +24,8 @@ export class WidgetViewerComponent implements OnInit, AfterViewInit, OnDestroy {
       this._options.next(value);
     }
 
-  public rows = 6;
-  public cols = 6;
+  public rows = 12;
+  public cols = 12;
   public widgets: any[] = [];
   public editable = false;
   public showGrid = false;
@@ -44,6 +44,8 @@ export class WidgetViewerComponent implements OnInit, AfterViewInit, OnDestroy {
         this.cols = options.widgetConfig.cols;
         this.rows = options.widgetConfig.rows;
         this.minHeight = options.widgetConfig.minHeight;
+
+        console.log('Goted widgets in the widget viewr', options.widgetConfig.widgets);
 
         options.widgetConfig.widgets.forEach((widget) => this.addWidget(widget));
       }
@@ -94,8 +96,6 @@ export class WidgetViewerComponent implements OnInit, AfterViewInit, OnDestroy {
             widget.factory = view.createComponent(factory);
             widget.factory.instance.options = widget.config;
             widget.factory.changeDetectorRef.detectChanges();
-
-            this.grid.updateRendering();
 
             // (<WidgetContainerComponent>widget.factory.instance).options = { value: 'test' };
           }

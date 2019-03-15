@@ -72,29 +72,21 @@
             [resizable]="editable"
             [swapOnMove]="swapWidgets">
             
-            <div style="height:100%;width:100%; display:flex;">
-              <div
-                class="my-widgets"
-                style="height:100%;width:100%; padding:10px;"
-                [ngStyle]="{'background-color':widget.config.color}">
-  
-                <button mat-icon-button
-                  class="page__button-trash"
-                  *ngIf="editable"
-                  (click)="askDeleteWidget($index)">
-                  <mat-icon aria-label="Clear">clear</mat-icon>
-                </button>
+            <button mat-icon-button
+              class="page__button-trash"
+              *ngIf="editable"
+              (click)="askDeleteWidget($index)">
+              <mat-icon aria-label="Clear">clear</mat-icon>
+            </button>
 
-                <button mat-icon-button
-                  class="page__button-settings"
-                  *ngIf="editable"
-                  (click)="openWidgetSettings(widget)">
-                  <mat-icon aria-label="Clear">settings</mat-icon>
-                </button>
+            <button mat-icon-button
+              class="page__button-settings"
+              *ngIf="editable"
+              (click)="openWidgetSettings(widget)">
+              <mat-icon aria-label="Clear">settings</mat-icon>
+            </button>
 
-                <div data-id={{widget.id}} #widgetsList></div>
-              </div>
-            </div>
+            <div data-id={{widget.id}} #widgetsList></div>
           </ngx-widget>
         </ngx-widget-grid>
       </div>
