@@ -9,7 +9,7 @@ import { WidgetPlayerComponent } from './widget-player.component';
 import { WidgetPlayerDialogComponent } from './shared/components/widget-player-dialog/widget-player-dialog.component';
 import { WidgetPlayerContainerComponent } from './shared/components/widget-player-container/widget-player-container.component';
 import { ComponentsModule } from '../components.module';
-import { GetDocumentFieldComponent } from './shared/components/dialog/get-document-field/get-document-field.component';
+import { GetDocumentFieldComponent } from './shared/components/get-document-field/get-document-field.component';
 
 @NgModule({
   declarations: [

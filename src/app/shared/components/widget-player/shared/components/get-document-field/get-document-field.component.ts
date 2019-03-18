@@ -1,7 +1,7 @@
 import { startWith, map } from 'rxjs/operators';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { Component, OnInit, Inject, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { ApiService } from 'src/app/shared/services/api.service';
 import { CmsDocument } from 'src/app/admin/documents/document/cms-document';

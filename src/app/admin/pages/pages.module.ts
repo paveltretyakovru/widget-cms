@@ -12,10 +12,6 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { WidgetPlayerModule } from 'src/app/shared/components/widget-player/widget-player.module';
 
-import {
-  GetDocumentFieldComponent
-} from 'src/app/shared/components/widget-player/shared/components/dialog/get-document-field/get-document-field.component';
-
 @NgModule({
   declarations: [
     PageComponent,
@@ -33,7 +29,5 @@ import {
     ReactiveFormsModule,
     NgxWidgetGridModule,
   ],
-
-  entryComponents: [GetDocumentFieldComponent],
 })
 export class PagesModule { }

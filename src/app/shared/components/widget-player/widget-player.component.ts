@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material';
 import { WidgetPlayerDialogComponent } from './shared/components/widget-player-dialog/widget-player-dialog.component';
 import { WidgetPlayerDialogSettings } from './shared/components/widget-player-dialog/shared/interfaces/widget-player-dialog-settings';
 import { WidgetPlayerContainerComponent } from './shared/components/widget-player-container/widget-player-container.component';
-import { GetDocumentFieldComponent } from './shared/components/dialog/get-document-field/get-document-field.component';
+import { GetDocumentFieldComponent } from './shared/components/get-document-field/get-document-field.component';
 
 @Component({
   selector: 'app-widget-player',
