@@ -6,22 +6,21 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageComponent } from './page/page.component';
 import { PagesComponent } from './pages.component';
 import { PageListComponent } from './page-list/page-list.component';
-import { WidgetSettingsComponent } from './page/shared/components/widget-settings/widget-settings.component';
-import { WidgetContainerComponent } from './page/shared/components/widget-container/widget-container.component';
 
 import { MaterialModule } from 'src/app/material.module';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { PagesRoutingModule } from './pages-routing.module';
-import { WidgetEditorModule } from './page/shared/components/widget-editor/widget-editor.module';
-import { WidgetViewerModule } from './page/shared/components/widget-viewer/widget-viewer.module';
+import { WidgetPlayerModule } from 'src/app/shared/components/widget-player/widget-player.module';
+
+import {
+  GetDocumentFieldComponent
+} from 'src/app/shared/components/widget-player/shared/components/dialog/get-document-field/get-document-field.component';
 
 @NgModule({
   declarations: [
     PageComponent,
     PagesComponent,
     PageListComponent,
-    WidgetSettingsComponent,
-    WidgetContainerComponent,
   ],
 
   imports: [
@@ -29,16 +28,12 @@ import { WidgetViewerModule } from './page/shared/components/widget-viewer/widge
     CommonModule,
     MaterialModule,
     ComponentsModule,
-    WidgetViewerModule,
-    WidgetEditorModule,
+    WidgetPlayerModule,
     PagesRoutingModule,
     ReactiveFormsModule,
     NgxWidgetGridModule,
   ],
 
-  entryComponents: [
-    WidgetSettingsComponent,
-    WidgetContainerComponent,
-  ],
+  entryComponents: [GetDocumentFieldComponent],
 })
 export class PagesModule { }

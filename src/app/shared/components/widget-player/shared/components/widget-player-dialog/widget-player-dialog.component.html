@@ -1,0 +1,15 @@
+<div class="widget-player-dialog">
+  <div *ngIf="settings.type === 'field'">
+    <app-get-document-field
+      (fieldSelected)="fieldSelected($event)">
+    </app-get-document-field>
+  </div>
+
+  <app-widget-player
+    [cols]="settings.widget.rectangle.width"
+    [rows]="settings.widget.rectangle.height"
+    [gridWidth]="settings.gridWidth"
+    [gridHeight]="settings.gridHeight"
+    [controlPanel]="settings.type !== 'field'"
+  ></app-widget-player>
+</div>

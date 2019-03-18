@@ -1,11 +1,11 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { ApiService } from 'src/app/shared/services/api.service';
 import { startWith, map } from 'rxjs/operators';
-import { WidgetContainerOptions } from '../widget-container/widget-container.component';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { Component, OnInit, Inject, Output, EventEmitter } from '@angular/core';
+
+import { ApiService } from 'src/app/shared/services/api.service';
+import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
+import { CmsDocumentField } from 'src/app/admin/documents/document/shared/interfaces/cms-document-field';
 
 export const _filter = (
   opt: { name: string; document: any }[],
@@ -28,25 +28,25 @@ export interface StateGroup {
 }
 
 @Component({
-  selector: 'app-widget-settings',
-  templateUrl: './widget-settings.component.html',
-  styleUrls: ['./widget-settings.component.scss']
+  selector: 'app-get-document-field',
+  templateUrl: './get-document-field.component.html',
+  styleUrls: ['./get-document-field.component.scss']
 })
-export class WidgetSettingsComponent implements OnInit {
-  widgetEditorOptions = null;
-
-  selectedDocument: CmsDocument;
-  selectedDocumentField: any;
+export class GetDocumentFieldComponent implements OnInit {
+  @Output() fieldSelected: EventEmitter<any> = new EventEmitter<any>();
 
   stateForm: FormGroup = this.fb.group({ stateGroup: '' });
   stateGroups: StateGroup[] = [];
+  selectedDocument: CmsDocument;
   stateGroupOptions: Observable<StateGroup[]>;
+
+  _selectedField = new BehaviorSubject<any>(null);
+  get selectedField() { return this._selectedField.getValue(); }
+  set selectedField(value) { this._selectedField.next(value); }
 
   constructor(
     private fb: FormBuilder,
     private api: ApiService,
-    public dialogRef: MatDialogRef<WidgetSettingsComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
 
   ngOnInit() {
@@ -57,6 +57,12 @@ export class WidgetSettingsComponent implements OnInit {
         startWith(''),
         map(value => this._filterGroup(value))
       );
+
+    this._selectedField.subscribe((field: CmsDocumentField) => {
+      if (field) {
+        this.fieldSelected.emit(field);
+      }
+    });
   }
 
   fetchDocuments() {
@@ -98,10 +104,6 @@ export class WidgetSettingsComponent implements OnInit {
     return (val && val._id) ? val.name : val;
   }
 
-  documentCreated(document: CmsDocument) {
-    this.selectedDocument = document;
-  }
-
   private _filterGroup(value: string): StateGroup[] {
     if (value) {
       return this.stateGroups
@@ -112,7 +114,7 @@ export class WidgetSettingsComponent implements OnInit {
         .filter((group) => {
           if (!group.names.length) {
             this.selectedDocument = null;
-            this.selectedDocumentField = null;
+            this.selectedField = null;
           }
           return group.names.length > 0;
         });
@@ -120,29 +122,4 @@ export class WidgetSettingsComponent implements OnInit {
 
     return this.stateGroups;
   }
-
-  returnDocumentFieldData() {
-    const result: WidgetContainerOptions = {
-      type: 'field',
-      document: this.selectedDocument,
-      fieldName: this.selectedDocumentField.name,
-    };
-
-    this.dialogRef.close(result);
-  }
-
-  addDocumentToWidgetEditor() {
-    const config = {
-      type: 'field',
-      document: this.selectedDocument,
-      fieldName: this.selectedDocumentField.name,
-    };
-
-    this.widgetEditorOptions = config;
-  }
-
-  addWidgetToPage($event: WidgetContainerOptions) {
-    this.dialogRef.close($event);
-  }
-
 }
