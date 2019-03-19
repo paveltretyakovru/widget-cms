@@ -1,3 +1,22 @@
-<p>
-  widget-player-container works!
-</p>
+<div class="widget-plaery-container">
+
+  <!-- Empty widget -->
+  <div *ngIf="!widget.type">
+    Widget container
+  </div>
+
+  <!-- Widget of field type -->
+  <div *ngIf="widget.type === 'field'">
+    <ng-container
+      *ngTemplateOutlet="fieldTemplate">
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #fieldTemplate>
+  <div
+    [innerHtml]="prepareFieldValue()"
+    class="widget-player-container__field">
+    Widget player container field type
+  </div>
+</ng-template>

@@ -1,8 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { WidgetPlayerDialogSettings } from './shared/interfaces/widget-player-dialog-settings';
-import { WidgetPlayerDialog } from './shared/interfaces/widget-player-dialog';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
+// Interfaces
+import { Widget } from '../../interfaces/widget';
 import { CmsDocumentField } from 'src/app/admin/documents/document/shared/interfaces/cms-document-field';
+import { WidgetPlayerDialog } from './shared/interfaces/widget-player-dialog';
 
 @Component({
   selector: 'app-widget-player-dialog',
@@ -10,27 +12,21 @@ import { CmsDocumentField } from 'src/app/admin/documents/document/shared/interf
   styleUrls: ['./widget-player-dialog.component.scss']
 })
 export class WidgetPlayerDialogComponent implements WidgetPlayerDialog, OnInit {
-  settings: WidgetPlayerDialogSettings;
-
   constructor(
     public dialogRef: MatDialogRef<WidgetPlayerDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public dialogData: WidgetPlayerDialogSettings
+    @Inject(MAT_DIALOG_DATA) public widget: Widget
   ) { }
 
   ngOnInit(): void {
-    this.prepareSettings();
-  }
-
-  prepareSettings(): void {
-    console.log('WidgetPlayerSettingsComponent#preapreSettings', this.dialogData);
-
-    if (this.dialogData) {
-      this.settings = this.dialogData;
-    }
+    console.log('WidgetPlayerDialogComponent', this.widget);
   }
 
   fieldSelected(field: CmsDocumentField): void {
     console.log('Field selected', field);
+    this.widget.context.field = field;
   }
 
+  makeDeal(): void {
+    this.dialogRef.close(this.widget);
+  }
 }

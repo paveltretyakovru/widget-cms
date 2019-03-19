@@ -1,15 +1,26 @@
 <div class="widget-player-dialog">
-  <div *ngIf="settings.type === 'field'">
-    <app-get-document-field
-      (fieldSelected)="fieldSelected($event)">
-    </app-get-document-field>
+  <div *ngIf="widget.type === 'field'">
+    <ng-container *ngTemplateOutlet="fieldTemplate"></ng-container>
   </div>
 
-  <app-widget-player
-    [cols]="settings.widget.rectangle.width"
-    [rows]="settings.widget.rectangle.height"
-    [gridWidth]="settings.gridWidth"
-    [gridHeight]="settings.gridHeight"
-    [controlPanel]="settings.type !== 'field'"
-  ></app-widget-player>
+  <div class="widget-player__actions">
+    <button (click)="makeDeal()" mat-stroked-button color="primary">
+      Done
+    </button>
+  </div>
 </div>
+
+<ng-template #fieldTemplate>
+  <app-get-document-field
+    (fieldSelected)="fieldSelected($event)">
+  </app-get-document-field>
+
+  <app-widget-player
+    [widgets]="[widget]"
+    [cols]="widget.rectangle.width"
+    [rows]="widget.rectangle.height"
+    [gridWidth]="widget.container.width"
+    [gridHeight]="widget.container.height"
+    [controlPanel]="false"
+  ></app-widget-player>
+</ng-template>

@@ -1,9 +1,9 @@
-import { WidgetPlayerDialogSettings } from './widget-player-dialog-settings';
 import { CmsDocumentField } from 'src/app/admin/documents/document/shared/interfaces/cms-document-field';
+import { Widget } from '../../../../interfaces/widget';
 
 export interface WidgetPlayerDialog {
-  settings: WidgetPlayerDialogSettings;
+  widget: Widget;
 
+  makeDeal(): void;
   fieldSelected(field: CmsDocumentField): void;
-  prepareSettings(): void;
 }

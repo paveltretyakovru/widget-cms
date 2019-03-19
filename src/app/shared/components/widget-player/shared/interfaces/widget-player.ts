@@ -18,10 +18,9 @@ export interface WidgetPlayer {
   highlightNextPosition: boolean;
 
   grid: NgxWidgetGridComponent;
-  gridWidgetsPlace: QueryList<ViewContainerRef>;
-  gridWidgetContainers: QueryList<ViewContainerRef>;
+  widgetsList: QueryList<ViewContainerRef>;
 
-  addWidget(): void;
+  addWidget(widget?: Widget): void;
   onGridFull(event: any): void;
   deleteWidget(index: number): void;
   onWidgetChange(event: WidgetPositionChange): void;

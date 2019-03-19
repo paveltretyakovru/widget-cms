@@ -30,8 +30,7 @@
       [highlightNextPosition]="highlightNextPosition">
   
       <!-- Widget -->
-      <ngx-widget
-        #gridWidgetContainers
+      <ngx-widget #widgetsList
         *ngFor="let widget of widgets;let $index = index;"
         [position]="widget.rectangle"
         [movable]="movable"
@@ -72,7 +71,10 @@
           class="widget-player__widget"
           [ngStyle]="{backgroundColor: editable ? 'rgba(0,0,0,.02)' : ''}">
 
-          <div data-id={{widget.id}} #gridWidgetsPlace></div>
+          <app-widget-player-container
+            [widget]="widget">
+          </app-widget-player-container>
+
         </div>
       </ngx-widget>
     </ngx-widget-grid>
