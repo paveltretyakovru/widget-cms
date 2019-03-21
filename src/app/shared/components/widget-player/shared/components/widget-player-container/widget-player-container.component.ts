@@ -4,6 +4,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Widget } from '../../interfaces/widget';
 import { WidgetPlayerContainer } from './widget-player-container';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-widget-player-container',
@@ -12,7 +13,11 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 })
 export class WidgetPlayerContainerComponent
        implements WidgetPlayerContainer, OnInit {
-  @Input() widget: Widget;
+
+  private _widget = new BehaviorSubject<Widget>(null);
+  @Input()
+    get widget(): Widget { return this._widget.getValue(); }
+    set widget(widget: Widget) { this._widget.next({ ...widget }); }
 
   constructor(private sanitizer: DomSanitizer) { }
 

@@ -5,6 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Widget } from '../../interfaces/widget';
 import { CmsDocumentField } from 'src/app/admin/documents/document/shared/interfaces/cms-document-field';
 import { WidgetPlayerDialog } from './shared/interfaces/widget-player-dialog';
+import { IRectangle } from 'ngx-widget-grid';
 
 @Component({
   selector: 'app-widget-player-dialog',
@@ -17,8 +18,12 @@ export class WidgetPlayerDialogComponent implements WidgetPlayerDialog, OnInit {
     @Inject(MAT_DIALOG_DATA) public widget: Widget
   ) { }
 
+  copyRectangle: IRectangle;
+
   ngOnInit(): void {
     console.log('WidgetPlayerDialogComponent', this.widget);
+    this.copyRectangle = { ...this.widget.rectangle };
+    console.log('COPY RECTANGLE', this.copyRectangle);
   }
 
   fieldSelected(field: CmsDocumentField): void {

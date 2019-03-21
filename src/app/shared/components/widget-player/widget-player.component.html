@@ -28,7 +28,6 @@
       (gridFull)="onGridFull($event)"
       (widgetPositionChange)="onWidgetChange($event)"
       [highlightNextPosition]="highlightNextPosition">
-  
       <!-- Widget -->
       <ngx-widget #widgetsList
         *ngFor="let widget of widgets;let $index = index;"
@@ -51,7 +50,10 @@
           </i>
 
           <mat-menu #widgetMenu="matMenu">
-            <button mat-menu-item (click)="openWidgetDialog(widget, 'field', $index)">
+            <button
+              mat-menu-item
+              (click)="openWidgetDialog(widget, 'field', $index)">
+              
               <mat-icon>text_fields</mat-icon>
               <span>Document field</span>
             </button>
@@ -70,11 +72,14 @@
         <div
           class="widget-player__widget"
           [ngStyle]="{backgroundColor: editable ? 'rgba(0,0,0,.02)' : ''}">
-
+          grid: cols: {{ cols }}; rows: {{ rows }}
+          <br />
+          #id: {{ widget.id }}; width: {{ widget.rectangle.width }}
+          height: {{ widget.rectangle.height }} top: {{ widget.rectangle.top }}
+          left: {{ widget.rectangle.left }}
           <app-widget-player-container
             [widget]="widget">
           </app-widget-player-container>
-
         </div>
       </ngx-widget>
     </ngx-widget-grid>

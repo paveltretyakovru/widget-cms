@@ -19,13 +19,13 @@ import { WidgetPlayerDialogComponent } from './shared/components/widget-player-d
   styleUrls: ['./widget-player.component.scss']
 })
 export class WidgetPlayerComponent implements WidgetPlayer, OnInit, AfterViewInit {
-  @Input() cols = 12;
-  @Input() rows = 12;
+  @Input() cols = 4;
+  @Input() rows = 4;
   @Input() movable = true;
   @Input() editable = true;
   @Input() showGrid = true;
   @Input() resizable = true;
-  @Input() minHeight = 500;
+  @Input() minHeight = 100;
   @Input() gridWidth = null;
   @Input() gridHeight = null;
   @Input() controlPanel = true;
@@ -34,8 +34,8 @@ export class WidgetPlayerComponent implements WidgetPlayer, OnInit, AfterViewIni
   // TODO: NEED-INTERFACE
   private _widgets = new BehaviorSubject<Widget[]>([]);
   @Input()
-    get widgets(): Widget[] { return this._widgets.getValue(); }
-    set widgets(widgets: Widget[]) { this._widgets.next(widgets); }
+  set widgets(widgets: Widget[]) { this._widgets.next(widgets); }
+  get widgets(): Widget[] { return this._widgets.getValue(); }
 
   @ViewChild('grid')
     grid: NgxWidgetGridComponent;
@@ -73,7 +73,9 @@ export class WidgetPlayerComponent implements WidgetPlayer, OnInit, AfterViewIni
       this.widgets.push({
         id: `widget-${makeId()}`,
         type: '',
-        context: {},
+        context: {
+          widgets: [],
+        },
         container: null,
         rectangle: { ...nextPosition },
       });
@@ -91,7 +93,7 @@ export class WidgetPlayerComponent implements WidgetPlayer, OnInit, AfterViewIni
     );
 
     widgetSettingsRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed', result);
+      console.log('The dialog was closed', {result, grid: this.grid});
     });
   }
 

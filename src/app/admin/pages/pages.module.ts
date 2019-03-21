@@ -11,6 +11,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { WidgetPlayerModule } from 'src/app/shared/components/widget-player/widget-player.module';
+import { WidgetEditorModule } from 'src/app/shared/components/widget-editor/widget-editor.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { WidgetPlayerModule } from 'src/app/shared/components/widget-player/widg
     CommonModule,
     MaterialModule,
     ComponentsModule,
+    WidgetEditorModule,
     WidgetPlayerModule,
     PagesRoutingModule,
     ReactiveFormsModule,

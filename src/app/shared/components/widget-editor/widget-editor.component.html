@@ -1,0 +1,76 @@
+<div class="widget-editor">
+  <div class="widget-editor__panel" *ngIf="showPanel">
+    <button
+      (click)="addWidget()"
+      mat-stroked-button>Add widget
+    </button>
+  </div>
+
+  <div
+    class="widget-editor__grid-container"
+    [style.width]="(width) ? width : '100%'"
+    [style.height]="(height) ? height : '100%'">
+    <ngx-widget-grid
+      #grid
+      [rows]="rows"
+      [columns]="cols"
+      [showGrid]="showGrid"
+      (widgetPositionChange)="onWidgetPositionChange($event)">
+
+      <ngx-widget
+        #widgetsRef
+        [id]="widget.id"
+        *ngFor="let widget of widgets;let $index = index;"
+        [position]="widget.position"
+        [movable]="movable"
+        [resizable]="resizable">
+
+        <div #widgetsContainerRef [id]="'container-' + widget.id"></div>
+
+        <ng-container
+          [ngTemplateOutlet]="widgetHamburgerMenu"
+          [ngTemplateOutletContext]="{ widget: widget, $index: $index }">
+        </ng-container>
+      </ngx-widget>
+    </ngx-widget-grid>
+  </div>
+</div>
+
+<!-- ################## Tempates ###################### -->
+
+<!-- Widget panel -->
+<ng-template #widgetHamburgerMenu let-widget="widget" let-$index="$index">
+
+  <!-- Delete widget button -->
+  <i
+  *ngIf="editable"
+  (click)="deleteWidget($index)"
+  class="fas fa-trash-alt widget-editor__button widget-editor__button-trash">
+</i>
+
+<i
+  [matMenuTriggerFor]="widgetMenu"
+  *ngIf="editable"
+  class="fas fa-hamburger widget-editor__button widget-editor__button-hamburger">
+</i>
+
+<mat-menu #widgetMenu="matMenu">
+  <button
+    mat-menu-item
+    (click)="openWidgetDialog(widget, 'field', $index)">
+    
+    <mat-icon>text_fields</mat-icon>
+    <span>Document field</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>view_list</mat-icon>
+    <span>Collection</span>
+  </button>
+  <button
+    mat-menu-item
+    (click)="openWidgetEditorDialog(widget, 'group', $index)">
+      <mat-icon>view_quilt</mat-icon>
+      <span>Widgets group</span>
+  </button>
+</mat-menu>
+</ng-template>

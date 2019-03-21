@@ -1,4 +1,4 @@
-<div class="widget-plaery-container">
+<div class="widget-plaery-container" style="width: 100%; height: 100%">
 
   <!-- Empty widget -->
   <div *ngIf="!widget.type">
@@ -11,7 +11,25 @@
       *ngTemplateOutlet="fieldTemplate">
     </ng-container>
   </div>
+
+  <!-- Widget of group type -->
+  <div *ngIf="widget.type === 'group'">
+    <ng-container *ngTemplateOutlet="groupTemplate"></ng-container>
+  </div>
 </div>
+
+<ng-template #groupTemplate>
+  <app-widget-player
+    [widgets]="widget.context.widgets"
+    [cols]="widget.rectangle.width"
+    [rows]="widget.rectangle.height"
+    [resizable]="true"
+    [movable]="true"
+    [gridWidth]="widget.container.width"
+    [gridHeight]="widget.container.height"
+    [controlPanel]="false"
+  ></app-widget-player>
+</ng-template>
 
 <ng-template #fieldTemplate>
   <div

@@ -3,12 +3,29 @@
     <ng-container *ngTemplateOutlet="fieldTemplate"></ng-container>
   </div>
 
+  <div *ngIf="widget.type === 'group'">
+    <ng-container *ngTemplateOutlet="groupTemplate"></ng-container>
+  </div>
+
   <div class="widget-player__actions">
     <button (click)="makeDeal()" mat-stroked-button color="primary">
       Done
     </button>
   </div>
 </div>
+
+<ng-template #groupTemplate>
+  <app-widget-player
+    [widgets]="widget.context.widgets"
+    [cols]="copyRectangle.width"
+    [rows]="copyRectangle.height"
+    [resizable]="true"
+    [movable]="true"
+    [gridWidth]="widget.container.width"
+    [gridHeight]="widget.container.height"
+    [controlPanel]="true"
+  ></app-widget-player>
+</ng-template>
 
 <ng-template #fieldTemplate>
   <app-get-document-field
@@ -17,8 +34,10 @@
 
   <app-widget-player
     [widgets]="[widget]"
-    [cols]="widget.rectangle.width"
-    [rows]="widget.rectangle.height"
+    [cols]="copyRectangle.width"
+    [rows]="copyRectangle.height"
+    [resizable]="false"
+    [movable]="false"
     [gridWidth]="widget.container.width"
     [gridHeight]="widget.container.height"
     [controlPanel]="false"
