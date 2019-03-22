@@ -82,6 +82,7 @@ export class WidgetEditorComponent
       ref: null,
       size: null,
       type: null,
+      content: null,
       factory: null,
       position: nextPosition,
       container: null,
@@ -188,7 +189,7 @@ export class WidgetEditorComponent
 
     // Insert widget component to the widget
     widget.factory = widget.container.createComponent(factory);
-    widget.factory.instance.configuration = { data: 'test' };
+    widget.factory.instance.configuration = { widget };
     widget.factory.changeDetectorRef.detectChanges();
   }
 }

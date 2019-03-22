@@ -1,5 +1,21 @@
 <div class="widget-editor-container">
-  <app-widget-editor
-    [configuration]="configuration.widgetEditorConfiguration">
-  </app-widget-editor>
+   <!-- Empty widget -->
+  <div *ngIf="!configuration.widget.type">
+    Widget container
+  </div>
+  
+  <!-- Widget of field type -->
+  <div *ngIf="configuration.widget.type === 'field'">
+    <ng-container
+      *ngTemplateOutlet="fieldTemplate">
+    </ng-container>
+  </div>
 </div>
+
+<ng-template #fieldTemplate>
+  <div
+    [innerHtml]="prepareFieldValue()"
+    class="widget-player-container__field">
+    Widget player container field type
+  </div>
+</ng-template>
