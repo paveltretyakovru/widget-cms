@@ -14,6 +14,7 @@ import { WidgetEditorConfiguration } from '../../../widget-editor';
 export class WidgetEditorDialogComponent
   implements WidgetEditorDialog, OnInit {
   widgetEditorConfiguration: WidgetEditorConfiguration;
+  widgets: Widget[];
 
   constructor(
     public dialogRef: MatDialogRef<WidgetEditorDialogComponent>,
@@ -45,6 +46,11 @@ export class WidgetEditorDialogComponent
   }
 
   onClickDone(): void {
-    this.dialogRef.close('Dialog result');
+    this.dialogRef.close(this.widgets);
+  }
+
+  widgetsChanged(widgets: Widget[]) {
+    console.log('Widgets changed', widgets);
+    this.widgets = widgets;
   }
 }

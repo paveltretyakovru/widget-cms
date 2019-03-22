@@ -1,7 +1,7 @@
 // Core
 import { MatDialog } from '@angular/material';
 import { Component, OnInit, ViewChild, ViewChildren, ViewContainerRef,
-         QueryList, Input, AfterViewInit, ComponentFactoryResolver, OnDestroy
+         QueryList, Input, AfterViewInit, ComponentFactoryResolver, OnDestroy, Output, EventEmitter
 } from '@angular/core';
 
 // Components
@@ -23,6 +23,7 @@ import { WidgetEditorContainerComponent } from './shared/components/widget-edito
 })
 export class WidgetEditorComponent
        implements WidgetEditor, OnInit, AfterViewInit, OnDestroy {
+  @Output() widgetsChanged = new EventEmitter<Widget[]>();
 
   // References
   @ViewChild('grid')
@@ -94,23 +95,30 @@ export class WidgetEditorComponent
   onWidgetPositionChange($event: WidgetPositionChange): void {
     this.widgets[$event.index].position = $event.newPosition;
     this.updateWidgetsSizeData();
-
-    console.log('onWidgetPositionChange()', this.widgets);
   }
 
   openWidgetEditorDialog(widget: Widget, type: string, index: number): void {
     console.log('openWidgetPlayerDialog()', widget);
 
+    widget.type = type;
+
+    if (widget.type === 'group') {
+      widget.content = { widgets: [] };
+    }
+
     const widgetEditorDialogConfig: WidgetEditorDialogConfig = {
-      minWidth: '90%',
       data: widget
     };
 
     this.dialog
       .open(WidgetEditorDialogComponent, widgetEditorDialogConfig)
       .afterClosed()
-        .subscribe((resultWidget: Widget) => {
-          console.log('Widget editor dialog closed', resultWidget);
+        .subscribe((result) => {
+          if (widget.type === 'group') {
+            widget.content.widgets = result;
+            widget.factory.instance.widgets = result;
+            console.log('Widget editor dialog closed', { result, widget });
+          }
         });
 
   }
@@ -146,8 +154,6 @@ export class WidgetEditorComponent
           this.insertContainerToWidget(widget);
         }
       });
-
-      console.log('Widgets ref was changed!', this.widgets);
     };
   }
 
@@ -167,6 +173,23 @@ export class WidgetEditorComponent
         widget.size = { width, height };
       }
     }
+
+    this.onWidgetsChanged();
+  }
+
+  onWidgetsChanged() {
+    this.widgetsChanged.emit(this.widgets.map((widget) => {
+      return {
+        id: `widget-${makeId()}`,
+        ref: null,
+        size: widget.size,
+        type: widget.type,
+        content: widget.content,
+        factory: null,
+        position: widget.position,
+        container: null,
+      };
+    }));
   }
 
   findWidgetRefById(id: string): ViewContainerRef {
@@ -190,7 +213,7 @@ export class WidgetEditorComponent
 
       // Insert widget component to the widget
       widget.factory = widget.container.createComponent(factory);
-      widget.factory.instance.configuration = { widget };
+      widget.factory.instance.widget = widget;
       widget.factory.changeDetectorRef.detectChanges();
     }
   }

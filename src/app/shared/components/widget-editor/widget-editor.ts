@@ -1,6 +1,6 @@
 import { Widget } from './widget';
 import { NgxWidgetGridComponent, WidgetPositionChange } from 'ngx-widget-grid';
-import { QueryList, ViewContainerRef } from '@angular/core';
+import { QueryList, ViewContainerRef, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 export interface WidgetEditorConfiguration {
@@ -18,6 +18,9 @@ export interface WidgetEditorConfiguration {
 }
 
 export interface WidgetEditor extends WidgetEditorConfiguration {
+  // Outputs
+  widgetsChanged: EventEmitter<Widget[]>;
+
   // Inputs
   configuration: WidgetEditorConfiguration;
 
@@ -34,6 +37,7 @@ export interface WidgetEditor extends WidgetEditorConfiguration {
 
   // Component methods
   addWidget(): Widget;
+  onWidgetsChanged(): void;
   findWidgetRefById(id: string): ViewContainerRef;
   prepareConfiguration(): void;
   updateWidgetsSizeData(): void;

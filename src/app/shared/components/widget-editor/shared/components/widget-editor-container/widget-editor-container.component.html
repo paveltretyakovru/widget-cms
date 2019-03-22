@@ -12,9 +12,9 @@
   </div>
 
   <!-- Widget of grid type -->
-  <div *ngIf="widget.type === 'grid'">
+  <div *ngIf="widget.type === 'group'">
     <ng-container
-      *ngTemplateOutlet="gridTemplate">
+      *ngTemplateOutlet="groupTemplate">
     </ng-container>
   </div>
 </div>
@@ -27,6 +27,9 @@
   </div>
 </ng-template>
 
-<ng-template #gridTemplate>
-  <app-widget-editor></app-widget-editor>
+<ng-template #groupTemplate>
+  <app-widget-editor
+    [widgets]="widgets"
+    [configuration]="prepareWidgetEditorConfiguration()">
+  </app-widget-editor>
 </ng-template>

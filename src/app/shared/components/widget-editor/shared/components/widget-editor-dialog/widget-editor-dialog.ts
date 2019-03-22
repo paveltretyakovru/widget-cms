@@ -6,6 +6,7 @@ import { WidgetEditorConfiguration } from '../../../widget-editor';
 export interface WidgetEditorDialog {
   // Constructor properties
   widget: Widget;
+  widgets: Widget[];
   dialogRef: MatDialogRef<WidgetEditorDialogComponent>;
 
   // Configuration
@@ -13,6 +14,7 @@ export interface WidgetEditorDialog {
 
   // Methods
   onClickDone(): void;
+  widgetsChanged(widgets: Widget[]): void;
   prepareWidgetEditorConfiguration(): void;
 }
 
