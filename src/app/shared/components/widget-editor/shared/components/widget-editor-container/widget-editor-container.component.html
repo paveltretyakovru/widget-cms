@@ -1,13 +1,20 @@
 <div class="widget-editor-container">
    <!-- Empty widget -->
-  <div *ngIf="!configuration.widget.type">
+  <div *ngIf="!widget.type">
     Widget container
   </div>
   
   <!-- Widget of field type -->
-  <div *ngIf="configuration.widget.type === 'field'">
+  <div *ngIf="widget.type === 'field'">
     <ng-container
       *ngTemplateOutlet="fieldTemplate">
+    </ng-container>
+  </div>
+
+  <!-- Widget of grid type -->
+  <div *ngIf="widget.type === 'grid'">
+    <ng-container
+      *ngTemplateOutlet="gridTemplate">
     </ng-container>
   </div>
 </div>
@@ -18,4 +25,8 @@
     class="widget-player-container__field">
     Widget player container field type
   </div>
+</ng-template>
+
+<ng-template #gridTemplate>
+  <app-widget-editor></app-widget-editor>
 </ng-template>
