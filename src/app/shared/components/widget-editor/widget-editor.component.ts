@@ -38,7 +38,7 @@ export class WidgetEditorComponent
   @Input() configuration: WidgetEditorConfiguration;
 
   // Data
-  widgets: Widget[] = [];
+  @Input() widgets: Widget[] = [];
 
   // Configuration
   rows = 6;
@@ -182,14 +182,16 @@ export class WidgetEditorComponent
   }
 
   insertContainerToWidget(widget: Widget): void {
-    const factory = this.componentFactoryResolver
-      .resolveComponentFactory(WidgetEditorContainerComponent);
+    if (!widget.factory) {
+      const factory = this.componentFactoryResolver
+        .resolveComponentFactory(WidgetEditorContainerComponent);
 
-    this.ngOnDestroy();
+      this.ngOnDestroy();
 
-    // Insert widget component to the widget
-    widget.factory = widget.container.createComponent(factory);
-    widget.factory.instance.configuration = { widget };
-    widget.factory.changeDetectorRef.detectChanges();
+      // Insert widget component to the widget
+      widget.factory = widget.container.createComponent(factory);
+      widget.factory.instance.configuration = { widget };
+      widget.factory.changeDetectorRef.detectChanges();
+    }
   }
 }

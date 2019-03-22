@@ -12,7 +12,7 @@ export interface WidgetEditorDialog {
   widgetEditorConfiguration: WidgetEditorConfiguration;
 
   // Methods
-  onDoneClick(): void;
+  onClickDone(): void;
   prepareWidgetEditorConfiguration(): void;
 }
 

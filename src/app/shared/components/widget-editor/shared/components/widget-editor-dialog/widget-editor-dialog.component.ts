@@ -44,7 +44,7 @@ export class WidgetEditorDialogComponent
     }
   }
 
-  onDoneClick(): void {
+  onClickDone(): void {
     this.dialogRef.close('Dialog result');
   }
 }
