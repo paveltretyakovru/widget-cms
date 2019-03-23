@@ -1,0 +1,27 @@
+.widgets {
+  display: flex;
+  flex-direction: column;
+
+  &__grid {
+    position: relative;
+  }
+
+  &__panel {
+    width: 100%;
+    padding: 13px 0;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  &__button {
+    cursor: pointer;
+    top: 9px;
+    z-index: 21;
+    position: absolute;
+
+    &:hover { color: #ff4986 }
+
+    &-trash { right: 13px }
+    &-hamburger { right: 40px }
+  }
+}
