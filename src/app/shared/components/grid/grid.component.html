@@ -1,0 +1,79 @@
+<div class="grid">
+  <div class="grid__panel" *ngIf="showPanel">
+    <ng-container *ngTemplateOutlet="gridPanel"></ng-container>
+  </div>
+
+  <div
+    class="grid__wrapper"
+    [style.width]="(gridWidth) ? (gridWidth + 'px') : '100%'"
+    [style.height]="(gridHeight) ? (gridHeight + 'px') : '100%'">
+    <ngx-widget-grid
+      #grid
+      [rows]="rows"
+      [columns]="cols"
+      [showGrid]="showGrid"
+      (widgetPositionChange)="onWidgetPositionChange($event)">
+  
+      <ngx-widget
+        #widgetsRefs
+        [id]="widget.id"
+        *ngFor="let widget of widgets;let $index = index;"
+        [position]="widget.position"
+        [movable]="movable"
+        [resizable]="resizable">
+  
+        <ng-container
+          [ngTemplateOutlet]="widgetHamburgerMenu"
+          [ngTemplateOutletContext]="{ widget: widget, $index: $index }">
+        </ng-container>
+      </ngx-widget>
+    </ngx-widget-grid>
+  </div>
+</div>
+
+<!-- ################## Tempates ###################### -->
+<!-- Grid panel -->
+<ng-template #gridPanel>
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="onClickAddWidget()">Add widget
+  </button>
+</ng-template>
+
+<!-- Widget panel -->
+<ng-template #widgetHamburgerMenu let-widget="widget" let-$index="$index">
+
+    <!-- Delete widget button -->
+    <i
+    *ngIf="editable"
+    (click)="onClickDeleteWidget($index)"
+    class="fas fa-trash-alt grid__button grid__button-trash">
+  </i>
+  
+  <i
+    [matMenuTriggerFor]="widgetMenu"
+    *ngIf="editable"
+    class="fas fa-hamburger grid__button grid__button-hamburger">
+  </i>
+  
+  <mat-menu #widgetMenu="matMenu">
+    <button
+      mat-menu-item
+      (click)="openWidgetDialog(widget, 'field', $index)">
+      
+      <mat-icon>text_fields</mat-icon>
+      <span>Document field</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>view_list</mat-icon>
+      <span>Collection</span>
+    </button>
+    <button
+      mat-menu-item
+      (click)="openGroupDialog(widget)">
+        <mat-icon>view_quilt</mat-icon>
+        <span>Widgets group</span>
+    </button>
+  </mat-menu>
+</ng-template>

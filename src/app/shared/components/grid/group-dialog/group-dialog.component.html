@@ -1,0 +1,13 @@
+<div class="group-dialog">
+  <app-grid
+    (widgetsUpdated)="onGridWidgetsUpdated($event)"
+    [cols]="data.position.width"
+    [rows]="data.position.height"
+    [gridWidth]="data.size.width"
+    [gridHeight]="data.size.height">
+  </app-grid>
+
+  <div class="widget-editor-dialog__actions">
+    <button (click)="onClickDone()" mat-stroked-button>Done</button>
+  </div>
+</div>
