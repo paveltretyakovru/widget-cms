@@ -22,8 +22,8 @@
         [id]="widget.id"
         *ngFor="let widget of widgets;let $index = index;"
         [position]="widget.position"
-        [movable]="movable"
-        [resizable]="resizable"
+        [movable]="editable"
+        [resizable]="editable"
         [swapOnMove]="swapWidgets">
 
         <ng-container

@@ -15,10 +15,17 @@ import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
 
 export interface GridData {
   documents: CmsDocument[];
+  collections: Collection[];
 }
 
-const initGridData: GridData = {
+export interface WidgetsUpdatedResult {
+  data: GridData;
+  widgets: WidgetBackbone[];
+}
+
+export const INIT_GRID_DATA: GridData = {
   documents: [],
+  collections: [],
 };
 
 @Component({
@@ -27,13 +34,13 @@ const initGridData: GridData = {
   styleUrls: ['./grid.component.scss'],
 })
 export class GridComponent implements OnInit, AfterViewInit {
-  @Output() widgetsUpdated = new EventEmitter<WidgetBackbone[]>();
+  @Output() widgetsUpdated = new EventEmitter<WidgetsUpdatedResult>();
 
   @ViewChild('grid') grid: NgxWidgetGridComponent;
   @ViewChildren('widgetsRefs', { read: ViewContainerRef })
     widgetsRefs: QueryList<ViewContainerRef>;
 
-  @Input() data: GridData = initGridData;
+  @Input() data: GridData = INIT_GRID_DATA;
   @Input() widgets: Widget[] = [];
 
   @Input() gridWidth;
@@ -85,9 +92,15 @@ export class GridComponent implements OnInit, AfterViewInit {
     this.widgets.splice(index, 1);
   }
 
-  onCloseGroupDialog(widget: Widget, widgets: WidgetBackbone[]) {
+  onCloseGroupDialog(widget: Widget, dialogResult: WidgetsUpdatedResult) {
     const { height: rows, width: cols } = widget.position;
-    widget.content = { ...widget.content, group: widgets, grid: { cols, rows } };
+
+    widget.content = {
+      ...widget.content,
+      grid: { cols, rows },
+      group: dialogResult.widgets,
+    };
+
     this.prepareWidgetsInformation();
   }
 
@@ -165,7 +178,7 @@ export class GridComponent implements OnInit, AfterViewInit {
       };
     });
 
-    this.widgetsUpdated.emit(widgets);
+    this.widgetsUpdated.emit({ data: this.data, widgets });
     return widgets;
   }
 
@@ -206,7 +219,7 @@ export class GridComponent implements OnInit, AfterViewInit {
         { data: { position: widget.position, size: widget.size } }
       )
       .afterClosed()
-        .subscribe((groupDialogResult: WidgetBackbone[]) => {
+        .subscribe((groupDialogResult: WidgetsUpdatedResult) => {
           this.onCloseGroupDialog(widget, groupDialogResult);
         });
   }

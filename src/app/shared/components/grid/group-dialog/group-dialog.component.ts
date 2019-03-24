@@ -1,6 +1,6 @@
+import { WidgetsUpdatedResult } from '../grid.component';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { WidgetBackbone } from '../interfaces/widget';
 
 @Component({
   selector: 'app-group-dialog',
@@ -8,7 +8,7 @@ import { WidgetBackbone } from '../interfaces/widget';
   styleUrls: ['./group-dialog.component.scss']
 })
 export class GroupDialogComponent implements OnInit {
-  result: WidgetBackbone[];
+  result: WidgetsUpdatedResult;
 
   constructor(
     public dialogRef: MatDialogRef<GroupDialogComponent>,
@@ -21,7 +21,7 @@ export class GroupDialogComponent implements OnInit {
     this.dialogRef.close(this.result);
   }
 
-  onGridWidgetsUpdated($event: WidgetBackbone[]) {
+  onGridWidgetsUpdated($event: WidgetsUpdatedResult) {
     this.result = $event;
   }
 }

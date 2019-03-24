@@ -30,7 +30,7 @@ export interface WidgetBackbone {
   };
 }
 
-export interface Widget extends WidgetBackbone{
+export interface Widget extends WidgetBackbone {
   id: string;
 }
 
