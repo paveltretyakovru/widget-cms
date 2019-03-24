@@ -25,8 +25,9 @@
         [resizable]="resizable"
         [swapOnMove]="swapWidgets">
 
-        <app-widget-container
-          [content]="widget.content">
+        <app-widget-container          
+          [content]="widget.content"
+          [editable]="editable">
         </app-widget-container>
   
         <ng-container
@@ -44,21 +45,16 @@
   <button
     mat-stroked-button
     color="primary"
-    (click)="onClickAddWidget()">Add widget
-  </button>
-
-  <button
-    mat-stroked-button
-    color="primary"
-    (click)="onClickAddFieldWidget()">Add field widget
+    (click)="onClickAddWidget()"
+    (mouseover)="toggleHighlight(true)"
+    (mouseleave)="toggleHighlight(false)">Add widget
   </button>
 </ng-template>
 
 <!-- Widget panel -->
 <ng-template #widgetHamburgerMenu let-widget="widget" let-$index="$index">
-
-    <!-- Delete widget button -->
-    <i
+  <!-- Delete widget button -->
+  <i
     *ngIf="editable"
     (click)="onClickDeleteWidget($index)"
     class="fas fa-trash-alt grid__button grid__button-trash">

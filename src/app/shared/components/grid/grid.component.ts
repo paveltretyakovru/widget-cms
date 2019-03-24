@@ -13,7 +13,7 @@ import { CmsDocumentField } from 'src/app/admin/documents/document/shared/interf
 @Component({
   selector: 'app-grid',
   templateUrl: './grid.component.html',
-  styleUrls: ['./grid.component.scss']
+  styleUrls: ['./grid.component.scss'],
 })
 export class GridComponent implements OnInit, AfterViewInit {
   @Output() widgetsUpdated = new EventEmitter<any>();
@@ -79,12 +79,6 @@ export class GridComponent implements OnInit, AfterViewInit {
     widget.content = { group: widgets, grid: { cols, rows } };
 
     this.prepareWidgetsInformation();
-  }
-
-  onClickAddFieldWidget() {
-    this.createWidget({
-      field: { name: 'test', type: 'text', value: 'Some value' }
-    });
   }
 
   onSelectDocumentField(widget: Widget, field: CmsDocumentField) {
