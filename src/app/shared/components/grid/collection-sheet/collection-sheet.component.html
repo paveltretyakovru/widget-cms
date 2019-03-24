@@ -1,0 +1,26 @@
+<div class="collection-sheet">
+    <h1 class="mat-headline">Attach collection to widget</h1>
+
+    <form>
+      <mat-form-field class="collection-sheet__field">
+        <input matInput
+          type="text"
+          placeholder="Search collection"
+          [formControl]="formControl"
+          [matAutocomplete]="auto">
+
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="displayFn"
+          (optionSelected)="onSelectedOption($event)">
+
+          <mat-option
+            *ngFor="let collection of filteredCollections | async"
+            [value]="collection">
+
+            {{collection.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+</div>

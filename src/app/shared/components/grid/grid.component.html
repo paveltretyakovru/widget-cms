@@ -18,6 +18,7 @@
   
       <ngx-widget
         #widgetsRefs
+        [ngStyle]="{border: editable ? '1px solid #0000000a' : 'none'}"
         [id]="widget.id"
         *ngFor="let widget of widgets;let $index = index;"
         [position]="widget.position"
@@ -31,7 +32,7 @@
         </app-widget-container>
   
         <ng-container
-          [ngTemplateOutlet]="widgetHamburgerMenu"
+          [ngTemplateOutlet]="widgetPanel"
           [ngTemplateOutletContext]="{ widget: widget, $index: $index }">
         </ng-container>
       </ngx-widget>
@@ -115,37 +116,42 @@
 </ng-template>
 
 <!-- Widget panel -->
-<ng-template #widgetHamburgerMenu let-widget="widget" let-$index="$index">
-  <!-- Delete widget button -->
-  <i
-    *ngIf="editable"
-    (click)="onClickDeleteWidget($index)"
-    class="fas fa-trash-alt grid__button grid__button-trash">
-  </i>
-  
-  <i
-    [matMenuTriggerFor]="widgetMenu"
-    *ngIf="editable"
-    class="fas fa-hamburger grid__button grid__button-hamburger">
-  </i>
-  
-  <mat-menu #widgetMenu="matMenu">
-    <button
-      mat-menu-item
-      (click)="openFieldDialog(widget)">
-      
-      <mat-icon>text_fields</mat-icon>
-      <span>Document field</span>
-    </button>
-    <button mat-menu-item>
-      <mat-icon>view_list</mat-icon>
-      <span>Collection</span>
-    </button>
-    <button
-      mat-menu-item
-      (click)="openGroupDialog(widget)">
-        <mat-icon>view_quilt</mat-icon>
-        <span>Widgets group</span>
-    </button>
-  </mat-menu>
+<ng-template #widgetPanel let-widget="widget" let-$index="$index">
+  <div class="widget-panel" *ngIf="editable">
+    <div class="widget-panel__content" *ngIf="widget.content.collection">
+      Collection: {{ widget.content.collection.name }};&nbsp;
+    </div>
+
+    <div class="widget-panel__content" *ngIf="widget.content.field">
+      Field: {{ widget.content.field.name }};&nbsp;
+    </div>
+
+    <!-- Hamburger menu widget button -->
+    <i
+      [matMenuTriggerFor]="widgetMenu"
+      class="fas fa-hamburger grid__button grid__button-hamburger">
+    </i>
+    <!-- Delete widget button -->
+    <i
+      (click)="onClickDeleteWidget($index)"
+      class="fas fa-trash-alt grid__button grid__button-trash">
+    </i>
+
+    <mat-menu #widgetMenu="matMenu">
+      <button mat-menu-item (click)="openFieldDialog(widget)">
+        <mat-icon>text_fields</mat-icon>
+        <span>Document field</span>
+      </button>
+
+      <button mat-menu-item (click)="openCollectionSheet(widget)">
+        <mat-icon>view_list</mat-icon>
+        <span>Collection</span>
+      </button>
+
+      <button mat-menu-item (click)="openGroupDialog(widget)">
+          <mat-icon>view_quilt</mat-icon>
+          <span>Widgets group</span>
+      </button>
+    </mat-menu>
+  </div>
 </ng-template>

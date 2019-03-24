@@ -18,7 +18,7 @@ interface StateGroup { letter: string; names: GroupName[]; }
 })
 export class GetDocumentFieldComponent implements OnInit {
   stateForm: FormGroup = this.fb.group({ stateGroup: '' });
-  stateGroups: StateGroup[] = [];
+  stateGroups: StateGroup[];
   selectedDocument: CmsDocument;
   stateGroupOptions: Observable<StateGroup[]>;
 
@@ -30,10 +30,6 @@ export class GetDocumentFieldComponent implements OnInit {
 
   ngOnInit() {
     this.fetchDocuments();
-
-    this.stateGroupOptions = this.stateForm
-      .get('stateGroup').valueChanges
-      .pipe(startWith(''), map(value => this._filterGroup(value)));
   }
 
   fetchDocuments() {
@@ -61,6 +57,10 @@ export class GetDocumentFieldComponent implements OnInit {
         });
 
         this.stateGroups = fields;
+
+        this.stateGroupOptions = this.stateForm
+          .get('stateGroup').valueChanges
+          .pipe(startWith(''), map(value => this._filterGroup(value)));
       });
   }
 
@@ -75,7 +75,7 @@ export class GetDocumentFieldComponent implements OnInit {
 
   onClickFieldValue(field: CmsDocumentField): void {
     console.log('onClickFieldValue()', field);
-    this.bottomSheetRef.dismiss(field);
+    this.bottomSheetRef.dismiss({ field, document: this.selectedDocument });
   }
 
   // =========================================================
@@ -104,7 +104,7 @@ export class GetDocumentFieldComponent implements OnInit {
       ? value.name.toLowerCase()
       : value.toLowerCase();
 
-    return opt.filter(item => item.name.toLowerCase().indexOf(filterValue) === 0);
+    return opt.filter(item => item.name.toLowerCase().includes(filterValue));
   }
 }
 

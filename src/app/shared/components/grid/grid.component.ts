@@ -9,6 +9,8 @@ import { MatDialog, MatBottomSheet } from '@angular/material';
 import { GroupDialogComponent } from './group-dialog/group-dialog.component';
 import { FieldSheetComponent } from './field-sheet/field-sheet.component';
 import { CmsDocumentField } from 'src/app/admin/documents/document/shared/interfaces/cms-document-field';
+import { CollectionSheetComponent } from './collection-sheet/collection-sheet.component';
+import { Collection } from 'src/app/admin/collections/collection/collection';
 
 @Component({
   selector: 'app-grid',
@@ -34,7 +36,7 @@ export class GridComponent implements OnInit, AfterViewInit {
   @Input() showGrid = true;
   @Input() showPanel = true;
   @Input() resizable = true;
-  @Input() swapWidgets = true;
+  @Input() swapWidgets = false;
   @Input() highlightNextPosition = false;
 
   constructor(
@@ -76,13 +78,18 @@ export class GridComponent implements OnInit, AfterViewInit {
 
   onCloseGroupDialog(widget: Widget, widgets: WidgetBackbone[]) {
     const { height: rows, width: cols } = widget.position;
-    widget.content = { group: widgets, grid: { cols, rows } };
-
+    widget.content = { ...widget.content, group: widgets, grid: { cols, rows } };
     this.prepareWidgetsInformation();
   }
 
   onSelectDocumentField(widget: Widget, field: CmsDocumentField) {
-    widget.content = { field };
+    widget.content = { ...widget.content, field };
+    this.prepareWidgetsInformation();
+  }
+
+  onSelectCollection(widget: Widget, collection: Collection) {
+    console.log('onSelectCollection', { widget, collection });
+    widget.content.collection = collection;
     this.prepareWidgetsInformation();
   }
 
@@ -165,6 +172,15 @@ export class GridComponent implements OnInit, AfterViewInit {
       .afterClosed()
         .subscribe((groupDialogResult: WidgetBackbone[]) => {
           this.onCloseGroupDialog(widget, groupDialogResult);
+        });
+  }
+
+  openCollectionSheet(widget: Widget): void {
+    this.bottomSheet
+      .open(CollectionSheetComponent)
+      .afterDismissed()
+        .subscribe((collection: Collection) => {
+          this.onSelectCollection(widget, collection);
         });
   }
 

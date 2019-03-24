@@ -8,6 +8,7 @@ import { GroupDialogComponent } from './group-dialog/group-dialog.component';
 import { WidgetContainerComponent } from './widget-container/widget-container.component';
 import { GetDocumentFieldComponent } from './field-sheet/get-document-field/get-document-field.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { CollectionSheetComponent } from './collection-sheet/collection-sheet.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     GroupDialogComponent,
     WidgetContainerComponent,
     GetDocumentFieldComponent,
+    CollectionSheetComponent,
   ],
 
   imports: [
@@ -35,6 +37,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
   entryComponents: [
     FieldSheetComponent,
     GroupDialogComponent,
+    CollectionSheetComponent,
   ],
 })
 export class GridModule { }

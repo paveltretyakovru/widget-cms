@@ -10,10 +10,24 @@
     position: relative;
   }
 
+  .widget-panel {
+    top: 0;
+    width: 100%;
+    height: 31px;
+    z-index: 21;
+    display: flex;
+    position: absolute;
+    background: #0000002b;
+    align-items: center;
+
+    &__content {
+      margin-left: 13px;
+    }
+  }
+
   &__button {
     cursor: pointer;
     top: 9px;
-    z-index: 21;
     position: absolute;
 
     &:hover { color: #ff4986 }
