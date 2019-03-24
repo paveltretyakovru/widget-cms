@@ -7,8 +7,9 @@ import { WidgetBackbone } from 'src/app/shared/components/grid/interfaces/widget
   styleUrls: ['./page.component.scss']
 })
 export class PageComponent implements OnInit {
-  page: { name: string } = {
+  page: { name: string, widgets: WidgetBackbone[] } = {
     name: 'Untiteled',
+    widgets: [],
   };
 
   constructor() { }
@@ -16,11 +17,14 @@ export class PageComponent implements OnInit {
   ngOnInit() {
   }
 
+  // =========================================================
+  //                   Events
+  //  ========================================================
   onClickSavePage() {
     console.log('onClickSavePage');
   }
 
   onWidgetsUpdated(widgets: WidgetBackbone[]) {
-    console.log('[PAGE] widgetsUpdated', widgets);
+    this.page.widgets = widgets;
   }
 }

@@ -31,7 +31,8 @@
           [ngTemplateOutletContext]="{ widget: widget, $index: $index }">
         </ng-container>
 
-        <app-widget-container          
+        <app-widget-container
+          [data]="data"
           [content]="widget.content"
           [editable]="editable">
         </app-widget-container>

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { GridData } from '../grid.component';
 
 @Component({
   selector: 'app-widget-container',
@@ -10,6 +11,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 })
 export class WidgetContainerComponent {
   @Input() editable = false;
+  @Input() data: GridData;
 
   _content = new BehaviorSubject<any>([]);
   @Input()
@@ -19,11 +21,19 @@ export class WidgetContainerComponent {
   constructor(private sanitizer: DomSanitizer) { }
 
   prepareFieldValue(): SafeHtml {
-    console.log('Preapre field value', this.content);
-    if (this.content && this.content.field.value) {
-      return this.sanitizer.bypassSecurityTrustHtml(this.content.field.value);
+    if (this.content && this.content.field) {
+      const field = this.getFieldFromDataById(this.content.field);
+      return this.sanitizer.bypassSecurityTrustHtml(field.value);
     }
 
     return 'Field not selected';
+  }
+
+  // =========================================================
+  //                      Search methods
+  // =========================================================
+  getFieldFromDataById({ id, documentId }: { id: string, documentId: string}) {
+    const document = this.data.documents.find(doc => documentId === doc._id);
+    return (document) ? document.fields.find(field => field._id === id) : null;
   }
 }

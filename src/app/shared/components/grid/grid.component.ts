@@ -11,6 +11,15 @@ import { FieldSheetComponent } from './field-sheet/field-sheet.component';
 import { CmsDocumentField } from 'src/app/admin/documents/document/shared/interfaces/cms-document-field';
 import { CollectionSheetComponent } from './collection-sheet/collection-sheet.component';
 import { Collection } from 'src/app/admin/collections/collection/collection';
+import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
+
+export interface GridData {
+  documents: CmsDocument[];
+}
+
+const initGridData: GridData = {
+  documents: [],
+};
 
 @Component({
   selector: 'app-grid',
@@ -24,6 +33,7 @@ export class GridComponent implements OnInit, AfterViewInit {
   @ViewChildren('widgetsRefs', { read: ViewContainerRef })
     widgetsRefs: QueryList<ViewContainerRef>;
 
+  @Input() data: GridData = initGridData;
   @Input() widgets: Widget[] = [];
 
   @Input() gridWidth;
@@ -44,8 +54,7 @@ export class GridComponent implements OnInit, AfterViewInit {
     private bottomSheet: MatBottomSheet
   ) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     this.widgetsRefs.notifyOnChanges = () => {
@@ -82,9 +91,23 @@ export class GridComponent implements OnInit, AfterViewInit {
     this.prepareWidgetsInformation();
   }
 
-  onSelectDocumentField(widget: Widget, field: CmsDocumentField) {
-    widget.content = { ...widget.content, ...field };
+  onSelectDocumentField(
+    widget: Widget,
+    result: { field: CmsDocumentField, document: CmsDocument }
+  ) {
+    this.addDocumentToData(result.document);
+
+    widget.content = {
+      ...widget.content,
+      field: {
+        id: result.field._id,
+        documentId: result.document._id,
+      }
+    };
+
     this.prepareWidgetsInformation();
+
+    console.log('onSelectDocumentField', { widget, data: this.data });
   }
 
   onSelectCollection(widget: Widget, collection: Collection) {
@@ -119,9 +142,20 @@ export class GridComponent implements OnInit, AfterViewInit {
     return this.getWidgetById(ref.element.nativeElement.id);
   }
 
+  getFieldFromDataById({ id, documentId }: { id: string, documentId: string}) {
+    const document = this.data.documents.find(doc => documentId === doc._id);
+    return (document) ? document.fields.find(field => field._id === id) : null;
+  }
+
   // =========================================================
   //                      Methods
   // =========================================================
+  addDocumentToData(document: CmsDocument) {
+    if (!this.data.documents.find(doc => document._id === doc._id)) {
+      this.data.documents.push(document);
+    }
+  }
+
   prepareWidgetsInformation(): WidgetBackbone[] {
     const widgets: WidgetBackbone[] = this.widgets.map((widget) => {
       return {
@@ -158,9 +192,11 @@ export class GridComponent implements OnInit, AfterViewInit {
     this.bottomSheet
       .open(FieldSheetComponent)
       .afterDismissed()
-        .subscribe((fieldDialogResult: CmsDocumentField) => {
-          this.onSelectDocumentField(widget, fieldDialogResult);
-        });
+        .subscribe(
+          (result: { field: CmsDocumentField, document: CmsDocument }) => {
+            this.onSelectDocumentField(widget, result);
+          }
+        );
   }
 
   openGroupDialog(widget: Widget): void {
