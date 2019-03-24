@@ -4,8 +4,8 @@ import { CmsDocumentField } from './shared/interfaces/cms-document-field';
 export interface CmsDocument {
   _id?: string;
   name: string;
-  modelId: string | number;
-  collectionId?: string | number;
+  modelId: string;
+  collectionId?: string;
   fields: CmsDocumentField[];
   collection?: Collection;
 }

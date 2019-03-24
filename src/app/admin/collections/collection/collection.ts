@@ -4,6 +4,6 @@ import { MongooseModel } from 'src/app/shared/models/mongose-model';
 export interface Collection extends MongooseModel {
   id?: string;
   name: string;
-  modelId: string | number;
+  modelId: string;
   documents: CmsDocument[];
 }

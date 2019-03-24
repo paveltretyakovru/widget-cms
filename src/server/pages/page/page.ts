@@ -5,6 +5,17 @@ const pageSchema = new Schema({
     type: String,
     unique: true,
     required: true,
+  },
+
+  widgets: [Object],
+
+  size: {
+    type: {
+      cols: Number,
+      rows: Number,
+      width: Number,
+      height: Number,
+    }
   }
 }, { timestamps: true });
 

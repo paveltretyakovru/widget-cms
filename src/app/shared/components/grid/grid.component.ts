@@ -21,6 +21,12 @@ export interface GridData {
 export interface WidgetsUpdatedResult {
   data: GridData;
   widgets: WidgetBackbone[];
+  size: {
+    cols: number;
+    rows: number;
+    width: number;
+    height: number;
+  };
 }
 
 export const INIT_GRID_DATA: GridData = {
@@ -125,7 +131,7 @@ export class GridComponent implements OnInit, AfterViewInit {
 
   onSelectCollection(widget: Widget, collection: Collection) {
     console.log('onSelectCollection', { widget, collection });
-    widget.content.collection = collection;
+    widget.content.collection = collection._id;
     this.prepareWidgetsInformation();
   }
 
@@ -163,6 +169,12 @@ export class GridComponent implements OnInit, AfterViewInit {
   // =========================================================
   //                      Methods
   // =========================================================
+  addCollectionTodata(collection: Collection) {
+    if (!this.data.collections.find(col => col._id === collection._id)) {
+      this.data.collections.push(collection);
+    }
+  }
+
   addDocumentToData(document: CmsDocument) {
     if (!this.data.documents.find(doc => document._id === doc._id)) {
       this.data.documents.push(document);
@@ -178,7 +190,17 @@ export class GridComponent implements OnInit, AfterViewInit {
       };
     });
 
-    this.widgetsUpdated.emit({ data: this.data, widgets });
+    this.widgetsUpdated.emit({
+      widgets,
+
+      data: this.data,
+      size: {
+        cols: this.cols,
+        rows: this.rows,
+        width: this.gridWidth,
+        height: this.gridHeight,
+      }
+    });
     return widgets;
   }
 

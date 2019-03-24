@@ -30,7 +30,7 @@ export class ApiService {
       .pipe(map((res: ApiResponse) => this.prepareDefaultResponse(res)));
   }
 
-  getById$(name: string, id: string | number): Observable<any> {
+  getById$(name: string, id: string): Observable<any> {
     return this.http.get<any>(`/api/${name}/${id}`)
       .pipe(map((res: ApiResponse) => this.prepareDefaultResponse(res)));
   }

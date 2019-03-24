@@ -1,6 +1,4 @@
 import { makeId } from 'src/app/shared/helpers/make-id';
-import { CmsDocumentField } from 'src/app/admin/documents/document/shared/interfaces/cms-document-field';
-import { Collection } from 'src/app/admin/collections/collection/collection';
 
 export interface WidgetBackbone {
   position: {
@@ -16,7 +14,7 @@ export interface WidgetBackbone {
 
   content: {
     group?: WidgetBackbone[];
-    collection?: Collection;
+    collection?: string;
 
     grid?: {
       cols: number;
