@@ -60,7 +60,7 @@ export class GridComponent implements OnInit, AfterViewInit {
   }
 
   onClickAddWidget(): void {
-    const createdWidget = this.createWidget();
+    this.createWidget();
   }
 
   onClickDeleteWidget(index) {
@@ -70,7 +70,8 @@ export class GridComponent implements OnInit, AfterViewInit {
   onCloseGroupDialog(widget: Widget, widgets: WidgetBackbone[]) {
     const { height: rows, width: cols } = widget.position;
     widget.content = { group: widgets, grid: { cols, rows } };
-    console.log('On close group dialog', {widgets, widget});
+
+    this.prepareWidgetsInformation();
   }
 
   onClickAddFieldWidget() {

@@ -22,7 +22,6 @@ export class GroupDialogComponent implements OnInit {
   }
 
   onGridWidgetsUpdated($event: WidgetBackbone[]) {
-    console.log('Dialog widgets updated', $event);
     this.result = $event;
   }
 }
