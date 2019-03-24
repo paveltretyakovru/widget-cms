@@ -21,6 +21,10 @@
         [position]="widget.position"
         [movable]="movable"
         [resizable]="resizable">
+
+        <app-widget-container
+          [content]="widget.content">
+        </app-widget-container>
   
         <ng-container
           [ngTemplateOutlet]="widgetHamburgerMenu"
@@ -38,6 +42,12 @@
     mat-stroked-button
     color="primary"
     (click)="onClickAddWidget()">Add widget
+  </button>
+
+  <button
+    mat-stroked-button
+    color="primary"
+    (click)="onClickAddFieldWidget()">Add field widget
   </button>
 </ng-template>
 

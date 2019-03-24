@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 
 import { Widget, createEmptyWidgetObject, WidgetBackbone } from './interfaces/widget';
-import { WidgetPositionChange, NgxWidgetGridComponent, WidgetConfig } from 'ngx-widget-grid';
+import { WidgetPositionChange, NgxWidgetGridComponent } from 'ngx-widget-grid';
 import { MatDialog } from '@angular/material';
 import { GroupDialogComponent } from './group-dialog/group-dialog.component';
 
@@ -68,7 +68,15 @@ export class GridComponent implements OnInit, AfterViewInit {
   }
 
   onCloseGroupDialog(widget: Widget, widgets: WidgetBackbone[]) {
-    this.makeGroupToWidget(widget, widgets);
+    const { height: rows, width: cols } = widget.position;
+    widget.content = { group: widgets, grid: { cols, rows } };
+    console.log('On close group dialog', {widgets, widget});
+  }
+
+  onClickAddFieldWidget() {
+    this.createWidget({
+      field: { name: 'test', type: 'text', value: 'Some value' }
+    });
   }
 
   // =========================================================
@@ -98,6 +106,7 @@ export class GridComponent implements OnInit, AfterViewInit {
     const widgets: WidgetBackbone[] = this.widgets.map((widget) => {
       return {
         size: { ...widget.size },
+        content: { ...widget.content },
         position: { ...widget.position },
       };
     });
@@ -106,13 +115,21 @@ export class GridComponent implements OnInit, AfterViewInit {
     return widgets;
   }
 
-  createWidget(): Widget {
+  createWidget(content?): Widget {
     const nextPosition = this.grid.getNextPosition();
 
-    this.widgets.push({
-      ...createEmptyWidgetObject(),
-      position: { ...nextPosition },
-    });
+    if (content) {
+      this.widgets.push({
+        ...createEmptyWidgetObject(),
+        position: { ...nextPosition },
+        content: { ...content },
+      });
+    } else {
+      this.widgets.push({
+        ...createEmptyWidgetObject(),
+        position: { ...nextPosition },
+      });
+    }
 
     return [ ...this.widgets ].pop();
   }
@@ -127,10 +144,6 @@ export class GridComponent implements OnInit, AfterViewInit {
         .subscribe((groupDialogResult: WidgetBackbone[]) => {
           this.onCloseGroupDialog(widget, groupDialogResult);
         });
-  }
-
-  makeGroupToWidget(widget: Widget, widgets: WidgetBackbone[]) {
-    console.log('GridComponent#makeGroupToWidget()', { widget, widgets });
   }
 
   updateWidgetSizeInformation(

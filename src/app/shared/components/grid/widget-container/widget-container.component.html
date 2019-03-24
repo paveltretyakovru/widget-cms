@@ -1,3 +1,29 @@
-<p>
-  widget-container works!
-</p>
+<div class="widget-container" style="width: 100%; height: 100%">
+  <div *ngIf="content?.field" style="width: 100%; height: 100%">
+    <ng-container *ngTemplateOutlet="fieldTemplate"></ng-container>
+  </div>
+
+  <div *ngIf="content?.group" style="width: 100%; height: 100%">
+    <ng-container *ngTemplateOutlet="groupTemplate"></ng-container>
+  </div>
+</div>
+
+<ng-template #fieldTemplate>
+  {{ content.field.value }}
+</ng-template>
+
+<ng-template #groupTemplate>
+  grid
+  <app-grid
+    [widgets]="content.group"
+    [movable]="false"
+    [editable]="false"
+    [showGrid]="true"
+    [showPanel]="false"
+    [resizable]="false"
+    [cols]="content.grid.cols"
+    [rows]="content.grid.rows"
+    [gridWidth]="'100%'"
+    [gridHeight]="'100%'">
+  </app-grid>
+</ng-template>

@@ -21,6 +21,7 @@ import { WidgetContainerComponent } from './widget-container/widget-container.co
 
   exports: [
     GridComponent,
+    WidgetContainerComponent,
   ],
 
   entryComponents: [
