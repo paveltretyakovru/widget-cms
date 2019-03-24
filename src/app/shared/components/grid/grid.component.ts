@@ -83,7 +83,7 @@ export class GridComponent implements OnInit, AfterViewInit {
   }
 
   onSelectDocumentField(widget: Widget, field: CmsDocumentField) {
-    widget.content = { ...widget.content, field };
+    widget.content = { ...widget.content, ...field };
     this.prepareWidgetsInformation();
   }
 

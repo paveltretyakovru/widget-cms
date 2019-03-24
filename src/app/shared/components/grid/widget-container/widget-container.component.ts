@@ -19,6 +19,7 @@ export class WidgetContainerComponent {
   constructor(private sanitizer: DomSanitizer) { }
 
   prepareFieldValue(): SafeHtml {
+    console.log('Preapre field value', this.content);
     if (this.content && this.content.field.value) {
       return this.sanitizer.bypassSecurityTrustHtml(this.content.field.value);
     }
