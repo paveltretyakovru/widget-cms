@@ -5,8 +5,10 @@ import {
 
 import { Widget, createEmptyWidgetObject, WidgetBackbone } from './interfaces/widget';
 import { WidgetPositionChange, NgxWidgetGridComponent } from 'ngx-widget-grid';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatBottomSheet } from '@angular/material';
 import { GroupDialogComponent } from './group-dialog/group-dialog.component';
+import { FieldSheetComponent } from './field-sheet/field-sheet.component';
+import { CmsDocumentField } from 'src/app/admin/documents/document/shared/interfaces/cms-document-field';
 
 @Component({
   selector: 'app-grid',
@@ -32,8 +34,13 @@ export class GridComponent implements OnInit, AfterViewInit {
   @Input() showGrid = true;
   @Input() showPanel = true;
   @Input() resizable = true;
+  @Input() swapWidgets = true;
+  @Input() highlightNextPosition = false;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(
+    public dialog: MatDialog,
+    private bottomSheet: MatBottomSheet
+  ) { }
 
   ngOnInit() {
   }
@@ -79,6 +86,17 @@ export class GridComponent implements OnInit, AfterViewInit {
       field: { name: 'test', type: 'text', value: 'Some value' }
     });
   }
+
+  onSelectDocumentField(widget: Widget, field: CmsDocumentField) {
+    widget.content = { field };
+    this.prepareWidgetsInformation();
+  }
+
+  toggleHighlight(doHighlight: boolean): void {
+    this.highlightNextPosition = !!doHighlight;
+  }
+
+  onGridFull(event: any): void { }
 
   // =========================================================
   //                   Search methods
@@ -133,6 +151,15 @@ export class GridComponent implements OnInit, AfterViewInit {
     }
 
     return [ ...this.widgets ].pop();
+  }
+
+  openFieldDialog(widget: Widget): void {
+    this.bottomSheet
+      .open(FieldSheetComponent)
+      .afterDismissed()
+        .subscribe((fieldDialogResult: CmsDocumentField) => {
+          this.onSelectDocumentField(widget, fieldDialogResult);
+        });
   }
 
   openGroupDialog(widget: Widget): void {

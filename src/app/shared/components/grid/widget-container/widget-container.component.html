@@ -9,7 +9,7 @@
 </div>
 
 <ng-template #fieldTemplate>
-  {{ content.field.value }}
+  <div [innerHtml]="prepareFieldValue()"></div>
 </ng-template>
 
 <ng-template #groupTemplate>

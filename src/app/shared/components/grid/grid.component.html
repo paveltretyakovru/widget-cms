@@ -12,7 +12,9 @@
       [rows]="rows"
       [columns]="cols"
       [showGrid]="showGrid"
-      (widgetPositionChange)="onWidgetPositionChange($event)">
+      (gridFull)="onGridFull($event)"
+      (widgetPositionChange)="onWidgetPositionChange($event)"
+      [highlightNextPosition]="highlightNextPosition">
   
       <ngx-widget
         #widgetsRefs
@@ -20,7 +22,8 @@
         *ngFor="let widget of widgets;let $index = index;"
         [position]="widget.position"
         [movable]="movable"
-        [resizable]="resizable">
+        [resizable]="resizable"
+        [swapOnMove]="swapWidgets">
 
         <app-widget-container
           [content]="widget.content">
@@ -70,7 +73,7 @@
   <mat-menu #widgetMenu="matMenu">
     <button
       mat-menu-item
-      (click)="openWidgetDialog(widget, 'field', $index)">
+      (click)="openFieldDialog(widget)">
       
       <mat-icon>text_fields</mat-icon>
       <span>Document field</span>

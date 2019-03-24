@@ -10,6 +10,6 @@ export class SnackBarComponent {
 
   // TODO: Crate queue from snackbars
   public open(message, action = 'success', duration = 4000) {
-    this.snackBar.open(message, action, { duration });
+    this.snackBar.open(message, action, { duration, horizontalPosition: 'left' });
   }
 }

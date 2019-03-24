@@ -1,0 +1,46 @@
+<div class="get-document-field">
+  <h1 class="mat-headline">Add document field value to widget</h1>
+
+  <form [formGroup]="stateForm">
+    <mat-form-field class="get-document-field__form-field">
+      <input
+        type="text"
+        matInput
+        placeholder="Start type document name to search it"
+        formControlName="stateGroup"
+        required [matAutocomplete]="autoGroup">
+
+      <mat-autocomplete
+        [displayWith]="displayFn"
+        #autoGroup="matAutocomplete"
+        (optionSelected)='optionSelected($event.option.value)'
+        autoActiveFirstOption>
+
+        <mat-optgroup
+          *ngFor="let group of stateGroupOptions | async"
+          [label]="group.letter">
+
+          <mat-option
+            *ngFor="let name of group.names"
+            [value]="name.document">{{name.name}}
+          </mat-option>
+        </mat-optgroup>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+
+  <div *ngIf="selectedDocument" class="get-document-field__selected-document">
+    <h3 class="mat-subheading-2">Document fields:</h3>
+
+    <mat-nav-list>
+      <mat-list-item
+        role="listitem"
+        *ngFor="let field of selectedDocument.fields"
+        (click)="onClickFieldValue(field)">
+
+        <span mat-line>{{field.name}}</span>
+        <span mat-line>{{field.value | slice:0:31}}</span>
+      </mat-list-item>
+    </mat-nav-list>
+  </div>
+</div>

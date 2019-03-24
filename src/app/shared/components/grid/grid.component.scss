@@ -22,3 +22,16 @@
     &-hamburger { right: 40px }
   }
 }
+
+/deep/ {
+  ngx-widget {
+    .wg-widget-edit-resize {
+      opacity: 0;
+    }
+    &:hover {
+      .wg-widget-edit-resize {
+        opacity: 1;
+      }
+    }
+  }
+}

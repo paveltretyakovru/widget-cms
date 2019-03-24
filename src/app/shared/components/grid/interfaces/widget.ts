@@ -1,5 +1,6 @@
 import { makeId } from 'src/app/shared/helpers/make-id';
 import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
+import { CmsDocumentField } from 'src/app/admin/documents/document/shared/interfaces/cms-document-field';
 
 export interface WidgetBackbone {
   position: {
@@ -14,7 +15,7 @@ export interface WidgetBackbone {
   };
 
   content?: {
-    field?: CmsDocument;
+    field?: CmsDocumentField;
     group?: WidgetBackbone[];
     grid?: {
       cols: number;

@@ -15,10 +15,10 @@ export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
 
   constructor(
-		private http: HttpClient,
-		private snackBar: SnackBarComponent,
-		@Inject(PLATFORM_ID) private platformId: Object,
-	) {
+    private http: HttpClient,
+    private snackBar: SnackBarComponent,
+    @Inject(PLATFORM_ID) private platformId: Object,
+  ) {
     this.setCurrentUserSubject();
     this.currentUser = this.currentUserSubject.asObservable();
   }
@@ -30,39 +30,39 @@ export class AuthenticationService {
   setCurrentUserSubject(): void {
     const value = this.isBrowser()
       ? JSON.parse(localStorage.getItem('currentUser'))
-      : {}; 
- 
+      : {};
+
     this.currentUserSubject = new BehaviorSubject<User>(value);
   }
 
-	isBrowser() {
-		return isPlatformBrowser(this.platformId);
-	}
-
-  login(email: string, password: string) {
-		return this.http.post<any>('/api/auth', { email, password })
-			.pipe(map((response) => {
-				const { success, data, message } = response;
-				if (success && data && data.token && this.isBrowser()) {
-					localStorage.setItem('currentUser', JSON.stringify(data));
-          this.currentUserSubject.next(data);
-				}
-				return response;
-			}));
+  isBrowser() {
+    return isPlatformBrowser(this.platformId);
   }
 
-	registrate(email: string, password: string) {
-		return this.http.post<any>('/api/registration', { email, password })
-			.pipe(map((user) => {
-				console.log('Registration completed', user);
-				return user;
-			}));
-	}
+  login(email: string, password: string) {
+    return this.http.post<any>('/api/auth', { email, password })
+      .pipe(map((response) => {
+        const { success, data, message } = response;
+        if (success && data && data.token && this.isBrowser()) {
+          localStorage.setItem('currentUser', JSON.stringify(data));
+          this.currentUserSubject.next(data);
+        }
+        return response;
+      }));
+  }
+
+  registrate(email: string, password: string) {
+    return this.http.post<any>('/api/registration', { email, password })
+      .pipe(map((user) => {
+        console.log('Registration completed', user);
+        return user;
+      }));
+  }
 
   logout() {
-		if (this.isBrowser()) {
-    	localStorage.removeItem('currentUser');
-    	this.currentUserSubject.next(null);
-  	}
-	}
+    if (this.isBrowser()) {
+      localStorage.removeItem('currentUser');
+      this.currentUserSubject.next(null);
+    }
+  }
 }
