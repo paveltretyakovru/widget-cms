@@ -26,6 +26,7 @@
   &__button {
     cursor: pointer;
     top: 9px;
+    z-index: 22;
     position: absolute;
 
     &:hover { color: #ff4986 }

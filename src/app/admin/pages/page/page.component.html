@@ -1,1 +1,36 @@
-<app-grid></app-grid>
+<div class="page">
+  <div class="page__panel">
+    <ng-container
+      *ngTemplateOutlet="pagePanel">
+    </ng-container>
+  </div>
+
+  <app-grid
+    (widgetsUpdated)="onWidgetsUpdated($event)">
+  </app-grid>
+</div>
+
+<!-- Templates -->
+<!-- Page panel -->
+<ng-template #pagePanel>
+  <div class="row middle-xs">
+    <div class="col-md-2 col-xs-6">
+      <mat-form-field class="widget-player__form-field">
+        <input
+          min="2"
+          type="text"
+          matInput
+          placeholder="Page name"
+          [(ngModel)]="page.name">
+      </mat-form-field>
+    </div>
+
+    <div class="col-md-2 col-xs-6">
+      <button mat-stroked-button
+        color="primary"
+        (click)="onClickSavePage()">
+        Save page
+      </button>   
+    </div>
+  </div>
+</ng-template>

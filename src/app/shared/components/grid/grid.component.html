@@ -41,25 +41,6 @@
 </div>
 
 <!-- ################## Tempates ###################### -->
-<!-- Page panel -->
-<ng-template #pagePanel>
-    <div class="widget-player__control-panel">
-      <div class="row middle-xs">
-        <div class="col-md-2 col-xs-6">
-          <mat-form-field class="widget-player__form-field">
-            <input
-              min="2"
-              type="number"
-              matInput
-              placeholder="Cols"
-              [(ngModel)]="cols"
-              [disabled]="!editable">
-          </mat-form-field>
-        </div>
-      </div>
-    </div>
-  </ng-template>
-
 <!-- Grid panel -->
 <ng-template #gridPanel>
   <div class="widget-player__control-panel">

@@ -18,7 +18,7 @@ import { Collection } from 'src/app/admin/collections/collection/collection';
   styleUrls: ['./grid.component.scss'],
 })
 export class GridComponent implements OnInit, AfterViewInit {
-  @Output() widgetsUpdated = new EventEmitter<any>();
+  @Output() widgetsUpdated = new EventEmitter<WidgetBackbone[]>();
 
   @ViewChild('grid') grid: NgxWidgetGridComponent;
   @ViewChildren('widgetsRefs', { read: ViewContainerRef })
