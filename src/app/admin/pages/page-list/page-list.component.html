@@ -3,7 +3,10 @@
 </button>
 <div class="page-list">
   <h2 class="mat-title">Pages</h2>
-  <mat-card class="col-xs-12">
-    test
-  </mat-card>    
+  <div class="col-xs-12">
+    <app-datatable
+      [data]="pages$"
+      (rowClicked)="onClickRowDatatable($event)">
+    </app-datatable>
+  </div>    
 </div>

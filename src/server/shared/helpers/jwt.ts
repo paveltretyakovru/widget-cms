@@ -15,6 +15,7 @@ export const jwt = () => {
 
       // Backend api routes
       '/api/registration',
+      /\/api\/pages/i,
       /\/api\/users/i,
       /\/api\/auth/i,
       /\/api\/models/i,

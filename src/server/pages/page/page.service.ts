@@ -11,4 +11,8 @@ export class PageService {
     await page.save();
     return page;
   }
+
+  async getAll() {
+    return await Page.find();
+  }
 }

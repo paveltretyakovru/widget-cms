@@ -3,7 +3,7 @@ import { Collection } from './collection';
 export class CollectionService {
   async create(model) {
     if (await Collection.findOne({ name: model.name })) {
-      throw `Collection with a ${ model.name } name is exists`;
+      throw new Error(`Collection with a ${ model.name } name is exists`);
     }
 
     const collection = new Collection(model);
@@ -24,7 +24,7 @@ export class CollectionService {
     const collection = await Collection.findById(id);
 
     if (!collection) {
-      throw 'Collection not found!';
+      throw new Error('Collection not found!');
     }
 
     Object.assign(collection, data);

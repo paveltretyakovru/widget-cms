@@ -11,6 +11,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { GridModule } from 'src/app/shared/components/grid/grid.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { GridModule } from 'src/app/shared/components/grid/grid.module';
     GridModule,
     FormsModule,
     CommonModule,
+    SharedModule,
     MaterialModule,
     ComponentsModule,
     PagesRoutingModule,
