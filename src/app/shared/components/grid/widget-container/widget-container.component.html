@@ -14,7 +14,8 @@
 
 <ng-template #fieldTemplate>
   <div
-    class="widget-container__field"
+    [ngClass]="{'widget-container__field': true, 'widget-container__link': content.link}"
+    (click)="content.link ? routeToLink() : ''"
     [innerHtml]="prepareFieldValue()">
   </div>
 </ng-template>

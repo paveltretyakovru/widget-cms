@@ -24,9 +24,9 @@ export class LinkSheetComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.api.getAll$('collections')
+    this.api.getAll$('pages')
       .subscribe((pages) => {
-        console.log('Fetched collections', pages);
+        console.log('Fetched pages', pages);
 
         this.pages = pages;
         this.filteredPages = this.formControl.valueChanges

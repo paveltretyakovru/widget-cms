@@ -169,6 +169,12 @@ export class GridComponent implements OnInit, AfterViewInit {
     return (document) ? document.fields.find(field => field._id === id) : null;
   }
 
+  getFieldNameByField(field: { id: string, documentId: string }): string {
+    console.log('getFieldNameByField()', field);
+    // const search = this.getFieldFromDataById(field.id)
+    return '';
+  }
+
   // =========================================================
   //                      Methods
   // =========================================================
@@ -258,6 +264,7 @@ export class GridComponent implements OnInit, AfterViewInit {
         });
   }
 
+  // TODO: Add interface to link data
   openLinkSheet(widget: Widget): void {
     this.bottomSheet
       .open(LinkSheetComponent)

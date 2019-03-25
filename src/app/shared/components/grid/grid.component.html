@@ -120,11 +120,15 @@
 <ng-template #widgetPanel let-widget="widget" let-$index="$index">
   <div class="widget-panel" *ngIf="editable">
     <div class="widget-panel__content" *ngIf="widget.content.collection">
-      Collection: {{ widget.content.collection.name }};&nbsp;
+      [Collection] {{ widget.content.collection.name }};&nbsp;
     </div>
 
     <div class="widget-panel__content" *ngIf="widget.content.field">
-      Field: {{ widget.content.field.name }};&nbsp;
+      [Field]: {{ getFieldFromDataById(widget.content.field).name }};&nbsp;
+    </div>
+
+    <div class="widget-panel__content" *ngIf="widget.content.link">
+      [Link]: {{ widget.content.link.label }};&nbsp;
     </div>
 
     <!-- Hamburger menu widget button -->

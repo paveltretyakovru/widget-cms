@@ -2,6 +2,7 @@ import { Component, OnInit, Input, OnDestroy, ViewEncapsulation } from '@angular
 import { BehaviorSubject } from 'rxjs';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { GridData } from '../grid.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-widget-container',
@@ -18,7 +19,10 @@ export class WidgetContainerComponent implements OnDestroy {
     get content() { return this._content.getValue(); }
     set content(content) { this._content.next(content); }
 
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(
+    private router: Router,
+    private sanitizer: DomSanitizer
+  ) { }
 
   ngOnDestroy() {
     this._content.unsubscribe();
@@ -31,6 +35,13 @@ export class WidgetContainerComponent implements OnDestroy {
     }
 
     return 'Field not selected';
+  }
+
+  routeToLink() {
+    console.log('Clicked on widget container link', this.content.link);
+    if (this.content.link.pageId) {
+      this.router.navigate([`/p/${this.content.link.pageId}`]);
+    }
   }
 
   // =========================================================
