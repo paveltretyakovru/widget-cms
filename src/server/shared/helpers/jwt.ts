@@ -9,6 +9,7 @@ export const jwt = () => {
     path: [
       // Routing paths
       '/',
+      /\/p/i,
       '/login',
       '/registration',
       /\/admin/i,

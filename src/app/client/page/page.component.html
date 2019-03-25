@@ -1,0 +1,17 @@
+<div class="page">
+  <div class="page__grid" *ngIf="page">
+    <app-grid
+      [data]="page.data"
+      [widgets]="widgets"
+      [movable]="false"
+      [editable]="false"
+      [showGrid]="false"
+      [showPanel]="false"
+      [resizable]="false"
+      [cols]="page.size.cols"
+      [rows]="page.size.rows"
+      [gridWidth]="page.size.width"
+      [gridHeight]="page.size.height">
+    </app-grid>
+  </div>
+</div>

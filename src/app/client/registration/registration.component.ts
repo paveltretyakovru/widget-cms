@@ -9,27 +9,27 @@ import { AuthenticationService } from 'src/app/shared/services/authentication.se
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
-	registrationForm: FormGroup;
+  registrationForm: FormGroup;
 
   constructor(private authenticationService: AuthenticationService) {} 
 
   ngOnInit() {
-		this.createForm();
+    this.createForm();
   }
 
-	createForm() {
-		this.registrationForm = new FormGroup({
-			email: new FormControl('', Validators.required),
-			password: new FormControl('', Validators.required),
-		});
-	}
+  createForm() {
+    this.registrationForm = new FormGroup({
+      email: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
+    });
+  }
 
-	registrate() {
-		console.log('registrate value', this.registrationForm.value);
-		const { email, password } = this.registrationForm.value;
+  registrate() {
+    console.log('registrate value', this.registrationForm.value);
+    const { email, password } = this.registrationForm.value;
 
-		this.authenticationService.registrate(email, password)
-			.subscribe(res => console.log('Login subscribe respone', res));
-	}
+    this.authenticationService.registrate(email, password)
+      .subscribe(res => console.log('Login subscribe respone', res));
+  }
 
 }

@@ -11,7 +11,8 @@ const routes: Routes = [
     children: [
       { path: '', loadChildren: './welcome/welcome.module#WelcomeModule' },
       { path: 'login', component: LoginComponent },
-			{ path: 'registration', component: RegistrationComponent },
+      { path: 'registration', component: RegistrationComponent },
+      { path: 'p', loadChildren: './page/page.module#PageModule' },
     ],
   },
 ];

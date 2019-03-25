@@ -4,7 +4,7 @@ import { WidgetsUpdatedResult, GridData, INIT_GRID_DATA } from 'src/app/shared/c
 import { ApiService } from 'src/app/shared/services/api.service';
 import { ActivatedRoute } from '@angular/router';
 
-interface PageModel {
+export interface PageModel {
   _id?: string;
   name: string;
   widgets: WidgetBackbone[];
