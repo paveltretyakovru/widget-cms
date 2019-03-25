@@ -38,7 +38,6 @@ export class WidgetContainerComponent implements OnDestroy {
   }
 
   routeToLink() {
-    console.log('Clicked on widget container link', this.content.link);
     if (this.content.link.pageId) {
       this.router.navigate([`/p/${this.content.link.pageId}`]);
     }

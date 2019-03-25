@@ -4,6 +4,30 @@ import { PageService } from './page.service';
 
 export const pageRouter = Router({ mergeParams: true });
 
+async function getDocuments(widget, docs) {
+  if (widget.content) {
+    const documentService = new DocuemntService();
+
+    const field = widget.content.field;
+    if (field && field.documentId) {
+      const id = field.documentId;
+
+      if (!docs.find(doc => doc.id === id)) {
+        const search = await documentService.getById(id);
+        docs.push(search);
+        console.log('getDocument', widget);
+      }
+    }
+
+    const group = widget.content.group;
+    if (group) {
+      for (let index = 0; index < group.length; index++) {
+        const gWidget = group[index];
+        await getDocuments(gWidget, docs);
+      }
+    }
+  }
+}
 
 // TODO: Refactoring methods
 pageRouter.get('', async (req, res, next) => {
@@ -16,23 +40,9 @@ pageRouter.get('', async (req, res, next) => {
       const widgets = page.widgets;
       const docs = [];
 
-      async function getDocuments(widget) {
-        const field = widget.content.field;
-        if (field && field.documentId) {
-          const id = field.documentId;
-          const search = await documentService.getById(id);
-          docs.push(search);
-        }
-
-        const group = widget.content.group;
-        if (group) {
-          getDocuments(group);
-        }
-      }
-
       for (let index = 0; index < widgets.length; index++) {
         const widget = widgets[index];
-        await getDocuments(widget);
+        await getDocuments(widget, docs);
       }
 
       res.json({
@@ -49,30 +59,14 @@ pageRouter.get('', async (req, res, next) => {
 
 pageRouter.put('', (req, res, next) => {
   console.log('[PUT]/api/pages/', req.params.id);
-  const documentService = new DocuemntService();
-
   new PageService().update(req.params.id, req.body)
     .then(async (page) => {
       const widgets = page.widgets;
       const docs = [];
 
-      async function getDocuments(widget) {
-        const field = widget.content.field;
-        if (field && field.documentId) {
-          const id = field.documentId;
-          const search = await documentService.getById(id);
-          docs.push(search);
-        }
-
-        const group = widget.content.group;
-        if (group) {
-          getDocuments(group);
-        }
-      }
-
       for (let index = 0; index < widgets.length; index++) {
         const widget = widgets[index];
-        await getDocuments(widget);
+        await getDocuments(widget, docs);
       }
 
       res.json({
