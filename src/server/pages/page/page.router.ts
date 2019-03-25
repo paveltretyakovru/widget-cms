@@ -19,6 +19,17 @@ async function getDocuments(widget, docs) {
       }
     }
 
+    const collection = widget.content.collection;
+    if (collection) {
+      const collectionDocs = await documentService.getByCollectionId(collection);
+
+      collectionDocs.forEach(colDoc => {
+        if (!docs.find(findDoc => findDoc._id === colDoc._id)) {
+          docs.push(colDoc);
+        }
+      });
+    }
+
     const group = widget.content.group;
     if (group) {
       for (let index = 0; index < group.length; index++) {
