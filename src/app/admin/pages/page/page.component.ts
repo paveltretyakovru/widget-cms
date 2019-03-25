@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { WidgetBackbone } from 'src/app/shared/components/grid/interfaces/widget';
 import { WidgetsUpdatedResult, GridData, INIT_GRID_DATA } from 'src/app/shared/components/grid/grid.component';
 import { ApiService } from 'src/app/shared/services/api.service';
+import { ActivatedRoute } from '@angular/router';
 
 interface PageModel {
+  _id?: string;
   name: string;
   widgets: WidgetBackbone[];
   data: GridData;
@@ -15,8 +17,6 @@ interface PageModel {
   };
 }
 
-// tslint:disable-next-line
-const TEST_WIDGETS_DATA = '[{"size":{"width":438,"height":402},"content":{"field":{"id":"5c88f8560e69cc22cf0ab0e8","documentId":"5c898eee51e8b4554cd098be"}},"position":{"top":1,"left":1,"width":5,"height":8}},{"size":{"width":525,"height":502},"content":{"field":{"id":"5c89842a51e8b4554cd098bb","documentId":"5c883c1c7637cd62255ad655"}},"position":{"top":1,"left":7,"width":6,"height":12}}]';
 const DEFAULT_PAGE_MODEL = {
   name: 'Untiteled',
   data: INIT_GRID_DATA,
@@ -36,24 +36,50 @@ const DEFAULT_PAGE_MODEL = {
   styleUrls: ['./page.component.scss']
 })
 export class PageComponent implements OnInit {
-  page: PageModel = DEFAULT_PAGE_MODEL;
+  page: PageModel;
+  widgets = [];
 
-  constructor(private api: ApiService) { }
+  constructor(
+    private api: ApiService,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit() {
+    const id = this.route.snapshot.params.id;
+
+    if (id) {
+      this.api.getById$('pages', id)
+        .subscribe((page) => {
+          console.log('Fetched page model', page);
+          this.page = { ...page };
+          this.widgets = page.widgets;
+        });
+    } else {
+      this.page = { ...DEFAULT_PAGE_MODEL };
+      this.widgets = DEFAULT_PAGE_MODEL.widgets;
+    }
   }
 
   // =========================================================
   //                   Events
   //  ========================================================
   onClickSavePage() {
-    console.log('onClickSavePage', this.page);
-
-    const { name, widgets, size } = this.page;
-    this.api.create$('pages', { name, widgets, size })
-      .subscribe((page) => {
-        console.log('Page Component subscribe to save', { page });
-      });
+    const { name, widgets, size, _id } = this.page;
+    if (!_id) {
+      this.api.create$('pages', { name, widgets, size })
+        .subscribe((page) => {
+          console.log('Page was created', { page });
+          this.page = { ...page };
+          this.widgets = page.widgets;
+        });
+    } else {
+      this.api.update$('pages', _id, { name, widgets, size })
+        .subscribe((page) => {
+          console.log('Page was saved', { page });
+          this.page = { ...page };
+          this.widgets = page.widgets;
+        });
+    }
   }
 
   onWidgetsUpdated({ widgets, data, size }: WidgetsUpdatedResult) {

@@ -15,4 +15,21 @@ export class PageService {
   async getAll() {
     return await Page.find();
   }
+
+  async getById(id) {
+    return await Page.findById(id);
+  }
+
+  async update(id, data) {
+    const page = await Page.findById(id);
+
+    if (!page) {
+      throw new Error('Collection not found!');
+    }
+
+    Object.assign(page, data);
+    await page.save();
+
+    return page;
+  }
 }

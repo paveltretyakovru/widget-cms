@@ -67,4 +67,8 @@ export class DocuemntService {
 
     return document;
   }
+
+  async getById(id) {
+    return await Document.findById(id);
+  }
 }

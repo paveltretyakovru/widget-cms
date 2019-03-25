@@ -125,12 +125,9 @@ export class GridComponent implements OnInit, AfterViewInit {
     };
 
     this.prepareWidgetsInformation();
-
-    console.log('onSelectDocumentField', { widget, data: this.data });
   }
 
   onSelectCollection(widget: Widget, collection: Collection) {
-    console.log('onSelectCollection', { widget, collection });
     widget.content.collection = collection._id;
     this.prepareWidgetsInformation();
   }
