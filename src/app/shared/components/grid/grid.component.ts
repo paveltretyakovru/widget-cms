@@ -110,32 +110,36 @@ export class GridComponent implements OnInit, AfterViewInit {
   }
 
   onCloseGroupDialog(widget: Widget, dialogResult: WidgetsUpdatedResult) {
-    const { height: rows, width: cols } = widget.position;
+    if (dialogResult) {
+      const { height: rows, width: cols } = widget.position;
 
-    widget.content = {
-      ...widget.content,
-      grid: { cols, rows },
-      group: dialogResult.widgets,
-    };
+      widget.content = {
+        ...widget.content,
+        grid: { cols, rows },
+        group: dialogResult.widgets,
+      };
 
-    this.prepareWidgetsInformation();
+      this.prepareWidgetsInformation();
+    }
   }
 
   onSelectDocumentField(
     widget: Widget,
     result: { field: CmsDocumentField, document: CmsDocument }
   ) {
-    this.addDocumentToData(result.document);
+    if (result) {
+      this.addDocumentToData(result.document);
 
-    widget.content = {
-      ...widget.content,
-      field: {
-        id: result.field._id,
-        documentId: result.document._id,
-      }
-    };
+      widget.content = {
+        ...widget.content,
+        field: {
+          id: result.field._id,
+          documentId: result.document._id,
+        }
+      };
 
-    this.prepareWidgetsInformation();
+      this.prepareWidgetsInformation();
+    }
   }
 
   onSelectCollection(widget: Widget, collection: Collection) {
