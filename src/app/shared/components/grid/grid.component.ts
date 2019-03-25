@@ -68,7 +68,17 @@ export class GridComponent implements OnInit, AfterViewInit {
     private bottomSheet: MatBottomSheet
   ) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+
+    // Check widgets to empty content property
+    if (this.widgets && this.widgets.length > 0) {
+      this.widgets.forEach((widget) => {
+        if (!widget.content) {
+          widget.content = {};
+        }
+      });
+    }
+  }
 
   ngAfterViewInit() {
     this.widgetsRefs.notifyOnChanges = () => {
