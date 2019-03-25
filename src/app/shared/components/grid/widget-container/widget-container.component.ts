@@ -9,7 +9,7 @@ import { GridData } from '../grid.component';
   styleUrls: ['./widget-container.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class WidgetContainerComponent {
+export class WidgetContainerComponent implements OnDestroy {
   @Input() editable = false;
   @Input() data: GridData;
 
@@ -19,6 +19,10 @@ export class WidgetContainerComponent {
     set content(content) { this._content.next(content); }
 
   constructor(private sanitizer: DomSanitizer) { }
+
+  ngOnDestroy() {
+    this._content.unsubscribe();
+  }
 
   prepareFieldValue(): SafeHtml {
     if (this.content && this.content.field) {

@@ -153,6 +153,21 @@
           <mat-icon>view_quilt</mat-icon>
           <span>Widgets group</span>
       </button>
+
+      <button mat-menu-item
+        *ngIf="!widget.content.link"
+        (click)="openLinkSheet(widget)">
+
+          <mat-icon>link</mat-icon>
+          <span>Link</span>
+      </button>
+
+      <button mat-menu-item
+        *ngIf="widget.content.link"
+        (click)="removeLink(widget)">
+          <mat-icon>link</mat-icon>
+          <span>Link off</span>
+      </button>
     </mat-menu>
   </div>
 </ng-template>

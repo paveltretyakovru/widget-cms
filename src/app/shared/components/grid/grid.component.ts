@@ -12,6 +12,7 @@ import { CmsDocumentField } from 'src/app/admin/documents/document/shared/interf
 import { CollectionSheetComponent } from './collection-sheet/collection-sheet.component';
 import { Collection } from 'src/app/admin/collections/collection/collection';
 import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
+import { LinkSheetComponent } from './link-sheet/link-sheet.component';
 
 export interface GridData {
   documents: CmsDocument[];
@@ -132,6 +133,11 @@ export class GridComponent implements OnInit, AfterViewInit {
     this.prepareWidgetsInformation();
   }
 
+  onSelectLink(widget: Widget, link: any): void {
+    console.log('Link selected', { widget, link });
+    widget.content.link = link;
+  }
+
   toggleHighlight(doHighlight: boolean): void {
     this.highlightNextPosition = !!doHighlight;
   }
@@ -250,6 +256,23 @@ export class GridComponent implements OnInit, AfterViewInit {
         .subscribe((collection: Collection) => {
           this.onSelectCollection(widget, collection);
         });
+  }
+
+  openLinkSheet(widget: Widget): void {
+    this.bottomSheet
+      .open(LinkSheetComponent)
+      .afterDismissed()
+        .subscribe((link: any) => {
+          this.onSelectLink(widget, link);
+        });
+  }
+
+  removeLink(widget: Widget): void {
+    if (widget.content.link) {
+      delete widget.content.link;
+    }
+
+    console.log('Remove link', widget);
   }
 
   updateWidgetSizeInformation(

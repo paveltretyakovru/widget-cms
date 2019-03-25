@@ -21,7 +21,6 @@ const DEFAULT_PAGE_MODEL = {
   name: 'Untiteled',
   data: INIT_GRID_DATA,
   widgets: [],
-  // widgets: JSON.parse(TEST_WIDGETS_DATA),
   size: {
     cols: 12,
     rows: 12,

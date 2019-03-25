@@ -25,6 +25,11 @@ export interface WidgetBackbone {
       id: string;
       documentId: string
     };
+
+    link?: {
+      label: string;
+      pageId: string;
+    }
   };
 }
 

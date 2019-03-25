@@ -9,6 +9,7 @@ import { WidgetContainerComponent } from './widget-container/widget-container.co
 import { GetDocumentFieldComponent } from './field-sheet/get-document-field/get-document-field.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CollectionSheetComponent } from './collection-sheet/collection-sheet.component';
+import { LinkSheetComponent } from './link-sheet/link-sheet.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { CollectionSheetComponent } from './collection-sheet/collection-sheet.co
     WidgetContainerComponent,
     GetDocumentFieldComponent,
     CollectionSheetComponent,
+    LinkSheetComponent,
   ],
 
   imports: [
@@ -35,6 +37,7 @@ import { CollectionSheetComponent } from './collection-sheet/collection-sheet.co
   ],
 
   entryComponents: [
+    LinkSheetComponent,
     FieldSheetComponent,
     GroupDialogComponent,
     CollectionSheetComponent,

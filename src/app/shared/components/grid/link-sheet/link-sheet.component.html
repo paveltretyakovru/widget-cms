@@ -1,0 +1,38 @@
+<div class="link-sheet">
+    <h1 class="mat-headline">Attach link to widget</h1>
+
+    <mat-form-field class="link-sheet__form-field">
+      <input matInput
+        type="text"
+        placeholder="Link label"
+        [(ngModel)]="label">
+    </mat-form-field>
+
+    <form>
+      <mat-form-field class="link-sheet__field">
+        <input matInput
+          type="text"
+          placeholder="Search page"
+          [formControl]="formControl"
+          [matAutocomplete]="auto">
+
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="displayFn"
+          (optionSelected)="onSelectedOption($event)">
+
+          <mat-option
+            *ngFor="let page of filteredPages | async"
+            [value]="page">
+
+            {{page.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+
+    <button mat-stroked-button
+      class="link-sheet__button"
+      (click)="onClickDone()">Attach
+    </button>
+</div>
