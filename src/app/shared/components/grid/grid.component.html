@@ -34,7 +34,8 @@
         <app-widget-container
           [data]="data"
           [content]="widget.content"
-          [editable]="editable">
+          [editable]="editable"
+          [collection]="widget.content.collection">
         </app-widget-container>
       </ngx-widget>
     </ngx-widget-grid>
@@ -120,7 +121,7 @@
 <ng-template #widgetPanel let-widget="widget" let-$index="$index">
   <div class="widget-panel" *ngIf="editable">
     <div class="widget-panel__content" *ngIf="widget?.content.collection">
-      [Collection]: {{ widget.content.collection }};&nbsp;
+      [Collection]: {{ getCollectionById(widget.content.collection).name }};&nbsp;
     </div>
 
     <div class="widget-panel__content" *ngIf="widget?.content.field">

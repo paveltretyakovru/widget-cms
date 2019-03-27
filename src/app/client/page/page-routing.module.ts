@@ -10,6 +10,10 @@ const routes: Routes = [
   {
     path: ':id',
     component: PageComponent,
+  },
+  {
+    path: ':id/:list',
+    component: PageComponent,
   }
 ];
 

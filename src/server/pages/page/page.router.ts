@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { DocuemntService } from 'src/server/docuemnts/document/document.service';
 import { PageService } from './page.service';
+import { CollectionService } from 'src/server/collections/collection/collection.service';
 
 export const pageRouter = Router({ mergeParams: true });
 
-async function getDocuments(widget, docs) {
+async function getDocuments(widget, docs, collections) {
   if (widget.content) {
     const documentService = new DocuemntService();
 
@@ -21,6 +22,12 @@ async function getDocuments(widget, docs) {
 
     const collection = widget.content.collection;
     if (collection) {
+      const searchCollection = await new CollectionService().getById(collection);
+
+      if (searchCollection) {
+        collections.push(searchCollection);
+      }
+
       const collectionDocs = await documentService.getByCollectionId(collection);
 
       collectionDocs.forEach(colDoc => {
@@ -34,7 +41,7 @@ async function getDocuments(widget, docs) {
     if (group) {
       for (let index = 0; index < group.length; index++) {
         const gWidget = group[index];
-        await getDocuments(gWidget, docs);
+        await getDocuments(gWidget, docs, collections);
       }
     }
   }
@@ -50,16 +57,17 @@ pageRouter.get('', async (req, res, next) => {
     .then(async (page) => {
       const widgets = page.widgets;
       const docs = [];
+      const collections = [];
 
       for (let index = 0; index < widgets.length; index++) {
         const widget = widgets[index];
-        await getDocuments(widget, docs);
+        await getDocuments(widget, docs, collections);
       }
 
       res.json({
         data: {
           ...page.toObject(),
-          data: { documents: docs, collections: [] },
+          data: { documents: docs, collections },
           documents
         },
         success: true,
@@ -74,16 +82,17 @@ pageRouter.put('', (req, res, next) => {
     .then(async (page) => {
       const widgets = page.widgets;
       const docs = [];
+      const collections = [];
 
       for (let index = 0; index < widgets.length; index++) {
         const widget = widgets[index];
-        await getDocuments(widget, docs);
+        await getDocuments(widget, docs, collections);
       }
 
       res.json({
         data: {
           ...page.toObject(),
-          data: { documents: docs, collections: [] }
+          data: { documents: docs, collections },
         },
         success: true,
         message: 'Page was updated',

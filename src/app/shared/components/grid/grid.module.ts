@@ -10,6 +10,8 @@ import { GetDocumentFieldComponent } from './field-sheet/get-document-field/get-
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CollectionSheetComponent } from './collection-sheet/collection-sheet.component';
 import { LinkSheetComponent } from './link-sheet/link-sheet.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { LinkSheetComponent } from './link-sheet/link-sheet.component';
   imports: [
     FormsModule,
     CommonModule,
+    RouterModule,
     MaterialModule,
+    NgxPaginationModule,
     ReactiveFormsModule,
     NgxWidgetGridModule,
   ],

@@ -63,6 +63,8 @@ export class GridComponent implements OnInit, AfterViewInit {
   @Input() swapWidgets = false;
   @Input() highlightNextPosition = false;
 
+  @Input() currentPageDocuments: Document[];
+
   constructor(
     public dialog: MatDialog,
     private bottomSheet: MatBottomSheet
@@ -143,8 +145,12 @@ export class GridComponent implements OnInit, AfterViewInit {
   }
 
   onSelectCollection(widget: Widget, collection: Collection) {
-    widget.content.collection = collection._id;
-    this.prepareWidgetsInformation();
+    if (collection) {
+      this.addCollectionTodata(collection);
+
+      widget.content.collection = collection._id;
+      this.prepareWidgetsInformation();
+    }
   }
 
   onSelectLink(widget: Widget, link: any): void {
@@ -189,6 +195,10 @@ export class GridComponent implements OnInit, AfterViewInit {
     return '';
   }
 
+  getCollectionById(id: string) {
+    return this.data.collections.find(collection => collection._id === id);
+  }
+
   // =========================================================
   //                      Methods
   // =========================================================
@@ -230,6 +240,10 @@ export class GridComponent implements OnInit, AfterViewInit {
   createWidget(content?): Widget {
     const nextPosition = this.grid.getNextPosition();
 
+    if (!this.widgets) {
+      this.widgets = [];
+    }
+
     if (content) {
       this.widgets.push({
         ...createEmptyWidgetObject(),
@@ -260,8 +274,14 @@ export class GridComponent implements OnInit, AfterViewInit {
   openGroupDialog(widget: Widget): void {
     this.dialog
       .open(
-        GroupDialogComponent,
-        { data: { position: widget.position, size: widget.size } }
+        GroupDialogComponent, {
+          data: {
+            data: this.data,
+            size: widget.size,
+            widgets: widget.content.group,
+            position: widget.position,
+          }
+        }
       )
       .afterClosed()
         .subscribe((groupDialogResult: WidgetsUpdatedResult) => {

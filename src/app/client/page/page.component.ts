@@ -19,11 +19,12 @@ export class PageComponent implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.params.id;
+    const list = this.route.snapshot.params.list;
 
     if (id) {
       this.api.getById$('pages', id)
         .subscribe((page) => {
-          console.log('Fetched page model', page);
+          console.log('Fetched page model', page, list);
           this.page = { ...page };
           this.widgets = page.widgets;
         });

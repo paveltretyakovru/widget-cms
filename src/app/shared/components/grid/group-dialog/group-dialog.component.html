@@ -1,5 +1,7 @@
 <div class="group-dialog">
   <app-grid
+    [data]="data.data"
+    [widgets]="data.widgets"
     (widgetsUpdated)="onGridWidgetsUpdated($event)"
     [cols]="data.position.width"
     [rows]="data.position.height"
