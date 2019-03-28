@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { GridData } from '../grid.component';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-widget-container',
@@ -19,6 +20,8 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
   paginationLinks: { label: string, link: string, active: boolean }[] = [];
   currentPageDocuments: CmsDocument[] = [];
 
+  private _routerSub = Subscription.EMPTY;
+
   _content = new BehaviorSubject<any>([]);
   @Input()
     get content() { return this._content.getValue(); }
@@ -31,6 +34,25 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.preparePaginationInformation();
+
+    // Subsucribe to change pagination navigation to change grid content
+    if (this.collection) {
+      this._routerSub = this.router.events
+        .pipe(filter(event => event instanceof NavigationEnd))
+        .subscribe(() => {
+          console.log('Navigation start event: ', this.route.root);
+          this.preparePaginationInformation();
+        });
+    }
+  }
+
+  ngOnDestroy() {
+    this._content.unsubscribe();
+    this._routerSub.unsubscribe();
+  }
+
+  preparePaginationInformation() {
     if (this.collection) {
       const documents: CmsDocument[] = [];
       for (let index = 0; index < this.data.documents.length; index++) {
@@ -54,65 +76,46 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
           currentPageDocuments.push(documents[i]);
         }
 
-        for (let i = 1; i <= countPages; i++) {
-          this.paginationLinks.push({
-            label: `${i}`,
-            link: `/p/${this.route.snapshot.params.id}/${i}`,
-            active: +currentPage === i,
-          });
+        if (this.paginationLinks.length === 0) {
+          for (let i = 1; i <= countPages; i++) {
+            this.paginationLinks.push({
+              label: `${i}`,
+              link: `/p/${this.route.snapshot.params.id}/${i}`,
+              active: +currentPage === i,
+            });
+          }
         }
 
-        this.content.group.forEach((widget, index) => {
-
+        const replacePaginationFieldData = (replaceWidget, widgetIndex) => {
           // If group child is a field
-          if (widget.content.field) {
-            const field = this.getFieldFromDataById(widget.content.field);
-            const document = this.data.documents.find((doc) => (
-              doc._id === field._id
-            ));
+          if (replaceWidget.content.field) {
+            const field = this.getFieldFromDataById(replaceWidget.content.field);
 
-            // need change ---> widget.content.id && widget.content.documentId
-            const searchField = currentPageDocuments[index].fields.find((f) => (
-              f.name === field.name
-            ));
+            // need change ---> replaceWidget.content.id && replaceWidget.content.documentId
+            const searchField = currentPageDocuments[widgetIndex].fields
+              .find(fieldItem => fieldItem.name === field.name);
 
             if (searchField) {
-              widget.content.field.id = searchField._id;
-              widget.content.field.documentId = currentPageDocuments[index]._id;
+              replaceWidget.content.field.id = searchField._id;
+              replaceWidget.content.field.documentId = currentPageDocuments[widgetIndex]._id;
             }
           }
+        };
+
+        // Start replace wiget field data to paginatiton collection data
+        this.content.group.forEach((widget, index) => {
+          replacePaginationFieldData(widget, index);
 
           // If group child is a group of widgets
           if (widget.content.group) {
             widget.content.group.forEach((groupWidget) => {
-
-              // If group child is a field
-              if (groupWidget.content.field) {
-                const field = this.getFieldFromDataById(groupWidget.content.field);
-                const document = this.data.documents.find((doc) => (
-                  doc._id === field._id
-                ));
-
-                // need change ---> groupWidget.content.id && groupWidget.content.documentId
-                const searchField = currentPageDocuments[index].fields.find((f) => (
-                  f.name === field.name
-                ));
-
-                if (searchField) {
-                  groupWidget.content.field.id = searchField._id;
-                  groupWidget.content.field.documentId = currentPageDocuments[index]._id;
-                }
-              }
+              replacePaginationFieldData(groupWidget, index);
             });
           }
         });
 
       }
     }
-  }
-
-  ngOnDestroy() {
-    this._content.unsubscribe();
   }
 
   prepareFieldValue(): SafeHtml {

@@ -13,6 +13,8 @@ import { CollectionSheetComponent } from './collection-sheet/collection-sheet.co
 import { Collection } from 'src/app/admin/collections/collection/collection';
 import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
 import { LinkSheetComponent } from './link-sheet/link-sheet.component';
+import { NavigationStart, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 export interface GridData {
   documents: CmsDocument[];
@@ -68,7 +70,8 @@ export class GridComponent implements OnInit, AfterViewInit {
   constructor(
     public dialog: MatDialog,
     private bottomSheet: MatBottomSheet
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
 

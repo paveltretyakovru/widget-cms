@@ -45,7 +45,7 @@
     <a
       class="pagipage"
       [class.active]="link.active"
-      href={{link.link}}
+      [routerLink]="[link.link]" routerLinkActive="active" 
       *ngFor="let link of paginationLinks">{{link.label}}
     </a>
   </div>
