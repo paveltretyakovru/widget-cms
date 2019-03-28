@@ -35,3 +35,12 @@ modelRouter.put('', (req, res, next) => {
       message: 'Model was updated',
     })).catch(err => next(err));
 });
+
+modelRouter.delete('', (req, res, next) => {
+  new ModelService().deleteById(req.params.id)
+    .then(() => res.json({
+      data: {},
+      success: true,
+      message: 'Model was removed'
+    })).catch(err => next(err));
+});

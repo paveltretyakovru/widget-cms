@@ -53,10 +53,20 @@
 					</button>
 				</form>	
 			</mat-card-content>
-      <mat-card-actions class="login__actions">
-        <button (click)="model?.id ? save() : submit()" mat-button>
+
+      <mat-card-actions class="model__actions">
+				<button mat-stroked-button
+					color="primary"
+					(click)="model?.id ? save() : submit()">
+
 					{{ model?.id ? 'Save' : 'Submit' }}
 				</button>
+
+				<app-remove-button
+					*ngIf="model?.id"
+					(removed)="onModelRemoved($event)"
+					[items]="[{label: model.name, id: model.id, apiModel: 'models'}]">
+				</app-remove-button>
       </mat-card-actions>
 		</mat-card>
 	</div>

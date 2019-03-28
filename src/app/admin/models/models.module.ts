@@ -8,20 +8,24 @@ import { MaterialModule } from 'src/app/material.module';
 import { ModelComponent } from './model/model.component';
 import { ModelListComponent } from './model-list/model-list.component';
 import { SharedModule } from '../shared/shared.module';
+import { ComponentsModule } from 'src/app/shared/components/components.module';
+import { RemoveButtonDialogComponent } from 'src/app/shared/components/remove-button/remove-button-dialog/remove-button-dialog.component';
 
 @NgModule({
   declarations: [
     ModelsComponent,
     ModelComponent,
     ModelListComponent,
-    ],
+  ],
+
   imports: [
-    CommonModule,
     FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    ModelsRoutingModule,
+    CommonModule,
     SharedModule,
-  ]
+    MaterialModule,
+    ComponentsModule,
+    ReactiveFormsModule,
+    ModelsRoutingModule,
+  ],
 })
 export class ModelsModule { }

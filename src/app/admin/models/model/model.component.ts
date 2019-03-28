@@ -1,16 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-
-import {
-  FormArray,
-  FormGroup,
-  FormBuilder,
-  FormControl,
-  Validators,
-} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormArray, FormGroup, FormControl } from '@angular/forms';
 
 import { ApiService } from 'src/app/shared/services/api.service';
-import { ModelsService } from '../models.service';
 
 @Component({
   selector: 'app-model',
@@ -29,10 +21,9 @@ export class ModelComponent implements OnInit {
   get formData() { return this.form.get('fields'); }
 
   constructor(
-    private fb: FormBuilder,
     private api: ApiService,
     private route: ActivatedRoute,
-    private models: ModelsService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -98,5 +89,10 @@ export class ModelComponent implements OnInit {
           ));
       });
     }
+  }
+
+  onModelRemoved($event): void {
+    console.log('Model deleted', { $event });
+    this.router.navigate(['/admin/models']);
   }
 }

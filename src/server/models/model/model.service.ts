@@ -42,4 +42,8 @@ export class ModelService {
 
     return model;
   }
+
+  async deleteById(_id) {
+    return await Model.deleteOne({ _id });
+  }
 }
