@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material';
 import { RemoveButtonDialogComponent } from './remove-button-dialog/remove-button-dialog.component';
 import { ApiService } from '../../services/api.service';
 import { forkJoin, Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-remove-button',
@@ -13,10 +14,13 @@ import { forkJoin, Observable } from 'rxjs';
 export class RemoveButtonComponent
       implements RemoveButtonComponentInterface, OnInit {
   @Input() items: RemoveButtonItemInterface[];
+  @Input() afterRedirectTo: string;
+
   @Output() removed = new EventEmitter<any>();
 
   constructor(
     private api: ApiService,
+    private router: Router,
     public dialog: MatDialog,
   ) { }
 
@@ -32,6 +36,10 @@ export class RemoveButtonComponent
 
     forkJoin(requests$).subscribe((responseList) => {
       this.removed.emit(responseList);
+
+      if (this.afterRedirectTo) {
+        this.router.navigate([this.afterRedirectTo]);
+      }
     });
   }
 

@@ -9,6 +9,7 @@ export interface RemoveButtonItemInterface {
 export interface RemoveButtonComponentInterface {
   items: RemoveButtonItemInterface[];
   removed: EventEmitter<any>;
+  afterRedirectTo: string;
 
   onClickRemoveButton(): void;
   onDialogConfirmRemove(itemsToDelete: RemoveButtonItemInterface[]): void;

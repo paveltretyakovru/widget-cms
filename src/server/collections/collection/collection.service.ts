@@ -43,4 +43,8 @@ export class CollectionService {
       ? await Collection.find({ '_id': { $in: ids } })
       : [];
   }
+
+  async deleteById(_id: string) {
+    return await Collection.deleteOne({ _id });
+  }
 }

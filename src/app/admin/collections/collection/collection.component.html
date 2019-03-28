@@ -33,10 +33,18 @@
           </form>	
         </mat-card-content>
     
-        <mat-card-actions class="login__actions">
-          <button (click)="collection?._id ? save() : submit()" mat-button>
+        <mat-card-actions class="collection__actions">
+          <button mat-stroked-button
+            (click)="collection?._id ? save() : submit()">
             {{ collection?._id ? 'Save' : 'Submit' }}
           </button>
+
+          <app-remove-button
+            *ngIf="collection?._id"
+            [items]="[{label: collection.name, id: collection._id, apiModel: 'collections'}]"
+            [afterRedirectTo]="'/admin/collections'">
+            
+          </app-remove-button>
         </mat-card-actions>
       </mat-card>
     </div>
@@ -59,7 +67,7 @@
 
   <div class="row documents-list">
     <div class="col-xs-12">
-      <div class="mat-card" *ngIf="collection?.documents.length === 0">
+      <div class="mat-card" *ngIf="collection?.documents?.length === 0">
         <h3 class="mat-subheading-2">There is no documents yet</h3>
       </div>
       <app-datatable
