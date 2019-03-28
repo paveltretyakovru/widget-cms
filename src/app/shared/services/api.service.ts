@@ -40,6 +40,11 @@ export class ApiService {
       .pipe(map((res: ApiResponse) => this.prepareDefaultResponse(res)));
   }
 
+  delete$(name: string, id: string): Observable<any> {
+    return this.http.delete<any>(`/api/${name}/${id}`)
+      .pipe(map((res:ApiResponse) => this.prepareDefaultResponse(res)));
+  }
+
   private prepareDefaultResponse(response: ApiResponse): any {
     const { success, data, message } = response;
 

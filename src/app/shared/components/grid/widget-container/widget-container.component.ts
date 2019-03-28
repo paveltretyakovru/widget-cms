@@ -40,10 +40,7 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
     if (this.collection) {
       this._routerSub = this.router.events
         .pipe(filter(event => event instanceof NavigationEnd))
-        .subscribe(() => {
-          console.log('Navigation start event: ', this.route.root);
-          this.preparePaginationInformation();
-        });
+          .subscribe(() => this.preparePaginationInformation());
     }
   }
 
