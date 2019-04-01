@@ -23,6 +23,8 @@ export interface WidgetContentInterface {
     label: string;
     pageId: string;
   };
+
+  image?: string;
 }
 
 export interface WidgetBackbone {

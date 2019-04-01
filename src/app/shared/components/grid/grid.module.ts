@@ -12,6 +12,7 @@ import { CollectionSheetComponent } from './collection-sheet/collection-sheet.co
 import { LinkSheetComponent } from './link-sheet/link-sheet.component';
 import { RouterModule } from '@angular/router';
 import { ModelSheetComponent } from './model-sheet/model-sheet.component';
+import { ImageSheetComponent } from './image-sheet/image-sheet.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ModelSheetComponent } from './model-sheet/model-sheet.component';
     CollectionSheetComponent,
     LinkSheetComponent,
     ModelSheetComponent,
+    ImageSheetComponent,
   ],
 
   imports: [
@@ -42,6 +44,7 @@ import { ModelSheetComponent } from './model-sheet/model-sheet.component';
 
   entryComponents: [
     LinkSheetComponent,
+    ImageSheetComponent,
     ModelSheetComponent,
     FieldSheetComponent,
     GroupDialogComponent,

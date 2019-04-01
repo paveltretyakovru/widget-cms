@@ -19,6 +19,7 @@ import { Collection } from 'src/app/admin/collections/collection/collection';
 import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
 import { CmsDocumentField } from 'src/app/admin/documents/document/shared/interfaces/cms-document-field';
 import { Widget, createEmptyWidgetObject, WidgetBackbone } from './interfaces/widget';
+import { ImageSheetComponent } from './image-sheet/image-sheet.component';
 
 
 export interface GridData {
@@ -169,6 +170,11 @@ export class GridComponent implements OnInit, AfterViewInit {
   onModelSelected(widget: Widget, model: Model) {
     console.log('Model selected', { widget, model });
     widget.content.model = { id: model._id, name: model.name };
+  }
+
+  onImageUploaded(widget: Widget, path: string) {
+    console.log('Image was uploaded', { widget, path });
+    widget.content.image = path;
   }
 
   toggleHighlight(doHighlight: boolean): void {
@@ -336,6 +342,13 @@ export class GridComponent implements OnInit, AfterViewInit {
         .subscribe((model: Model) => {
           this.onModelSelected(widget, model);
         });
+  }
+
+  openSelectImageSheet(widget: Widget): void {
+    this.bottomSheet
+      .open(ImageSheetComponent)
+      .afterDismissed()
+        .subscribe((result: string) => this.onImageUploaded(widget, result));
   }
 
   removeModelFromWidgetf(widget: Widget): void {

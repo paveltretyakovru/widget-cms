@@ -183,6 +183,14 @@
           <mat-icon>work</mat-icon>
           <span>Attach model</span>
       </button>
+
+      <button mat-menu-item
+        *ngIf="!widget.content.model?.id"
+        (click)="openSelectImageSheet(widget)">
+
+        <mat-icon>image</mat-icon>
+        <span>Use image</span>
+      </button>
     </mat-menu>
   </div>
 </ng-template>

@@ -1,0 +1,24 @@
+<div class="image-sheet">
+  <h1 class="mat-headline">Attach collection to widget</h1>
+
+  <div matRipple class="image-sheet__upload">
+    <div class="image-sheet__upload-input">
+      <input
+        id="upload-image-input"
+        type="file"
+        [hidden]="true"
+        (change)="onChange($event)"/>
+      <label for="upload-image-input" class="mat-raised-button mat-primary">
+        Choose Files
+      </label>
+      Choosen file: {{ file ? file.name : 'No selected file' }}
+    </div>
+
+    <div class="image-sheet__upload-button">
+      <button mat-raised-button
+        [disabled]="!file"
+        (click)="onClickUpload()">Upload
+      </button>
+    </div>
+  </div>
+</div>

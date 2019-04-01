@@ -40,3 +40,6 @@ Thumbs.db
 
 package-lock.json
 /server/shared/config.json
+
+# Public paths
+/public
