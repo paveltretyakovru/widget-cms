@@ -73,11 +73,7 @@ export class PageComponent implements OnInit {
         });
     } else {
       this.api.update$('pages', _id, { name, widgets, size })
-        .subscribe((page) => {
-          console.log('Page was saved', { page });
-          this.page = { ...page };
-          this.widgets = page.widgets;
-        });
+        .subscribe((page) => console.log('Page was saved', { page }));
     }
   }
 
