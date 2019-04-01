@@ -7,8 +7,8 @@
     class="grid__wrapper"
     [style.width]="(gridWidth) ? (gridWidth + 'px') : '100%'"
     [style.height]="(gridHeight) ? (gridHeight + 'px') : '100%'">
-    <ngx-widget-grid
-      #grid
+
+    <ngx-widget-grid #grid
       [rows]="rows"
       [columns]="cols"
       [showGrid]="showGrid"
@@ -16,13 +16,12 @@
       (widgetPositionChange)="onWidgetPositionChange($event)"
       [highlightNextPosition]="highlightNextPosition">
   
-      <ngx-widget
-        #widgetsRefs
-        [ngStyle]="{border: editable ? '1px solid #0000000a' : 'none'}"
+      <ngx-widget #widgetsRefs
         [id]="widget.id"
         *ngFor="let widget of widgets;let $index = index;"
-        [position]="widget.position"
         [movable]="editable"
+        [ngStyle]="{border: editable ? '1px solid #0000000a' : 'none'}"
+        [position]="widget.position"
         [resizable]="editable"
         [swapOnMove]="swapWidgets">
 
@@ -132,6 +131,10 @@
       [Link]: {{ widget.content.link.label }};&nbsp;
     </div>
 
+    <div class="widget-panel__content" *ngIf="widget?.content.model?.id">
+      [Model]: {{ widget.content.model.name }};&nbsp;
+    </div>
+
     <!-- Hamburger menu widget button -->
     <i
       [matMenuTriggerFor]="widgetMenu"
@@ -168,10 +171,17 @@
       </button>
 
       <button mat-menu-item
-        *ngIf="widget.content.link"
-        (click)="removeLink(widget)">
-          <mat-icon>link</mat-icon>
-          <span>Link off</span>
+        *ngIf="widget.content.model?.id"
+        (click)="removeModelFromWidgetf(widget)">
+          <mat-icon>work_off</mat-icon>
+          <span>Remove model</span>
+      </button>
+
+      <button mat-menu-item
+        *ngIf="!widget.content.model?.id"
+        (click)="openModelLinkSheet(widget)">
+          <mat-icon>work</mat-icon>
+          <span>Attach model</span>
       </button>
     </mat-menu>
   </div>

@@ -5,6 +5,13 @@ import { GridData } from '../grid.component';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
 import { filter } from 'rxjs/operators';
+import { WidgetContentInterface } from '../interfaces/widget';
+
+export interface PaginationLinkInterface {
+  link: string;
+  label: string;
+  active: boolean;
+}
 
 @Component({
   selector: 'app-widget-container',
@@ -13,11 +20,11 @@ import { filter } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None,
 })
 export class WidgetContainerComponent implements OnInit, OnDestroy {
-  @Input() editable = false;
   @Input() data: GridData;
+  @Input() editable = false;
   @Input() collection: string;
 
-  paginationLinks: { label: string, link: string, active: boolean }[] = [];
+  paginationLinks: PaginationLinkInterface[] = [];
   currentPageDocuments: CmsDocument[] = [];
 
   private _routerSub = Subscription.EMPTY;
@@ -34,6 +41,7 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.prepareModelInfromation();
     this.preparePaginationInformation();
 
     // Subsucribe to change pagination navigation to change grid content
@@ -47,6 +55,55 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this._content.unsubscribe();
     this._routerSub.unsubscribe();
+  }
+
+  prepareModelInfromation() {
+    // If widget have attached model infromation
+    if (this.content.model) {
+      const documentId = this.route.snapshot.params.document;
+
+      // If current route have a document property
+      if (documentId) {
+        const document = this.data.documents.find(doc => doc._id === documentId);
+
+        /**
+         * What we have: current content.field||.group and GET page document
+         * Whe should replace content.field { id (field id), documentId }
+         * to { id = page document field id, documentId = page document id }
+         * and if content have group of widgets that we need to update
+         * group widget fields lika a top example algorithm
+         */
+        const replaceCtxField = (ctx: WidgetContentInterface, doc: CmsDocument) => {
+          // If group child is a field
+          if (ctx.field) {
+            const field = this.getFieldFromDataById(ctx.field);
+
+            if (doc) {
+              // replaceWidget.content.id && replaceWidget.content.documentId
+              const searchField = doc.fields
+                .find(fieldItem => fieldItem.name === field.name);
+
+              if (searchField) {
+                ctx.field.id = searchField._id;
+                ctx.field.documentId = doc._id;
+              }
+            }
+          }
+        };
+
+        // If current widget is widget, replace widget data
+        if (this.content.field) {
+          replaceCtxField(this.content, document);
+        }
+
+        // else if is the widgets group, then each of widgets and replace fields
+        if (this.content.group) {
+          this.content.group.forEach((widget) => {
+            replaceCtxField(widget.content, document);
+          });
+        }
+      }
+    }
   }
 
   preparePaginationInformation() {
@@ -77,7 +134,7 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
           for (let i = 1; i <= countPages; i++) {
             this.paginationLinks.push({
               label: `${i}`,
-              link: `/p/${this.route.snapshot.params.id}/${i}`,
+              link: `/p/${this.route.snapshot.params.id}/l/${i}`,
               active: +currentPage === i,
             });
           }
@@ -87,14 +144,19 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
           // If group child is a field
           if (replaceWidget.content.field) {
             const field = this.getFieldFromDataById(replaceWidget.content.field);
+            const currentPageDocument = currentPageDocuments[widgetIndex];
 
-            // need change ---> replaceWidget.content.id && replaceWidget.content.documentId
-            const searchField = currentPageDocuments[widgetIndex].fields
-              .find(fieldItem => fieldItem.name === field.name);
+            if (currentPageDocument) {
+              // replaceWidget.content.id && replaceWidget.content.documentId
+              const searchField = currentPageDocuments[widgetIndex].fields
+                .find(fieldItem => fieldItem.name === field.name);
 
-            if (searchField) {
-              replaceWidget.content.field.id = searchField._id;
-              replaceWidget.content.field.documentId = currentPageDocuments[widgetIndex]._id;
+              if (searchField) {
+                replaceWidget.content.field.id = searchField._id;
+                replaceWidget.content.field.documentId = currentPageDocuments[
+                  widgetIndex
+                ]._id;
+              }
             }
           }
         };
@@ -123,12 +185,16 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
         return this.sanitizer.bypassSecurityTrustHtml(field.value);
       } else {
         console.error('Field not founed', {
-          field: this.content.field, docs: this.data.documents,
-          test: this.data.documents.find(doc => this.content.field.id === doc._id),
+          docs: this.data.documents,
+          field: this.content.field,
+
+          test: this.data.documents.find((doc) => (
+            this.content.field.id === doc._id
+          )),
         });
+
         return 'Field not founded';
       }
-
     }
 
     return 'Field not selected';

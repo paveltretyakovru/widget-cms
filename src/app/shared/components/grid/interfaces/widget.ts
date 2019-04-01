@@ -1,5 +1,30 @@
 import { makeId } from 'src/app/shared/helpers/make-id';
 
+export interface WidgetContentInterface {
+  group?: WidgetBackbone[];
+  collection?: string;
+
+  model?: {
+    id: string;
+    name: string;
+  };
+
+  grid?: {
+    cols: number;
+    rows: number;
+  };
+
+  field?: {
+    id: string;
+    documentId: string
+  };
+
+  link?: {
+    label: string;
+    pageId: string;
+  };
+}
+
 export interface WidgetBackbone {
   position: {
     top: number;
@@ -12,25 +37,7 @@ export interface WidgetBackbone {
     height: number;
   };
 
-  content: {
-    group?: WidgetBackbone[];
-    collection?: string;
-
-    grid?: {
-      cols: number;
-      rows: number;
-    };
-
-    field?: {
-      id: string;
-      documentId: string
-    };
-
-    link?: {
-      label: string;
-      pageId: string;
-    }
-  };
+  content: WidgetContentInterface;
 }
 
 export interface Widget extends WidgetBackbone {

@@ -44,5 +44,13 @@
         Save page
       </button>   
     </div>
+
+    <div class="col-md-2 col-xs-6">
+      <app-remove-button
+        *ngIf="page?._id"
+        [items]="[{ id: page._id, apiModel: 'pages', label: 'Page: ' + page.name }]"
+        [afterRedirectTo]="'/admin/pages'">
+      </app-remove-button>
+    </div>
   </div>
 </ng-template>

@@ -26,7 +26,7 @@ modelRouter.get('', (req, res, next) => {
 // });
 
 modelRouter.put('', (req, res, next) => {
-  console.log('[PUT]/api/models/', req.params.id);
+  console.log('[PUT]/api/models/:id', { id: req.params.id, body: req.body });
 
   new ModelService().update(req.params.id, req.body)
     .then((model) => res.json({
@@ -37,6 +37,8 @@ modelRouter.put('', (req, res, next) => {
 });
 
 modelRouter.delete('', (req, res, next) => {
+  console.log('[DELETE]/api/models/:id', { id: req.params.id });
+
   new ModelService().deleteById(req.params.id)
     .then(() => res.json({
       data: {},

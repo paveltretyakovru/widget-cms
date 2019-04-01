@@ -3,18 +3,23 @@ import {
   QueryList, AfterViewInit, Output, EventEmitter
 } from '@angular/core';
 
-import { Widget, createEmptyWidgetObject, WidgetBackbone } from './interfaces/widget';
-import { WidgetPositionChange, NgxWidgetGridComponent } from 'ngx-widget-grid';
 import { MatDialog, MatBottomSheet } from '@angular/material';
-import { GroupDialogComponent } from './group-dialog/group-dialog.component';
+import { WidgetPositionChange, NgxWidgetGridComponent } from 'ngx-widget-grid';
+
+// Components
+import { LinkSheetComponent } from './link-sheet/link-sheet.component';
 import { FieldSheetComponent } from './field-sheet/field-sheet.component';
-import { CmsDocumentField } from 'src/app/admin/documents/document/shared/interfaces/cms-document-field';
+import { ModelSheetComponent } from './model-sheet/model-sheet.component';
+import { GroupDialogComponent } from './group-dialog/group-dialog.component';
 import { CollectionSheetComponent } from './collection-sheet/collection-sheet.component';
+
+// Interfaces
+import { Model } from 'src/app/admin/models/model/model';
 import { Collection } from 'src/app/admin/collections/collection/collection';
 import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
-import { LinkSheetComponent } from './link-sheet/link-sheet.component';
-import { NavigationStart, Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { CmsDocumentField } from 'src/app/admin/documents/document/shared/interfaces/cms-document-field';
+import { Widget, createEmptyWidgetObject, WidgetBackbone } from './interfaces/widget';
+
 
 export interface GridData {
   documents: CmsDocument[];
@@ -159,6 +164,11 @@ export class GridComponent implements OnInit, AfterViewInit {
   onSelectLink(widget: Widget, link: any): void {
     console.log('Link selected', { widget, link });
     widget.content.link = link;
+  }
+
+  onModelSelected(widget: Widget, model: Model) {
+    console.log('Model selected', { widget, model });
+    widget.content.model = { id: model._id, name: model.name };
   }
 
   toggleHighlight(doHighlight: boolean): void {
@@ -317,6 +327,19 @@ export class GridComponent implements OnInit, AfterViewInit {
     }
 
     console.log('Remove link', widget);
+  }
+
+  openModelLinkSheet(widget: Widget): void {
+    this.bottomSheet
+      .open(ModelSheetComponent)
+      .afterDismissed()
+        .subscribe((model: Model) => {
+          this.onModelSelected(widget, model);
+        });
+  }
+
+  removeModelFromWidgetf(widget: Widget): void {
+    delete widget.content.model;
   }
 
   updateWidgetSizeInformation(

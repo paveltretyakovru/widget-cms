@@ -50,6 +50,9 @@ async function getDocuments(widget, docs, collections) {
 // TODO: Refactoring methods
 pageRouter.get('', async (req, res, next) => {
   console.log('[GET]/api/pages/', req.params.id);
+  console.log('additional props:', { document: req.query.document });
+
+  const pageDocument = req.query.document;
   const documentService = new DocuemntService();
   const documents = await documentService.getByCollectionId(req.params.id);
 
@@ -62,6 +65,13 @@ pageRouter.get('', async (req, res, next) => {
       for (let index = 0; index < widgets.length; index++) {
         const widget = widgets[index];
         await getDocuments(widget, docs, collections);
+      }
+
+      if (pageDocument) {
+        if (!docs.find(doc => doc._id === pageDocument)) {
+          const document = await documentService.getById(pageDocument);
+          docs.push(document);
+        }
       }
 
       res.json({
@@ -98,4 +108,17 @@ pageRouter.put('', (req, res, next) => {
         message: 'Page was updated',
       });
     }).catch(err => next(err));
+});
+
+// TODO: Attach removing connected documents
+pageRouter.delete('', (req, res, next) => {
+  console.log('[DELETE]/api/pages/', { id: req.params.id } );
+
+  new PageService()
+    .deleteById(req.params.id)
+    .then((page) => res.json({
+      data: page,
+      success: true,
+      message: 'Page was deleted',
+    })).catch(err => next(err));
 });

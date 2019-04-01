@@ -1,5 +1,8 @@
 <div *ngIf="dialog" class="dynamic-form__dialog">
-  <h1 mat-dialog-title *ngIf="title">{{ title }}</h1>
+  <h1 mat-dialog-title *ngIf="title">
+    {{ title }}
+    {{ options._id ? ('#' + options._id) : '' }}
+  </h1>
   <div mat-dialog-content>
     <div class="model-field" *ngFor="let field of specificFields">
       <ng-container

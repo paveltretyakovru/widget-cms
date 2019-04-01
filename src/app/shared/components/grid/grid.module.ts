@@ -11,6 +11,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CollectionSheetComponent } from './collection-sheet/collection-sheet.component';
 import { LinkSheetComponent } from './link-sheet/link-sheet.component';
 import { RouterModule } from '@angular/router';
+import { ModelSheetComponent } from './model-sheet/model-sheet.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { RouterModule } from '@angular/router';
     GetDocumentFieldComponent,
     CollectionSheetComponent,
     LinkSheetComponent,
+    ModelSheetComponent,
   ],
 
   imports: [
@@ -40,6 +42,7 @@ import { RouterModule } from '@angular/router';
 
   entryComponents: [
     LinkSheetComponent,
+    ModelSheetComponent,
     FieldSheetComponent,
     GroupDialogComponent,
     CollectionSheetComponent,

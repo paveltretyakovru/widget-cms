@@ -32,4 +32,8 @@ export class PageService {
 
     return page;
   }
+
+  async deleteById(_id: string) {
+    return await Page.deleteOne({ _id });
+  }
 }
