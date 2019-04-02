@@ -3,28 +3,44 @@
   style="width: 100%; height: 100%"
   [ngStyle]="{backgroundColor: editable ? 'rgba(0,0,0,.02)' : ''}">
 
+  <!-- Field container -->
   <div *ngIf="content?.field" style="width: 100%; height: 100%">
     <ng-container *ngTemplateOutlet="fieldTemplate"></ng-container>
   </div>
 
+  <!-- Link container -->
+  <div *ngIf="!content?.field && content?.link" style="width: 100%; height: 100%">
+    <ng-container *ngTemplateOutlet="linkTemplate"></ng-container>
+  </div>
+
+  <!-- Group container -->
   <div *ngIf="content?.group && !collection" style="width: 100%; height: 100%">
     <ng-container *ngTemplateOutlet="groupTemplate"></ng-container>
   </div>
 
+  <!-- Collection container -->
   <div *ngIf="content?.group && collection" style="width: 100%; height: 100%">
     <ng-container *ngTemplateOutlet="collectionGroupTemplate"></ng-container>
   </div>
 
+  <!-- Image container -->
   <div *ngIf="content?.image" style="width: 100%; height: 100%">
     <ng-container *ngTemplateOutlet="imageTemplate"></ng-container>
   </div>
 </div>
 
+
+<!-- ----------------------------------------------------------------------- -->
+<!-- ============================= TEMPLATES =============================== -->
+<!-- ----------------------------------------------------------------------- -->
+
+<!-- Image template -->
 <ng-template #imageTemplate>
   <div class="widget-container__image" [ngStyle]="{backgroundImage: 'url(' + content.image + ')'}">
   </div>
 </ng-template>
 
+<!-- Field template -->
 <ng-template #fieldTemplate>
   <div
     [ngClass]="{'widget-container__field': true, 'widget-container__link': content.link}"
@@ -33,6 +49,16 @@
   </div>
 </ng-template>
 
+<!-- Link template -->
+<ng-template #linkTemplate>
+  <a
+    class="widget-container__link"
+    [routerLink]="getContentLink()">
+    {{ content.link.label }}
+  </a>
+</ng-template>
+
+<!-- Group template -->
 <ng-template #groupTemplate>
   <app-grid
     [cols]="content.grid.cols"
@@ -49,12 +75,13 @@
   </app-grid>
 </ng-template>
 
+<!-- Collection group template -->
 <ng-template #collectionGroupTemplate>
   <div class="pagination">
     <a
       class="pagipage"
       [class.active]="link.active"
-      [routerLink]="[link.link]" routerLinkActive="active" 
+      [routerLink]="link.link" routerLinkActive="active" 
       *ngFor="let link of paginationLinks">{{link.label}}
     </a>
   </div>

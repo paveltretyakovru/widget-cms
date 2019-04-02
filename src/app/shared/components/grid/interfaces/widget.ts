@@ -22,6 +22,7 @@ export interface WidgetContentInterface {
   link?: {
     label: string;
     pageId: string;
+    documentId?: string;
   };
 
   image?: string;

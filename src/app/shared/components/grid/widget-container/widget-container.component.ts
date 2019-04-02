@@ -8,7 +8,7 @@ import { filter } from 'rxjs/operators';
 import { WidgetContentInterface } from '../interfaces/widget';
 
 export interface PaginationLinkInterface {
-  link: string;
+  link: any[];
   label: string;
   active: boolean;
 }
@@ -57,6 +57,7 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
     this._routerSub.unsubscribe();
   }
 
+  // TODO: Add check to document model id and content model id
   prepareModelInfromation() {
     // If widget have attached model infromation
     if (this.content.model) {
@@ -134,13 +135,15 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
           for (let i = 1; i <= countPages; i++) {
             this.paginationLinks.push({
               label: `${i}`,
-              link: `/p/${this.route.snapshot.params.id}/l/${i}`,
+              link: ['/p', this.route.snapshot.params.id, 'l', i],
               active: +currentPage === i,
             });
           }
         }
 
         const replacePaginationFieldData = (replaceWidget, widgetIndex) => {
+          const currentDocumentId = currentPageDocuments[widgetIndex]._id;
+
           // If group child is a field
           if (replaceWidget.content.field) {
             const field = this.getFieldFromDataById(replaceWidget.content.field);
@@ -153,11 +156,14 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
 
               if (searchField) {
                 replaceWidget.content.field.id = searchField._id;
-                replaceWidget.content.field.documentId = currentPageDocuments[
-                  widgetIndex
-                ]._id;
+                replaceWidget.content.field.documentId = currentDocumentId;
               }
             }
+          }
+
+          // If widget have a link data then attach documentId to link
+          if (replaceWidget.content.link) {
+            replaceWidget.content.link.documentId = currentDocumentId;
           }
         };
 
@@ -197,13 +203,29 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
       }
     }
 
+    if (this.content && !this.content.field && this.content.link) {
+      console.log('Should set link label', this.content.link);
+      return this.content.link.label;
+    }
+
     return 'Field not selected';
   }
 
-  routeToLink() {
+  routeToLink(): void {
     if (this.content.link.pageId) {
-      this.router.navigate([`/p/${this.content.link.pageId}`]);
+      this.router.navigate(['/p', this.content.link.pageId]);
     }
+  }
+
+  getContentLink(): any[] {
+    const link = this.content.link;
+
+    if (link && link.pageId && link.documentId) {
+      return ['/p', link.pageId, 'd', link.documentId];
+    }
+
+    return ['/p', link.pageId];
+
   }
 
   // =========================================================
