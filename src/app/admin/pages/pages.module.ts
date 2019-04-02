@@ -12,6 +12,7 @@ import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { GridModule } from 'src/app/shared/components/grid/grid.module';
 import { SharedModule } from '../shared/shared.module';
+import { RemoveButtonModule } from 'src/app/shared/components/remove-button/remove-button.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule,
     MaterialModule,
     ComponentsModule,
+    RemoveButtonModule,
     PagesRoutingModule,
     ReactiveFormsModule,
     NgxWidgetGridModule,

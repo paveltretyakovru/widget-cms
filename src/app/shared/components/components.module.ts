@@ -8,10 +8,7 @@ import { RemoveButtonComponent } from './remove-button/remove-button.component';
 import { RemoveButtonDialogComponent } from './remove-button/remove-button-dialog/remove-button-dialog.component';
 
 @NgModule({
-  declarations: [
-    RemoveButtonComponent,
-    RemoveButtonDialogComponent
-  ],
+  declarations: [],
 
   imports: [
     FormsModule,
@@ -25,12 +22,6 @@ import { RemoveButtonDialogComponent } from './remove-button/remove-button-dialo
   exports: [
     DynamicFormModule,
     DocumentFormModule,
-    RemoveButtonComponent,
-    RemoveButtonDialogComponent,
   ],
-
-  entryComponents: [
-    RemoveButtonDialogComponent,
-  ]
 })
 export class ComponentsModule { }

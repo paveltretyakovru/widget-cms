@@ -71,4 +71,8 @@ export class DocuemntService {
   async getById(id) {
     return await Document.findById(id);
   }
+
+  async deleteById(_id) {
+    return await Document.deleteOne({ _id });
+  }
 }

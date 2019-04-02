@@ -9,7 +9,7 @@ import { DynamicFormComponentInterface, DynamicFormOptions, DynamicFormField } f
 @Component({
   selector: 'app-dynamic-form',
   templateUrl: './dynamic-form.component.html',
-  styleUrls: ['./dynamic-form.component.scss']
+  styleUrls: ['./dynamic-form.component.scss'],
 })
 export class DynamicFormComponent
        implements OnInit, DynamicFormComponentInterface {
@@ -105,6 +105,10 @@ export class DynamicFormComponent
 
     // // Else we should return updated data to continue working with data
     return this.options;
+  }
+
+  onRemovedDocument() {
+    this.dialogRef.close('removed document');
   }
 
   dialogClickNoHandler() {

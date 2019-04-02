@@ -86,7 +86,7 @@ export class CollectionComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result: Observable<any>) => {
+    dialogRef.afterClosed().subscribe((result: Observable<any> | string) => {
       if (isObservable(result)) {
         result.subscribe((document: CmsDocument) => {
           Object.assign(
@@ -94,6 +94,8 @@ export class CollectionComponent implements OnInit {
             document
           );
         });
+      } else if (result === 'removed document') {
+        this.ngOnInit();
       }
     });
   }

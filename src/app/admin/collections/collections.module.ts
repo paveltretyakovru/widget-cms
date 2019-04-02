@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { DynamicFormComponent } from 'src/app/shared/components/dynamic-form/dynamic-form.component';
+import { RemoveButtonModule } from 'src/app/shared/components/remove-button/remove-button.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { DynamicFormComponent } from 'src/app/shared/components/dynamic-form/dyn
     SharedModule,
     MaterialModule,
     ComponentsModule,
+    RemoveButtonModule,
     ReactiveFormsModule,
     CollectionsRoutingModule,
   ],

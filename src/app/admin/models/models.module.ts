@@ -10,6 +10,7 @@ import { ModelListComponent } from './model-list/model-list.component';
 import { SharedModule } from '../shared/shared.module';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { RemoveButtonDialogComponent } from 'src/app/shared/components/remove-button/remove-button-dialog/remove-button-dialog.component';
+import { RemoveButtonModule } from 'src/app/shared/components/remove-button/remove-button.module';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { RemoveButtonDialogComponent } from 'src/app/shared/components/remove-bu
     SharedModule,
     MaterialModule,
     ComponentsModule,
+    RemoveButtonModule,
     ReactiveFormsModule,
     ModelsRoutingModule,
   ],
