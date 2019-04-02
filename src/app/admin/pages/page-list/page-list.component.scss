@@ -8,4 +8,12 @@
 		z-index: 1;
 		position: absolute;
 	}
+
+	&__configuration {
+		padding: 1rem;
+	}
+
+	&__title {
+		padding: 0 1rem;
+	}
 }

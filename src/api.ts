@@ -7,6 +7,7 @@ import { usersRouter } from './server/users/users.router';
 import { pagesRouter } from './server/pages/pages.router';
 import { modelsRouter } from './server/models/models.router';
 import { imagesRouter } from './server/images/images.router';
+import { configsRouter } from './server/configs/conigs.router';
 import { documentsRouter } from './server/docuemnts/documents.router';
 import { collectionsRouter } from './server/collections/collections.router';
 import { registrationRouter } from './server/registration/registration.router';
@@ -50,6 +51,7 @@ export function createApi(distPath: string, ngSetupOptions: NgSetupOptions) {
   api.use('/api/users', usersRouter);
   api.use('/api/models', modelsRouter);
   api.use('/api/images', imagesRouter);
+  api.use('/api/configs', configsRouter);
   api.use('/api/documents', documentsRouter);
   api.use('/api/collections', collectionsRouter);
   api.use('/api/registration', registrationRouter);

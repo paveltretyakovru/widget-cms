@@ -31,6 +31,21 @@ export class PageComponent implements OnInit {
           this.page = { ...page };
           this.widgets = page.widgets;
         });
+    } else {
+      // If id is not exists try to get index page from indexPage config
+      this.api.getAll$('configs')
+        .subscribe((configs) => {
+          const indexPage = configs.find(config => config.name === 'indexPage');
+
+          if (indexPage && indexPage.value) {
+            this.api.getById$('pages', indexPage.value)
+              .subscribe((page) => {
+                console.log('Fetched page model', page, list);
+                this.page = { ...page };
+                this.widgets = page.widgets;
+              });
+          }
+        });
     }
   }
 

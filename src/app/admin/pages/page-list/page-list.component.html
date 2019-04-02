@@ -2,11 +2,32 @@
   <mat-icon aria-label="Add model">add</mat-icon>
 </button>
 <div class="page-list">
-  <h2 class="mat-title">Pages</h2>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="page-list__configuration">
+        <mat-form-field>
+          <mat-label>Start page</mat-label>
+          <mat-select
+            [(value)]="configuration.indexPage"
+            (selectionChange)="onIndexPageSelected($event)">
+
+            <mat-option *ngFor="let page of pages$ | async" [value]="page._id">
+              {{page.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-list__title">
+    <h2 class="mat-title">Pages</h2>
+  </div>
+
   <div class="col-xs-12">
     <app-datatable
       [data]="pages$"
       (rowClicked)="onClickRowDatatable($event)">
     </app-datatable>
-  </div>    
+  </div>
 </div>
