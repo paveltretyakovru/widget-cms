@@ -142,29 +142,35 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
         }
 
         const replacePaginationFieldData = (replaceWidget, widgetIndex) => {
-          const currentDocumentId = currentPageDocuments[widgetIndex]._id;
+          if (currentPageDocuments[widgetIndex]) {
+            const currentDocumentId = currentPageDocuments[widgetIndex]._id;
 
-          // If group child is a field
-          if (replaceWidget.content.field) {
-            const field = this.getFieldFromDataById(replaceWidget.content.field);
-            const currentPageDocument = currentPageDocuments[widgetIndex];
+            // If group child is a field
+            if (replaceWidget.content.field) {
+              const field = this.getFieldFromDataById(replaceWidget.content.field);
+              const currentPageDocument = currentPageDocuments[widgetIndex];
 
-            if (currentPageDocument) {
-              // replaceWidget.content.id && replaceWidget.content.documentId
-              const searchField = currentPageDocuments[widgetIndex].fields
-                .find(fieldItem => fieldItem.name === field.name);
+              if (currentPageDocument) {
+                // replaceWidget.content.id && replaceWidget.content.documentId
+                const searchField = currentPageDocuments[widgetIndex].fields
+                  .find(fieldItem => fieldItem.name === field.name);
 
-              if (searchField) {
-                replaceWidget.content.field.id = searchField._id;
-                replaceWidget.content.field.documentId = currentDocumentId;
+                if (searchField) {
+                  replaceWidget.content.field.id = searchField._id;
+                  replaceWidget.content.field.documentId = currentDocumentId;
+                }
               }
             }
+
+            // If widget have a link data then attach documentId to link
+            if (replaceWidget.content.link) {
+              replaceWidget.content.link.documentId = currentDocumentId;
+            }
+          } else {
+            // If there is no collection documents more
+            replaceWidget.content = {};
           }
 
-          // If widget have a link data then attach documentId to link
-          if (replaceWidget.content.link) {
-            replaceWidget.content.link.documentId = currentDocumentId;
-          }
         };
 
         // Start replace wiget field data to paginatiton collection data
