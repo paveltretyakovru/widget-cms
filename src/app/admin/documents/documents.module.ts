@@ -6,13 +6,27 @@ import { DocumentComponent } from './document/document.component';
 import { ComponentsModule } from 'src/app/shared/components/components.module';
 import { DocumentsComponent } from './documents.component';
 import { DocumentListComponent } from './document-list/document-list.component';
+import { MaterialModule } from 'src/app/material.module';
+import { DatatableModule } from '../shared/components/datatable/datatable.module';
+import { DynamicFormComponent } from 'src/app/shared/components/dynamic-form/dynamic-form.component';
 
 @NgModule({
-  declarations: [ DocumentComponent, DocumentsComponent, DocumentListComponent ],
+  declarations: [
+    DocumentComponent,
+    DocumentsComponent,
+    DocumentListComponent,
+  ],
+
   imports: [
     CommonModule,
+    MaterialModule,
+    DatatableModule,
     ComponentsModule,
-    DocumentsRoutingModule
+    DocumentsRoutingModule,
+  ],
+
+  entryComponents: [
+    DynamicFormComponent,
   ]
 })
 export class DocumentsModule { }

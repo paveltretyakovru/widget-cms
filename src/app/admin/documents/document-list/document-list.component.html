@@ -1,3 +1,27 @@
-<p>
-  document-list works!
-</p>
+<div class="row center document-list">
+	<button mat-fab
+		class="document-list__add-button"
+		routerLink="/admin/documents/add" 
+	>
+		<mat-icon aria-label="Add document">add</mat-icon>
+	</button>
+
+	<div class="col-xs-12">
+		<mat-card>
+			<mat-card-header>
+        <div mat-card-avatar>
+          <mat-icon>account_circle</mat-icon>
+        </div>
+
+        <mat-card-title>Documents</mat-card-title>
+			</mat-card-header>
+
+			<mat-card-content>
+				<app-datatable
+					[data]="documents"
+					(rowClicked)="onClickRowDatatable($event)">
+				</app-datatable>
+			</mat-card-content>
+		</mat-card>
+	</div>
+</div>

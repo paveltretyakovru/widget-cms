@@ -69,7 +69,7 @@ export class CollectionComponent implements OnInit {
   }
 
   onClickDocumentRow($event) {
-    console.log('CollectionComponent#..rowClick()', { $event });
+    console.log('CollectionComponent#.rowClick()', { $event });
     const dialogRef = this.dialog.open(DynamicFormComponent, {
       width: '90%',
       data: {
@@ -89,10 +89,12 @@ export class CollectionComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: Observable<any> | string) => {
       if (isObservable(result)) {
         result.subscribe((document: CmsDocument) => {
-          Object.assign(
-            this.documents.find(doc => doc._id === document._id),
-            document
-          );
+          const tableDoc = this.documents.find(doc => doc._id === document._id);
+
+          if (tableDoc) {
+            Object.assign(tableDoc, document);
+          }
+
         });
       } else if (result === 'removed document') {
         this.ngOnInit();

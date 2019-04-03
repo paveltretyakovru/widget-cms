@@ -1,0 +1,11 @@
+.document-list {
+  position: relative;
+	margin-top: 24px;
+
+	&__add-button {
+		top: -50px;
+		right: 50px;
+		z-index: 1;
+		position: absolute;
+	}
+}
