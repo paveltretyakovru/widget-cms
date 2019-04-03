@@ -17,6 +17,10 @@ export class PanelComponent implements OnInit {
       route: '/admin/models',
     },
     {
+      name: 'Documents',
+      route: '/admin/documents',
+    },
+    {
       name: 'Collections',
       route: '/admin/collections',
     },
