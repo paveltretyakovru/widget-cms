@@ -5,6 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ApiService } from '../../services/api.service';
 import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
 import { DynamicFormComponentInterface, DynamicFormOptions, DynamicFormField } from './dynamic-form.interface';
+import { Collection } from 'src/app/admin/collections/collection/collection';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -34,21 +35,38 @@ export class DynamicFormComponent
 
   ngOnInit() {
     this.prepareOptions();
+
+    // If we are working with document, then we add collection field
+    if (this.options.model) {
+      this.api.getAll$('collections')
+        .subscribe((collections: Collection[]) => {
+          const currentModelCollections = collections.filter((collection) => {
+            return collection.modelId === this.options.model._id;
+          });
+
+          const collectionField = {
+            name: 'collection',
+            type: 'select',
+            data: currentModelCollections,
+            value: this.options.collectionId,
+          };
+
+          this.pushToFields([collectionField], true);
+        });
+    }
   }
 
   prepareOptions() {
     if (this.matDialogOptions) {
       this.options = this.matDialogOptions;
-      this.prepareFileds();
+      this.prepareFields();
       this.title = this.options.title || '';
       this.dialog = !!this.options.dialog;
     } else {
       this._propertyOptions.subscribe((options: DynamicFormOptions) => {
-        console.log('DynamicFormComponent#prepareOptions().subscribe()', {options});
-
         if (options) {
           this.options = options;
-          this.prepareFileds();
+          this.prepareFields();
           this.title = this.options.title || '';
           this.dialog = !!this.options.dialog;
         }
@@ -56,7 +74,7 @@ export class DynamicFormComponent
     }
   }
 
-  prepareFileds() {
+  prepareFields() {
     const { fields, model } = this.options;
     const nameField = {
       name: 'document name',
@@ -64,23 +82,21 @@ export class DynamicFormComponent
       value: this.options.name || '',
     };
 
-    const pushToFields = (src: DynamicFormField[] = [], specific = false) => {
-      const toFields = (specific) ? this.specificFields : this.fields;
-
-      toFields
-        .push(...src
-          .filter((field) => !toFields.find(item => item.name === field.name))
-          .map((field) => ({ ...field, value: field.value || '' }))
-        );
-    };
-
-    pushToFields(fields ? fields : []);
-    pushToFields((model && model.fields) ? model.fields : []);
+    this.pushToFields(fields ? fields : []);
+    this.pushToFields((model && model.fields) ? model.fields : []);
 
     // If model exists that working with document and that need document field
-    pushToFields((model) ? [nameField] : [], true);
+    this.pushToFields((model) ? [nameField] : [], true);
+  }
 
-    console.log('DynamicFormComponent#preapreFIelds()', { fields, model });
+  pushToFields (src: DynamicFormField[] = [], specific = false) {
+    const toFields = (specific) ? this.specificFields : this.fields;
+
+    toFields
+      .push(...src
+        .filter((field) => !toFields.find(item => item.name === field.name))
+        .map((field) => ({ ...field, value: field.value || '' }))
+      );
   }
 
   dialogClickYesHandler(): DynamicFormOptions | Observable<CmsDocument> {
@@ -89,12 +105,19 @@ export class DynamicFormComponent
     // If working with document data then send request to crate new document
     if (options && options.model && options.model._id) {
       const nameField = specificFields.find(el => el.name === 'document name');
+      const collectionField = specificFields.find(el => el.name === 'collection');
+
+      // Calc collection id to post document updates
+      let collectionId = options.collectionId ? options.collectionId : null;
+      if (collectionField) {
+        collectionId = collectionField.value;
+      }
 
       const requestData: CmsDocument = {
         name: (nameField) ? nameField.value : 'no name document',
-        modelId: options.model._id,
-        collectionId: options.collectionId ? options.collectionId : null,
         fields: fields.map(({ name, type, value }) => ({ name, type, value })),
+        modelId: options.model._id,
+        collectionId,
       };
 
       // And return Observable request to create or update CMSDocuemnt

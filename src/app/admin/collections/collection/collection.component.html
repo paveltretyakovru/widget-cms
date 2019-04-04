@@ -24,7 +24,11 @@
             </mat-form-field>
 
             <mat-form-field>
-                <mat-select placeholder="Model" formControlName="modelId">
+                <mat-select
+                  [disabled]="collection?._id"
+                  placeholder="Model"
+                  formControlName="modelId">
+
                   <mat-option *ngFor="let model of models" [value]="model.id">
                     {{model.name}}
                   </mat-option>

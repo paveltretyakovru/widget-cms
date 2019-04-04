@@ -12,6 +12,7 @@ export interface DynamicFormField {
   name: string;
   type: string;
   value: string;
+  data?: any | { name: string, id: string }[];
 }
 
 export interface DynamicFormOptions {

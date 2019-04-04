@@ -94,4 +94,17 @@
         [placeholder]="field.name"
       >
     </mat-form-field>
+
+    <!-- Field for SELECT type information -->
+    <mat-form-field
+      *ngIf="field.type === 'select'">
+      <mat-label>{{field.name}}</mat-label>
+      
+      <mat-select [(ngModel)]="field.value">
+        <mat-option
+          *ngFor="let item of field.data"
+          [value]="item._id">{{item.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
   </ng-template>
