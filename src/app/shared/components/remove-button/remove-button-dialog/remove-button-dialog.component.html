@@ -2,11 +2,15 @@
   <h1 mat-dialog-title>Confirm delete</h1>
   <div mat-dialog-content>
     <p>Data to remove:</p>
+
     <ul>
-      <li *ngFor="let item of removeItems">
-        {{ item.label ? item.label : '' }} | 
-        {{ item.apiModel }} | 
-        {{ item.id }}
+      <li *ngFor="let group of removeGroups">
+        <mat-checkbox
+          [disabled]="group.item.required"
+          [(ngModel)]="group.checked">
+
+          {{ group.item.label }}
+        </mat-checkbox>
       </li>
     </ul>
   </div>

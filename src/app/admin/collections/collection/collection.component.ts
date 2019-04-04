@@ -8,6 +8,7 @@ import { CmsDocument } from '../../documents/document/cms-document';
 import { from, Observable, isObservable } from 'rxjs';
 import { MatDialog } from '@angular/material';
 import { DynamicFormComponent } from 'src/app/shared/components/dynamic-form/dynamic-form.component';
+import { RemoveButtonItemInterface } from 'src/app/shared/components/remove-button/remove-button-component.interface';
 
 @Component({
   selector: 'app-collection',
@@ -19,6 +20,7 @@ export class CollectionComponent implements OnInit {
   models: Model[];
   documents: CmsDocument[];
   collection: Collection;
+  dataToDelete: RemoveButtonItemInterface[] = [];
 
   constructor(
     private api: ApiService,
@@ -46,7 +48,25 @@ export class CollectionComponent implements OnInit {
       this.documents = collection.documents;
       this.collection = collection;
       this.form.patchValue(collection);
+
+      // Updated data for delete button component
+      this.prepareDataOfDelete(this.documents);
     });
+  }
+
+  prepareDataOfDelete(documents: CmsDocument[]): void {
+    this.dataToDelete = [
+      {
+        id: this.collection._id,
+        label: `Remove ${this.collection.name} collection`,
+        apiModel: 'collections',
+      },
+      {
+        id: documents.map(document => document._id),
+        label: 'Remove documents attached to the collection',
+        apiModel: 'documents',
+      },
+    ];
   }
 
   createForm(): void {

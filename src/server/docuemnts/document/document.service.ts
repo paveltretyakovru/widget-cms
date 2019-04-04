@@ -4,7 +4,7 @@ import { CollectionService } from 'src/server/collections/collection/collection.
 
 const ObjectId = Types.ObjectId;
 
-export class DocuemntService {
+export class DocumentService {
   async getAll() {
     const documents = await Document.find();
     const collections = await new CollectionService().getByIds(
@@ -24,6 +24,10 @@ export class DocuemntService {
 
   async getByCollectionId(collectionId) {
     return await Document.find({ collectionId });
+  }
+
+  async getByModelId(modelId) {
+    return await Document.find({ modelId });
   }
 
   async create(modelData) {

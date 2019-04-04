@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { RemoveButtonComponentInterface, RemoveButtonItemInterface } from './remove-button-component.interface';
-import { MatDialog } from '@angular/material';
-import { RemoveButtonDialogComponent } from './remove-button-dialog/remove-button-dialog.component';
-import { ApiService } from '../../services/api.service';
-import { forkJoin, Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { forkJoin, Observable, BehaviorSubject } from 'rxjs';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
+import { ApiService } from '../../services/api.service';
+import { RemoveButtonDialogComponent } from './remove-button-dialog/remove-button-dialog.component';
+import { RemoveButtonComponentInterface, RemoveButtonItemInterface } from './remove-button-component.interface';
 
 @Component({
   selector: 'app-remove-button',
@@ -13,7 +14,12 @@ import { Router } from '@angular/router';
 })
 export class RemoveButtonComponent
       implements RemoveButtonComponentInterface, OnInit {
-  @Input() items: RemoveButtonItemInterface[];
+
+  _items = new BehaviorSubject<RemoveButtonItemInterface[]>([]);
+  @Input()
+    set items(value) { this._items.next(value); }
+    get items() { return this._items.getValue(); }
+
   @Input() afterRedirectTo: string;
 
   @Output() removed = new EventEmitter<any>();
@@ -25,13 +31,19 @@ export class RemoveButtonComponent
   ) { }
 
   ngOnInit() {
+    this._items.subscribe((items) => {
+      console.log('Subscribe to _items', items);
+    });
   }
 
   onDialogConfirmRemove(itemsToDelete: RemoveButtonItemInterface[] = []): void {
     const requests$: Observable<any>[] = [];
 
-    itemsToDelete.forEach((item) => {
-      requests$.push(this.api.delete$(item.apiModel, item.id));
+    itemsToDelete.forEach((item: RemoveButtonItemInterface) => {
+      if (item.apiModel && item.id) {
+        const id: string = (typeof item.id === 'string') ? item.id : item.id[0];
+        requests$.push(this.api.delete$(item.apiModel, id));
+      }
     });
 
     forkJoin(requests$).subscribe((responseList) => {

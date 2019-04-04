@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RemoveButtonComponent } from './remove-button.component';
 import { RemoveButtonDialogComponent } from './remove-button-dialog/remove-button-dialog.component';
 import { MaterialModule } from 'src/app/material.module';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -11,8 +12,10 @@ import { MaterialModule } from 'src/app/material.module';
   ],
 
   imports: [
+    FormsModule,
     CommonModule,
     MaterialModule,
+    ReactiveFormsModule,
   ],
 
   exports: [

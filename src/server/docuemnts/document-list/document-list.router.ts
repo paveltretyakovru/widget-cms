@@ -1,10 +1,10 @@
 import { Router } from 'express';
-import { DocuemntService } from '../document/document.service';
+import { DocumentService } from '../document/document.service';
 
 export const documentListRouter = Router({ mergeParams: true });
 
 documentListRouter.post('', (req, res, next) => {
-  new DocuemntService()
+  new DocumentService()
     .create(req.body)
       .then((document) => res.json({
         data: document,
@@ -14,7 +14,7 @@ documentListRouter.post('', (req, res, next) => {
 });
 
 documentListRouter.get('', (req, res, next) => {
-  new DocuemntService()
+  new DocumentService()
     .getAll()
       .then((documents) => res.json({
         data: documents,

@@ -65,7 +65,7 @@
 				<app-remove-button
 					*ngIf="model?.id"
 					(removed)="onModelRemoved($event)"
-					[items]="[{label: model.name, id: model.id, apiModel: 'models'}]">
+					[items]="dataToRemove">
 				</app-remove-button>
       </mat-card-actions>
 		</mat-card>

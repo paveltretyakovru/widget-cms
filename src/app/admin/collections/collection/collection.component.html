@@ -41,9 +41,8 @@
 
           <app-remove-button
             *ngIf="collection?._id"
-            [items]="[{label: collection.name, id: collection._id, apiModel: 'collections'}]"
+            [items]="dataToDelete"
             [afterRedirectTo]="'/admin/collections'">
-            
           </app-remove-button>
         </mat-card-actions>
       </mat-card>

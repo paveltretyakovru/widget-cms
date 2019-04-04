@@ -1,6 +1,6 @@
 import { Router} from 'express';
 import { CollectionService } from '../collection/collection.service';
-import { DocuemntService } from 'src/server/docuemnts/document/document.service';
+import { DocumentService } from 'src/server/docuemnts/document/document.service';
 
 export const collectionListRouter = Router({ nergeParams: true });
 
@@ -23,6 +23,6 @@ collectionListRouter.post('', (req, res, next) => {
       data: collection,
       success: true,
       message: 'Collection was created',
-      documents: new DocuemntService().getByCollectionId(collection._id) || [],
+      documents: new DocumentService().getByCollectionId(collection._id) || [],
    })).catch(err => next(err));
  });

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { RemoveButtonItemInterface } from '../remove-button-component.interface';
-import { RemoveButtonDialogComponentInterface } from './remove-button-dialog-component.interface';
+import { RemoveButtonDialogComponentInterface, RemoveButtonGroupInterface } from './remove-button-dialog-component.interface';
 
 @Component({
   selector: 'app-remove-button-dialog',
@@ -10,6 +10,7 @@ import { RemoveButtonDialogComponentInterface } from './remove-button-dialog-com
 })
 export class RemoveButtonDialogComponent
        implements RemoveButtonDialogComponentInterface, OnInit {
+  removeGroups: RemoveButtonGroupInterface[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<RemoveButtonDialogComponent>,
@@ -17,10 +18,42 @@ export class RemoveButtonDialogComponent
   ) { }
 
   ngOnInit() {
+    this.removeItems.forEach(
+      (item: RemoveButtonItemInterface) => {
+        if (item.id) {
+          this.removeGroups.push({ item, checked: true });
+        }
+      }
+    );
   }
 
+  // ===========================================================================
+  // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Events ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  // ===========================================================================
   onClickConfirmButton(): void {
-    this.dialogRef.close(this.removeItems);
+    const resultItems: RemoveButtonItemInterface[] = [];
+
+    this.removeGroups.forEach((group) => {
+      if (group.checked) {
+        if (Array.isArray(group.item.id)) {
+          group.item.id.forEach((itemId) => {
+            resultItems.push({
+              id: itemId,
+              apiModel: group.item.apiModel,
+            });
+          });
+        }
+
+        if (group.item.id && group.item.apiModel) {
+          resultItems.push({
+            id: group.item.id,
+            apiModel: group.item.apiModel,
+          });
+        }
+      }
+    });
+
+    this.dialogRef.close(resultItems);
   }
 
   onClickCancelButton(): void {

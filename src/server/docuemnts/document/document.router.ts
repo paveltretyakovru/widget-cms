@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import { DocuemntService } from './document.service';
+import { DocumentService } from './document.service';
 
 export const documentRouter = Router({ mergeParams: true });
 
 documentRouter.put('', (req, res, next) => {
-  console.log('[PUT]/api/documents/', req.params.id);
+  console.log('[PUT]/api/documents/:id', req.params.id);
 
-  new DocuemntService().update(req.params.id, req.body)
+  new DocumentService().update(req.params.id, req.body)
     .then((document) => res.json({
       data: document,
       success: true,
@@ -17,7 +17,7 @@ documentRouter.put('', (req, res, next) => {
 documentRouter.delete('', (req, res, next) => {
   console.log('[DELETE]/api/documents/:id', { id: req.params.id });
 
-  new DocuemntService().deleteById(req.params.id)
+  new DocumentService().deleteById(req.params.id)
     .then(() => res.json({
       data: {},
       success: true,

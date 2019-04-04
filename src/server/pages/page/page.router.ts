@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { DocuemntService } from 'src/server/docuemnts/document/document.service';
+import { DocumentService } from 'src/server/docuemnts/document/document.service';
 import { PageService } from './page.service';
 import { CollectionService } from 'src/server/collections/collection/collection.service';
 
@@ -7,7 +7,7 @@ export const pageRouter = Router({ mergeParams: true });
 
 async function getDocuments(widget, docs, collections) {
   if (widget.content) {
-    const documentService = new DocuemntService();
+    const documentService = new DocumentService();
 
     const field = widget.content.field;
     if (field && field.documentId) {
@@ -53,7 +53,7 @@ pageRouter.get('', async (req, res, next) => {
   console.log('additional props:', { document: req.query.document });
 
   const pageDocument = req.query.document;
-  const documentService = new DocuemntService();
+  const documentService = new DocumentService();
   const documents = await documentService.getByCollectionId(req.params.id);
 
   new PageService().getById(req.params.id)

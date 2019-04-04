@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormGroup, FormControl } from '@angular/forms';
 
 import { ApiService } from 'src/app/shared/services/api.service';
+import { CmsDocument } from '../../documents/document/cms-document';
+import { RemoveButtonItemInterface } from 'src/app/shared/components/remove-button/remove-button-component.interface';
 
 @Component({
   selector: 'app-model',
@@ -18,6 +20,8 @@ export class ModelComponent implements OnInit {
     { name: 'nubmer', label: '!!!Number' },
     { name: 'number', label: 'Number' },
   ];
+  documents: CmsDocument[] = [];
+  dataToRemove: RemoveButtonItemInterface[] = [];
   get formData() { return this.form.get('fields'); }
 
   constructor(
@@ -87,7 +91,35 @@ export class ModelComponent implements OnInit {
               type: new FormControl(field.type),
             })
           ));
-      });
+
+          this.api.get$(`/api/documents/model/${model._id}`)
+            .subscribe((documents: CmsDocument[]) => {
+              this.documents = documents;
+
+              this.prepareDataToRemove();
+            });
+
+        });
+    }
+  }
+
+  prepareDataToRemove() {
+    if (this.model) {
+      this.dataToRemove = [
+        {
+          id: this.model.id,
+          label: `Remove ${this.model.name} model`,
+          apiModel: 'models',
+          required: false,
+        },
+
+        {
+          id: this.documents.map((document) => document._id),
+          label: 'Remove documents wich created by using the model',
+          apiModel: 'documents',
+          required: true,
+        }
+      ];
     }
   }
 

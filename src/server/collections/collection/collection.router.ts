@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { CollectionService } from './collection.service';
-import { DocuemntService } from 'src/server/docuemnts/document/document.service';
+import { DocumentService } from 'src/server/docuemnts/document/document.service';
 
 export const collectionRouter = Router({ mergeParams: true });
 
 collectionRouter.get('', async (req, res, next) => {
   console.log('[GET]/api/collections/', req.params.id);
-  const documentService = new DocuemntService();
+  const documentService = new DocumentService();
   const documents = await documentService.getByCollectionId(req.params.id);
 
   new CollectionService().getById(req.params.id)
