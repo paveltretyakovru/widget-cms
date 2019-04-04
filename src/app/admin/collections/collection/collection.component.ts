@@ -78,7 +78,7 @@ export class CollectionComponent implements OnInit {
 
   save(): void {
     console.log('CollectionComponent#save()', this.form.value);
-    this.api.update$('collections', this.collection.id, this.form.value)
+    this.api.update$('collections', this.collection._id, this.form.value)
       .subscribe((collection) => this.collection = collection);
   }
 
