@@ -150,9 +150,9 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
               const field = this.getFieldFromDataById(replaceWidget.content.field);
               const currentPageDocument = currentPageDocuments[widgetIndex];
 
-              if (currentPageDocument) {
+              if (currentPageDocument && field) {
                 // replaceWidget.content.id && replaceWidget.content.documentId
-                const searchField = currentPageDocuments[widgetIndex].fields
+                const searchField = currentPageDocument.fields
                   .find(fieldItem => fieldItem.name === field.name);
 
                 if (searchField) {
@@ -196,16 +196,8 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
       if (field) {
         return this.sanitizer.bypassSecurityTrustHtml(field.value);
       } else {
-        console.error('Field not founed', {
-          docs: this.data.documents,
-          field: this.content.field,
-
-          test: this.data.documents.find((doc) => (
-            this.content.field.id === doc._id
-          )),
-        });
-
-        return 'Field not founded';
+        return `Document or field not founded. Maybe it was removed. `
+               + `Try to set widget value again`;
       }
     }
 
