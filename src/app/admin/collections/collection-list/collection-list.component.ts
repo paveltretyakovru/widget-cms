@@ -10,7 +10,7 @@ import { ApiService } from 'src/app/shared/services/api.service';
   styleUrls: ['./collection-list.component.scss']
 })
 export class CollectionListComponent implements OnInit {
-  collections$: Observable<Collection[]>;
+  collections: Collection[] = [];
 
   constructor(
     private api: ApiService,
@@ -18,7 +18,8 @@ export class CollectionListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.collections$ = this.api.getAll$('collections');
+    this.api.getAll$('collections')
+      .subscribe((collections) => this.collections = collections);
   }
 
   onClickRowDatatable(model) {

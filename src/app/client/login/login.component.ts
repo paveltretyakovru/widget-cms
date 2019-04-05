@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   constructor(private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
+    console.log('LoginComponent#ngOnInit()');
     this.createForm();
   }
 
@@ -33,8 +34,8 @@ export class LoginComponent implements OnInit {
 
   login() {
     console.log(this.loginForm.value);
-		const { email, password } = this.loginForm.value;
-		this.authenticationService.login(email, password)
-			.subscribe(res => console.log('Login subscribe respone', res));
+    const { email, password } = this.loginForm.value;
+    this.authenticationService.login(email, password)
+      .subscribe(res => console.log('Login subscribe respone', res));
   }
 }

@@ -5,8 +5,13 @@
   <h2 class="mat-title">Collections</h2>
   <div class="col-xs-12">
     <app-datatable
-      [data]="collections$"
+      [data]="collections"
       (rowClicked)="onClickRowDatatable($event)">
     </app-datatable>
+
+    <h3
+      *ngIf="collections.length === 0"
+      class="mat-subheading-2">There is no collections yet
+    </h3>
   </div>
 </div>

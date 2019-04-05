@@ -12,7 +12,7 @@ export interface PagesConfigurationInterface {
 }
 
 export interface PageListComponentInterface {
-  pages$: Observable<any[]>;
+  pages: any[];
   configuration: PagesConfigurationInterface;
   indexPageConfigId: string | null;
 
@@ -31,7 +31,7 @@ export interface PageListComponentInterface {
   styleUrls: ['./page-list.component.scss']
 })
 export class PageListComponent implements PageListComponentInterface, OnInit {
-  pages$: Observable<any[]>;
+  pages: any[] = [];
   indexPageConfigId: string | null = null;
 
   configuration: PagesConfigurationInterface = {
@@ -44,7 +44,8 @@ export class PageListComponent implements PageListComponentInterface, OnInit {
   ) { }
 
   ngOnInit() {
-    this.pages$ = this.api.getAll$('pages');
+    // Fetch pages
+    this.api.getAll$('pages').subscribe(pages => this.pages = pages);
 
     // Fetch configurations to get index page config
     this.api.getAll$('configs').subscribe(c => this.prepareConfigs(c));

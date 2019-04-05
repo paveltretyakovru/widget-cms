@@ -1,10 +1,11 @@
 <div class="row center document-list">
-	<button mat-fab
+	<!-- Uncomen when crate single page for creating document -->
+	<!-- <button mat-fab
 		class="document-list__add-button"
 		routerLink="/admin/documents/add" 
 	>
 		<mat-icon aria-label="Add document">add</mat-icon>
-	</button>
+	</button> -->
 
 	<div class="col-xs-12">
 		<mat-card>
@@ -17,6 +18,11 @@
 			</mat-card-header>
 
 			<mat-card-content>
+        <h3
+          *ngIf="documents.length === 0"
+          class="mat-subheading-2">There is no documents yet
+        </h3>
+
 				<app-datatable
 					[data]="documents"
 					(rowClicked)="onClickRowDatatable($event)">

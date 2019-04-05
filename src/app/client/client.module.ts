@@ -9,10 +9,10 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RegistrationComponent } from './registration/registration.component';
 
 @NgModule({
-  declarations: [ClientComponent, LoginComponent, RegistrationComponent],
+  declarations: [ClientComponent],
   imports: [
     CommonModule,
-		
+
     FormsModule,
     ReactiveFormsModule,
 
@@ -20,6 +20,6 @@ import { RegistrationComponent } from './registration/registration.component';
     ClientRoutingModule,
   ],
 
-	schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ClientModule { }

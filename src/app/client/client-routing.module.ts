@@ -10,10 +10,11 @@ const routes: Routes = [
     component: ClientComponent,
     children: [
       // { path: '', loadChildren: './welcome/welcome.module#WelcomeModule' },
+      // { path: '', redirectTo: 'p' },
+      // { path: '', loadChildren: './page/page.module#PageModule' },
+      // { path: 'login', component: LoginComponent },
+      // { path: 'registration', component: RegistrationComponent },
       { path: '', loadChildren: './page/page.module#PageModule' },
-      { path: 'login', component: LoginComponent },
-      { path: 'registration', component: RegistrationComponent },
-      { path: 'p', loadChildren: './page/page.module#PageModule' },
     ],
   },
 ];
