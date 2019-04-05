@@ -6,7 +6,9 @@ import { PUBLIC_IMAGE_PATH } from 'src/api';
 export const imagesRouter = Router();
 
 // Applay fileUppload middleware
-imagesRouter.use(fileUpload());
+imagesRouter.use(fileUpload({
+  createParentPath: true,
+}));
 
 // Uploading images route
 imagesRouter.post('', (req, res, next) => {
