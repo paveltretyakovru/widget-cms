@@ -7,7 +7,7 @@ import { usersRouter } from './server/users/users.router';
 import { pagesRouter } from './server/pages/pages.router';
 import { modelsRouter } from './server/models/models.router';
 import { imagesRouter } from './server/images/images.router';
-import { configsRouter } from './server/configs/conigs.router';
+import { configsRouter } from './server/configs/configs.router';
 import { documentsRouter } from './server/docuemnts/documents.router';
 import { collectionsRouter } from './server/collections/collections.router';
 import { registrationRouter } from './server/registration/registration.router';
