@@ -1,3 +1,52 @@
 <div class="field-sheet">
-  <app-get-document-field></app-get-document-field>
+  <h1 class="mat-headline">Text widget</h1>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <h3 class="mat-h3">- Use exists document field value:</h3>
+
+      <app-get-document-field
+        (selected)="onFieldSelected($event)">
+      </app-get-document-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <h3 class="mat-h3">
+        {{
+          field?._id
+            ? '- Update text document value:'
+            : '- Create new text document value:'
+        }}
+      </h3>
+
+      <mat-form-field class="field-sheet__form-field">
+        <input
+          matInput
+          type="text"
+          placeholder="Page document name value"
+          [(ngModel)]="document.name">
+      </mat-form-field>
+
+      <app-ngx-editor
+        [config]="ngxEditorConfig"
+        [placeholder]="'Page text document'"
+        [spellcheck]="true"
+        [(ngModel)]="field.value"
+      ></app-ngx-editor>
+
+      <div class="field-sheet__create-actions">
+        <button mat-flat-button
+          color="primary"
+          (click)="onClickButtonCreate()">Create
+        </button>
+
+        <button mat-flat-button
+          color="warn"
+          (click)="onClickButtonClear()">Clear
+        </button>
+      </div>
+    </div>
+  </div>
 </div>

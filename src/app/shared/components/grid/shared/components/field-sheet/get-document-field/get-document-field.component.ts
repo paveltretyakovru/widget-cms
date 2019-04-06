@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { ApiService } from 'src/app/shared/services/api.service';
@@ -11,12 +11,19 @@ import { MatBottomSheetRef } from '@angular/material';
 interface GroupName { name: string; document: any; }
 interface StateGroup { letter: string; names: GroupName[]; }
 
+export interface GetDocumentFieldResult {
+  field: CmsDocumentField;
+  document: CmsDocument;
+}
+
 @Component({
   selector: 'app-get-document-field',
   templateUrl: './get-document-field.component.html',
   styleUrls: ['./get-document-field.component.scss']
 })
 export class GetDocumentFieldComponent implements OnInit {
+  @Output() selected = new EventEmitter<GetDocumentFieldResult>();
+
   stateForm: FormGroup = this.fb.group({ stateGroup: '' });
   stateGroups: StateGroup[];
   selectedDocument: CmsDocument;
@@ -75,7 +82,8 @@ export class GetDocumentFieldComponent implements OnInit {
 
   onClickFieldValue(field: CmsDocumentField): void {
     console.log('onClickFieldValue()', field);
-    this.bottomSheetRef.dismiss({ field, document: this.selectedDocument });
+    // this.bottomSheetRef.dismiss({ field, document: this.selectedDocument });
+    this.selected.emit({ field, document: this.selectedDocument });
   }
 
   // =========================================================

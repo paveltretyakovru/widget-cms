@@ -1,0 +1,15 @@
+.field-sheet {
+  .mat-h3 {
+    margin-bottom: 0px !important;
+  }
+
+  &__create-actions {
+    margin: 13px 0px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__form-field {
+    width: 100%;
+  }
+}

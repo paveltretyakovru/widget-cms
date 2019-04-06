@@ -280,8 +280,19 @@ export class GridComponent implements OnInit, AfterViewInit {
   }
 
   openFieldDialog(widget: Widget): void {
+    let data = {};
+
+    if (widget.content && widget.content.field) {
+      data = {
+        field: this.getFieldFromDataById(widget.content.field),
+        document: this.data.documents.find((d) => {
+          return d._id === widget.content.field.documentId;
+        })
+      };
+    }
+
     this.bottomSheet
-      .open(FieldSheetComponent)
+      .open(FieldSheetComponent, { data })
       .afterDismissed()
         .subscribe(
           (result: { field: CmsDocumentField, document: CmsDocument }) => {

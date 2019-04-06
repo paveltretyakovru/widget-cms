@@ -1,4 +1,4 @@
-export const makeId = (length = 5) => {
+export const makeId = (length = 5): string => {
   let text = '';
   const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
