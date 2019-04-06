@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { GridData } from '../grid.component';
+import { GridData } from '../../../grid.component';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
 import { filter } from 'rxjs/operators';
-import { WidgetContentInterface } from '../interfaces/widget';
+import { WidgetContentInterface } from '../../interfaces/widget';
 
 export interface PaginationLinkInterface {
   link: any[];

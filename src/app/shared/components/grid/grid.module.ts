@@ -3,16 +3,16 @@ import { CommonModule } from '@angular/common';
 import { GridComponent } from './grid.component';
 import { MaterialModule } from 'src/app/material.module';
 import { NgxWidgetGridModule } from 'ngx-widget-grid';
-import { FieldSheetComponent } from './field-sheet/field-sheet.component';
-import { GroupDialogComponent } from './group-dialog/group-dialog.component';
-import { WidgetContainerComponent } from './widget-container/widget-container.component';
-import { GetDocumentFieldComponent } from './field-sheet/get-document-field/get-document-field.component';
+import { FieldSheetComponent } from './shared/components/field-sheet/field-sheet.component';
+import { GroupDialogComponent } from './shared/components/group-dialog/group-dialog.component';
+import { WidgetContainerComponent } from './shared/components/widget-container/widget-container.component';
+import { GetDocumentFieldComponent } from './shared/components/field-sheet/get-document-field/get-document-field.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { CollectionSheetComponent } from './collection-sheet/collection-sheet.component';
-import { LinkSheetComponent } from './link-sheet/link-sheet.component';
+import { CollectionSheetComponent } from './shared/components/collection-sheet/collection-sheet.component';
+import { LinkSheetComponent } from './shared/components/link-sheet/link-sheet.component';
 import { RouterModule } from '@angular/router';
-import { ModelSheetComponent } from './model-sheet/model-sheet.component';
-import { ImageSheetComponent } from './image-sheet/image-sheet.component';
+import { ModelSheetComponent } from './shared/components/model-sheet/model-sheet.component';
+import { ImageSheetComponent } from './shared/components/image-sheet/image-sheet.component';
 
 @NgModule({
   declarations: [

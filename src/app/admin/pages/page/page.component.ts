@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { WidgetBackbone } from 'src/app/shared/components/grid/interfaces/widget';
+import { WidgetBackbone } from 'src/app/shared/components/grid/shared/interfaces/widget';
 import { WidgetsUpdatedResult, GridData, INIT_GRID_DATA } from 'src/app/shared/components/grid/grid.component';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { ActivatedRoute } from '@angular/router';

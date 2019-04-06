@@ -7,19 +7,19 @@ import { MatDialog, MatBottomSheet } from '@angular/material';
 import { WidgetPositionChange, NgxWidgetGridComponent } from 'ngx-widget-grid';
 
 // Components
-import { LinkSheetComponent } from './link-sheet/link-sheet.component';
-import { FieldSheetComponent } from './field-sheet/field-sheet.component';
-import { ModelSheetComponent } from './model-sheet/model-sheet.component';
-import { GroupDialogComponent } from './group-dialog/group-dialog.component';
-import { CollectionSheetComponent } from './collection-sheet/collection-sheet.component';
+import { LinkSheetComponent } from './shared/components/link-sheet/link-sheet.component';
+import { FieldSheetComponent } from './shared/components/field-sheet/field-sheet.component';
+import { ModelSheetComponent } from './shared/components/model-sheet/model-sheet.component';
+import { GroupDialogComponent } from './shared/components/group-dialog/group-dialog.component';
+import { CollectionSheetComponent } from './shared/components/collection-sheet/collection-sheet.component';
 
 // Interfaces
 import { Model } from 'src/app/admin/models/model/model';
 import { Collection } from 'src/app/admin/collections/collection/collection';
 import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
 import { CmsDocumentField } from 'src/app/admin/documents/document/shared/interfaces/cms-document-field';
-import { Widget, createEmptyWidgetObject, WidgetBackbone } from './interfaces/widget';
-import { ImageSheetComponent } from './image-sheet/image-sheet.component';
+import { Widget, createEmptyWidgetObject, WidgetBackbone } from './shared/interfaces/widget';
+import { ImageSheetComponent } from './shared/components/image-sheet/image-sheet.component';
 
 
 export interface GridData {
