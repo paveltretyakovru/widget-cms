@@ -138,12 +138,14 @@
     <!-- Hamburger menu widget button -->
     <i
       [matMenuTriggerFor]="widgetMenu"
-      class="fas fa-hamburger grid__button grid__button-hamburger">
+      class="fa fa-bars grid__button grid__button-hamburger">
+      <!-- class="fas fa-hamburger grid__button grid__button-hamburger"> -->
     </i>
     <!-- Delete widget button -->
     <i
       (click)="onClickDeleteWidget($index)"
-      class="fas fa-trash-alt grid__button grid__button-trash">
+      class="fa fa-trash grid__button grid__button-trash">
+      <!-- class="fas fa-trash-alt grid__button grid__button-trash"> -->
     </i>
 
     <mat-menu #widgetMenu="matMenu">
