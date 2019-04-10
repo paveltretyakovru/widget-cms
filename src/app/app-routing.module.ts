@@ -9,8 +9,6 @@ import { RegistrationComponent } from './client/registration/registration.compon
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'p' },
-  { path: 'login', component: LoginComponent },
-  { path: 'registration', component: RegistrationComponent },
   { path: 'p', loadChildren: './client/client.module#ClientModule' },
   {
     path: 'admin',

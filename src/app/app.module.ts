@@ -12,8 +12,6 @@ import { JwtInterceptor } from 'src/app/shared/helpers/jwt.interceptor';
 import { SnackBarComponent } from 'src/app/shared/components/snack-bar/snack-bar.component';
 import { LoaderInterceptor } from 'src/app/shared/helpers/loader.interceptor';
 import { LoaderComponent } from './shared/components/loader/loader.component';
-import { LoginComponent } from './client/login/login.component';
-import { RegistrationComponent } from './client/registration/registration.component';
 
 export const APP_ID = 'my-app';
 
@@ -39,10 +37,8 @@ export const APP_ID = 'my-app';
   ],
 
   declarations: [
-    LoginComponent,
     LoaderComponent,
     SnackBarComponent,
-    RegistrationComponent,
   ],
 
   providers: [
