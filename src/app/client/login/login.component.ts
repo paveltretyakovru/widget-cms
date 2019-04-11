@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { patternValidator } from 'src/app/shared/validators/pattern-validator';
 import { AuthenticationService } from 'src/app/shared/services/authentication.service';
+import { Router } from '@angular/router';
+import { ApiResponse } from 'src/app/shared/models/api-response';
 
 /* tslint:disable-next-line:max-line-length */
 const emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -15,7 +17,10 @@ const emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
 
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(
+    private router: Router,
+    private authenticationService: AuthenticationService
+  ) { }
 
   ngOnInit() {
     console.log('LoginComponent#ngOnInit()');
@@ -36,6 +41,10 @@ export class LoginComponent implements OnInit {
     console.log(this.loginForm.value);
     const { email, password } = this.loginForm.value;
     this.authenticationService.login(email, password)
-      .subscribe(res => console.log('Login subscribe respone', res));
+      .subscribe((res: ApiResponse) => {
+        if (res.success) {
+          this.router.navigate(['admin']);
+        }
+      });
   }
 }
