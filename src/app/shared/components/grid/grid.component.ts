@@ -139,7 +139,6 @@ export class GridComponent implements OnInit, AfterViewInit {
     result: { field: CmsDocumentField, document: CmsDocument }
   ) {
     if (result) {
-      console.log('GridComponent#onSelectDocumentField().resut', { result });
       this.addDocumentToData(result.document);
 
       widget.content = {
@@ -164,21 +163,18 @@ export class GridComponent implements OnInit, AfterViewInit {
   }
 
   onSelectLink(widget: Widget, link: any): void {
-    console.log('Link selected', { widget, link });
     widget.content.link = link;
 
     this.prepareWidgetsInformation();
   }
 
   onModelSelected(widget: Widget, model: Model) {
-    console.log('Model selected', { widget, model });
     widget.content.model = { id: model._id, name: model.name };
 
     this.prepareWidgetsInformation();
   }
 
   onImageUploaded(widget: Widget, path: string) {
-    console.log('Image was uploaded', { widget, path });
     widget.content.image = path;
 
     this.prepareWidgetsInformation();
@@ -222,7 +218,6 @@ export class GridComponent implements OnInit, AfterViewInit {
   }
 
   getFieldNameByField(field: { id: string, documentId: string }): string {
-    console.log('getFieldNameByField()', field);
     // const search = this.getFieldFromDataById(field.id)
     return '';
   }
