@@ -6,6 +6,7 @@
   }
 
   &__wrapper {
+    margin: auto;
     height: inherit;
     position: relative;
   }
@@ -33,6 +34,30 @@
 
     &-trash { right: 13px }
     &-hamburger { right: 40px }
+  }
+
+  &__wrapper-size {
+    display: flex;
+
+    &-field:first-child {
+      margin-right: 1px;
+    }
+
+    &-field {
+      width: 49%;
+    }
+  }
+
+  &__node-size {
+    display: flex;
+
+    &-field:first-child {
+      margin-right: 1px;
+    }
+
+    &-field {
+      width: 49%;
+    }
   }
 }
 

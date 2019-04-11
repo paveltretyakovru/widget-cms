@@ -25,7 +25,7 @@ const DEFAULT_PAGE_MODEL = {
     cols: 12,
     rows: 12,
     height: 800,
-    width: null
+    width: 1200
   }
 };
 
