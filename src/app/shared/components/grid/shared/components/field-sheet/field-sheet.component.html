@@ -39,7 +39,8 @@
       <div class="field-sheet__create-actions">
         <button mat-flat-button
           color="primary"
-          (click)="onClickButtonCreate()">Create
+          (click)="onClickButtonCreate()">
+          {{ field?._id ? 'Use the field' : 'Create document field' }}
         </button>
 
         <button mat-flat-button

@@ -139,6 +139,7 @@ export class GridComponent implements OnInit, AfterViewInit {
     result: { field: CmsDocumentField, document: CmsDocument }
   ) {
     if (result) {
+      console.log('GridComponent#onSelectDocumentField().resut', { result });
       this.addDocumentToData(result.document);
 
       widget.content = {
@@ -240,7 +241,13 @@ export class GridComponent implements OnInit, AfterViewInit {
   }
 
   addDocumentToData(document: CmsDocument) {
-    if (!this.data.documents.find(doc => document._id === doc._id)) {
+    const matchDocument = this.data.documents.find((doc) => {
+      return (doc)
+        ? document._id === doc._id
+        : false;
+    });
+
+    if (!matchDocument) {
       this.data.documents.push(document);
     }
   }
