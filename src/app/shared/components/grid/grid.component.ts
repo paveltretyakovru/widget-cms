@@ -210,7 +210,13 @@ export class GridComponent implements OnInit, AfterViewInit {
   }
 
   getFieldFromDataById({ id, documentId }: { id: string, documentId: string}) {
-    const document = this.data.documents.find(doc => documentId === doc._id);
+    const document = this.data.documents.find((doc) => {
+      if (doc) {
+        return documentId === doc._id;
+      }
+
+      return false;
+    });
     return (document) ? document.fields.find(field => field._id === id) : null;
   }
 
@@ -292,7 +298,9 @@ export class GridComponent implements OnInit, AfterViewInit {
       data = {
         field: this.getFieldFromDataById(widget.content.field),
         document: this.data.documents.find((d) => {
-          return d._id === widget.content.field.documentId;
+          return (d)
+            ? d._id === widget.content.field.documentId
+            : false;
         })
       };
     }

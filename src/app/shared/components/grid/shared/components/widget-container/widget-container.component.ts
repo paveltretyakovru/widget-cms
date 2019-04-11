@@ -230,7 +230,11 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
   //                      Search methods
   // =========================================================
   getFieldFromDataById({ id, documentId }: { id: string, documentId: string}) {
-    const document = this.data.documents.find(doc => documentId === doc._id);
+    const document = this.data.documents.find((doc) => {
+      return (doc)
+        ? (documentId === doc._id)
+        : false;
+    });
     return (document) ? document.fields.find(field => field._id === id) : null;
   }
 }
