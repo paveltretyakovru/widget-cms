@@ -1,9 +1,9 @@
 import { Schema, model } from 'mongoose';
 
 const imageSchema: Schema = new Schema({
-  name: { type: String, unique: true },
-  title: String,
-  description: String,
+  url: { type: String, unique: true },
+  title: { type: String, default: '' },
+  description: { type: String, default: '' },
 }, {
   timestamps: true,
 });

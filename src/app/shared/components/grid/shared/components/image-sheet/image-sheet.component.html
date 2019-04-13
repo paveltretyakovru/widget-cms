@@ -1,24 +1,91 @@
 <div class="image-sheet">
-  <h1 class="mat-headline">Attach collection to widget</h1>
+  <h1 class="mat-headline">Attach image to widget</h1>
 
-  <div matRipple class="image-sheet__upload">
-    <div class="image-sheet__upload-input">
-      <input
-        id="upload-image-input"
-        type="file"
-        [hidden]="true"
-        (change)="onChange($event)"/>
-      <label for="upload-image-input" class="mat-raised-button mat-primary">
-        Choose Files
-      </label>
-      Choosen file: {{ file ? file.name : 'No selected file' }}
-    </div>
+  <!-- Image title -->
+  <mat-form-field>
+    <input matInput
+      type="text"
+      [(ngModel)]="image.title"
+      placeholder="Image title">
+  </mat-form-field>
 
-    <div class="image-sheet__upload-button">
-      <button mat-raised-button
-        [disabled]="!file"
-        (click)="onClickUpload()">Upload
-      </button>
-    </div>
+  <!-- If image model is exists -->
+  <div *ngIf="image?._id">
+    <ng-container *ngTemplateOutlet="imageContentExists"></ng-container>
+  </div>
+
+  <!-- If image model is not exists -->
+  <div *ngIf="!image?._id">
+    <ng-container *ngTemplateOutlet="imageContentEmpty"></ng-container>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="image-sheet__actions">
+    <button mat-raised-button
+      color="primary"
+      [disabled]="checkToDisabledApply()"
+      (click)="onClickButtonApply()">{{ image?._id ? 'Update' : 'Create' }}
+    </button>
+
+    <app-remove-button
+      *ngIf="image._id"
+      (removed)="onImageWasRemoved($event)"
+      [items]="[{ id: image._id, apiModel: 'images', label: 'Image ' + image.title }]">
+    </app-remove-button>    
+    <!-- <button mat-raised-button
+      *ngIf="image._id"
+      color="warn"
+      (click)="onClickButtonRemoveImage()">Remove Image
+    </button> -->
   </div>
 </div>
+
+<ng-template #imageContentExists>
+  <div class="image-sheet__current-image-container">
+    <img src={{image.url}} alt={{image.title}}>
+  </div>  
+</ng-template>
+
+<ng-template #imageContentEmpty>
+  <mat-tab-group>
+    <!-- Use url to set image -->
+    <mat-tab label="Use url">
+      <div class="image-sheet__tab-content">
+        <mat-form-field>
+          <input matInput
+            type="text"
+            [(ngModel)]="image.url"
+            placeholder="Image url">
+        </mat-form-field>
+      </div>
+    </mat-tab>
+
+    <!-- Upload image to set -->
+    <mat-tab label="Upload image">
+      <div class="image-sheet__tab-content">
+        <div matRipple class="image-sheet__upload">
+          <div class="image-sheet__upload-input">
+            <input
+              id="upload-image-input"
+              type="file"
+              [hidden]="true"
+              (change)="onChange($event)" />
+      
+            <label for="upload-image-input" class="mat-raised-button mat-primary">
+              Choose Files
+            </label>
+            Choosen file: {{ file ? file.name : 'No selected file' }}
+          </div>
+              
+          <div class="image-sheet__upload-button">
+            <button mat-raised-button
+              color="warn"
+              [disabled]="!file"
+              (click)="onClickButtonRemove()">Remove
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>

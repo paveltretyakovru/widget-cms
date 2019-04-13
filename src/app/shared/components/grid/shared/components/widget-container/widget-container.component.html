@@ -34,9 +34,22 @@
 <!-- ============================= TEMPLATES =============================== -->
 <!-- ----------------------------------------------------------------------- -->
 
+<ng-template #universal>
+  <div
+    class="widget-container__universal"
+    (click)="content.link ? routeToLink() : ''"
+    [ngStyle]="{backgroundImage: getBackgroundImage()}">
+  </div>
+</ng-template>
+
 <!-- Image template -->
 <ng-template #imageTemplate>
-  <div class="widget-container__image" [ngStyle]="{backgroundImage: 'url(' + content.image + ')'}">
+  <div
+    class="widget-container__image"
+    [ngStyle]="{backgroundImage: getBackgroundImageStyle()}">
+    <h2 *ngIf="getImageTitle()">
+      {{getImageTitle()}}
+    </h2>
   </div>
 </ng-template>
 

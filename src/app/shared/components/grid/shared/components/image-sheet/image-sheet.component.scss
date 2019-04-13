@@ -3,4 +3,21 @@
     display: flex;
     justify-content: space-around;
   }
+
+  &__tab-content {
+    padding: 13px;
+    min-height: 130px;
+  }
+
+  &__current-image-container {
+    img {
+      height: 100px;
+    }
+  }
+
+  &__actions {
+    margin: 13px 0 0 0;
+    display: flex;
+    justify-content: space-between;
+  }
 }

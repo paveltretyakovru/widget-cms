@@ -14,6 +14,7 @@ import { RouterModule } from '@angular/router';
 import { ModelSheetComponent } from './shared/components/model-sheet/model-sheet.component';
 import { ImageSheetComponent } from './shared/components/image-sheet/image-sheet.component';
 import { NgxEditorModule } from 'ngx-editor';
+import { RemoveButtonModule } from '../remove-button/remove-button.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { NgxEditorModule } from 'ngx-editor';
     RouterModule,
     MaterialModule,
     NgxEditorModule,
+    RemoveButtonModule,
     ReactiveFormsModule,
     NgxWidgetGridModule,
   ],

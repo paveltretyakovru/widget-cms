@@ -1,9 +1,10 @@
-import { join } from 'path';
 import { Router } from 'express';
 import * as fileUpload from 'express-fileupload';
-import { PUBLIC_IMAGE_PATH } from 'src/api';
+import { ImageService } from './image.service';
 
 export const imagesRouter = Router();
+
+const imageService = new ImageService();
 
 // Applay fileUppload middleware
 imagesRouter.use(fileUpload({
@@ -12,37 +13,78 @@ imagesRouter.use(fileUpload({
 }));
 
 // Uploading images route
-imagesRouter.post('', (req, res, next) => {
+imagesRouter.post('', async (req, res, next) => {
+  console.log('[POST]/api/images:', req.body);
+
   try {
-    if (Object.keys(req.files).length === 0) {
-      throw new Error('No files were uploaded');
+    const { title, url } = req.body;
+    const file = (req.files && req.files.file) ? req.files.file : null;
+
+    // If using url to make create image document
+    if (url) {
+      imageService.create({ title, url })
+        .then((image) => res.json({
+          data: image,
+          success: true,
+          message: 'Image was created',
+        })).catch(err => next(err));
     }
 
-    if (req.files.file.mimetype.indexOf('image') === -1) {
-      throw new Error('Only image allowed');
+    // If using image file to create image document
+    if (file) {
+      const publicName = await imageService.upload(req.files.file);
+
+      console.log('Uploading image, publicName: ', publicName);
+
+      imageService.create({ title, url: publicName })
+        .then((image) => res.json({
+          data: image,
+          success: true,
+          message: 'Image was uploaded',
+        })).catch(err => next(err));
     }
 
-    // Prepare file information to uploading
-    const file = req.files.file;
-    const extension = file.name.split('.').pop();
-    const randomName = `${Math.random().toString(36).substring(2)}.${extension}`;
-    const publicName = `/public/images/${randomName}`;
-    const uploadFile = PUBLIC_IMAGE_PATH + '/' + randomName;
+    if (!file && !url) {
+      throw new Error('Enter image or image url to create image widget');
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
-    file.mv(uploadFile, (err) => {
-      if (err) {
-        next(err);
-      }
+imagesRouter.put('/:id', (req, res, next) => {
+  try {
+    console.log('[PUT]/api/images:', req.body);
 
-      console.log('File uploaded ============>', uploadFile);
-      console.log('Pulib name ============>', publicName);
+    if (!req.params.id) {
+      throw new Error('There is no id to update image');
+    }
 
-      res.json({
-        data: publicName,
+    imageService.update(req.params.id, req.body)
+      .then((image) => res.json({
+        data: image,
         success: true,
-        message: `Image was uploaded`,
-      });
-    });
+        message: 'Image was updated',
+      })).catch(err => next(err));
+  } catch (error) {
+    next(error);
+  }
+});
+
+imagesRouter.delete('/:id', (req, res, next) => {
+  try {
+    console.log('[DELETE]/api/images:', req.params);
+
+    if (!req.params.id) {
+      throw new Error('There is not id to remove image');
+    }
+
+    imageService.deleteById(req.params.id)
+      .then(() => res.json({
+        data: { id: req.params.id },
+        success: true,
+        message: 'Image was removed'
+      })).catch(err => next(err));
   } catch (error) {
     next(error);
   }

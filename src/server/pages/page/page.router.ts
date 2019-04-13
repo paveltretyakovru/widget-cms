@@ -1,11 +1,12 @@
 import { Router } from 'express';
 import { DocumentService } from 'src/server/docuemnts/document/document.service';
 import { PageService } from './page.service';
+import { ImageService } from '../../images/image.service';
 import { CollectionService } from 'src/server/collections/collection/collection.service';
 
 export const pageRouter = Router({ mergeParams: true });
 
-async function getDocuments(widget, docs, collections) {
+async function getDocuments(widget, docs, collections, images) {
   if (widget.content) {
     const documentService = new DocumentService();
 
@@ -17,6 +18,16 @@ async function getDocuments(widget, docs, collections) {
         const search = await documentService.getById(id);
         docs.push(search);
         console.log('getDocument', widget);
+      }
+    }
+
+    const image = widget.content.image;
+    if (image) {
+      console.log('IMMMAGE ISSETTT ---> ', image);
+      const searchImage = await new ImageService().getById(image);
+
+      if (searchImage) {
+        images.push(searchImage);
       }
     }
 
@@ -41,7 +52,7 @@ async function getDocuments(widget, docs, collections) {
     if (group) {
       for (let index = 0; index < group.length; index++) {
         const gWidget = group[index];
-        await getDocuments(gWidget, docs, collections);
+        await getDocuments(gWidget, docs, collections, images);
       }
     }
   }
@@ -60,11 +71,12 @@ pageRouter.get('', async (req, res, next) => {
     .then(async (page) => {
       const widgets = page.widgets;
       const docs = [];
+      const images = [];
       const collections = [];
 
       for (let index = 0; index < widgets.length; index++) {
         const widget = widgets[index];
-        await getDocuments(widget, docs, collections);
+        await getDocuments(widget, docs, collections, images);
       }
 
       if (pageDocument) {
@@ -77,7 +89,7 @@ pageRouter.get('', async (req, res, next) => {
       res.json({
         data: {
           ...page.toObject(),
-          data: { documents: docs, collections },
+          data: { documents: docs, collections, images },
           documents
         },
         success: true,
@@ -92,17 +104,18 @@ pageRouter.put('', (req, res, next) => {
     .then(async (page) => {
       const widgets = page.widgets;
       const docs = [];
+      const images = [];
       const collections = [];
 
       for (let index = 0; index < widgets.length; index++) {
         const widget = widgets[index];
-        await getDocuments(widget, docs, collections);
+        await getDocuments(widget, docs, collections, images);
       }
 
       res.json({
         data: {
           ...page.toObject(),
-          data: { documents: docs, collections },
+          data: { documents: docs, collections, images },
         },
         success: true,
         message: 'Page was updated',

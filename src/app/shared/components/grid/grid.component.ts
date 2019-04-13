@@ -19,10 +19,12 @@ import { Collection } from 'src/app/admin/collections/collection/collection';
 import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
 import { CmsDocumentField } from 'src/app/admin/documents/document/shared/interfaces/cms-document-field';
 import { Widget, createEmptyWidgetObject, WidgetBackbone } from './shared/interfaces/widget';
-import { ImageSheetComponent } from './shared/components/image-sheet/image-sheet.component';
+import { ImageSheetComponent, ImageSheetDataInterface } from './shared/components/image-sheet/image-sheet.component';
+import { CmsImage } from '../../interfaces/cms-image';
 
 
 export interface GridData {
+  images: CmsImage[];
   documents: CmsDocument[];
   collections: Collection[];
 }
@@ -39,6 +41,7 @@ export interface WidgetsUpdatedResult {
 }
 
 export const INIT_GRID_DATA: GridData = {
+  images: [],
   documents: [],
   collections: [],
 };
@@ -174,10 +177,14 @@ export class GridComponent implements OnInit, AfterViewInit {
     this.prepareWidgetsInformation();
   }
 
-  onImageUploaded(widget: Widget, path: string) {
-    widget.content.image = path;
+  onImageUploaded(widget: Widget, imageContent: CmsImage) {
+    if (imageContent) {
+      if (imageContent._id) {
+        widget.content.image = imageContent._id;
+      }
 
-    this.prepareWidgetsInformation();
+      this.prepareWidgetsInformation();
+    }
   }
 
   toggleHighlight(doHighlight: boolean): void {
@@ -372,10 +379,19 @@ export class GridComponent implements OnInit, AfterViewInit {
   }
 
   openSelectImageSheet(widget: Widget): void {
+    const imageSheetData: ImageSheetDataInterface = {
+      widget,
+      images: this.data.images,
+    };
+
+    console.log('openSelectImageSheet, data ->', this.data);
+
     this.bottomSheet
-      .open(ImageSheetComponent)
+      .open(ImageSheetComponent, { data: imageSheetData })
       .afterDismissed()
-        .subscribe((result: string) => this.onImageUploaded(widget, result));
+        .subscribe((result: CmsImage) => {
+          this.onImageUploaded(widget, result);
+        });
   }
 
   removeModelFromWidgetf(widget: Widget): void {

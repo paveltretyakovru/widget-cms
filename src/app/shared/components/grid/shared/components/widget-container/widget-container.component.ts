@@ -226,6 +226,29 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
 
   }
 
+  getBackgroundImageStyle(): string {
+    if (this.content.image) {
+      const image = this.getImageFromDataById(this.content.image);
+
+      if (image) {
+        return `url(${image.url})`;
+      }
+    }
+
+    return 'none';
+  }
+
+  getImageTitle(): string {
+    if (this.content.image) {
+      const image = this.getImageFromDataById(this.content.image);
+      if (image) {
+        return image.title;
+      }
+    }
+
+    return '';
+  }
+
   // =========================================================
   //                      Search methods
   // =========================================================
@@ -236,5 +259,20 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
         : false;
     });
     return (document) ? document.fields.find(field => field._id === id) : null;
+  }
+
+  getImageFromDataById(id) {
+    return this.data.images.find(image => ((image) ? id === image._id : false));
+  }
+
+  // =========================================================
+  //                      Universal container methods
+  // =========================================================
+  getBackgroundImage() {
+    if (this.content.image) {
+      return `url(${this.content.image})`;
+    } else {
+      return 'none';
+    }
   }
 }
