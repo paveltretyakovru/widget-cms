@@ -48,8 +48,10 @@ export class PanelComponent implements PanelComponentInterface, OnInit {
     // Fetching and preapre index admin panel configs
     this.api.getAll$('configs')
       .subscribe((configs) => {
+        const config = configs.find((c) => c.name === 'logoText');
+
         this.systemConfiguration = {
-          logoText: configs.find((config) => config.name === 'logoText')!.value || '',
+          logoText: (config) ? config.value : '',
         };
         this.fetchedConfigs = configs;
       });
