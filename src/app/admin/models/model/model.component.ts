@@ -15,9 +15,9 @@ export class ModelComponent implements OnInit {
   model;
   form: FormGroup;
   types = [
-    { name: 'string', label: 'String' },
-    { name: 'text', label: 'Text' },
+    // { name: 'string', label: 'String' },
     { name: 'number', label: 'Number' },
+    { name: 'text', label: 'Text' },
   ];
   documents: CmsDocument[] = [];
   dataToRemove: RemoveButtonItemInterface[] = [];
@@ -40,7 +40,7 @@ export class ModelComponent implements OnInit {
       fields: new FormArray([
         new FormGroup({
           name: new FormControl(''),
-          type: new FormControl('string'),
+          type: new FormControl('text'),
         }),
       ]),
     });
