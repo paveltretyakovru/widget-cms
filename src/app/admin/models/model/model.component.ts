@@ -104,21 +104,22 @@ export class ModelComponent implements OnInit {
 
   prepareDataToRemove() {
     if (this.model) {
-      this.dataToRemove = [
-        {
-          id: this.model.id,
-          label: `Remove ${this.model.name} model`,
-          apiModel: 'models',
-          required: false,
-        },
+      this.dataToRemove = [{
+        id: this.model.id,
+        label: `Remove ${this.model.name} model`,
+        apiModel: 'models',
+        required: false,
+      }];
 
-        {
+      // Attach documents which using model data
+      if (this.documents.length > 0) {
+        this.dataToRemove.push({
           id: this.documents.map((document) => document._id),
           label: 'Remove documents wich created by using the model',
           apiModel: 'documents',
           required: true,
-        }
-      ];
+        });
+      }
     }
   }
 
