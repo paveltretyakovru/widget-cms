@@ -48,7 +48,7 @@
     <div class="col-md-2 col-xs-6">
       <app-remove-button
         *ngIf="page?._id"
-        [items]="[{ id: page._id, apiModel: 'pages', label: 'Page: ' + page.name }]"
+        [items]="[{ id: page._id, apiModel: 'pages', label: 'Page: ' + page.name, required: true }]"
         [afterRedirectTo]="'/admin/pages'">
       </app-remove-button>
     </div>
