@@ -17,7 +17,6 @@ export class ModelComponent implements OnInit {
   types = [
     { name: 'string', label: 'String' },
     { name: 'text', label: 'Text' },
-    { name: 'nubmer', label: '!!!Number' },
     { name: 'number', label: 'Number' },
   ];
   documents: CmsDocument[] = [];
