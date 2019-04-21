@@ -55,18 +55,22 @@ export class CollectionComponent implements OnInit {
   }
 
   prepareDataOfDelete(documents: CmsDocument[]): void {
-    this.dataToDelete = [
-      {
+    if (this.collection) {
+      this.dataToDelete = [{
         id: this.collection._id,
         label: `Remove ${this.collection.name} collection`,
         apiModel: 'collections',
-      },
-      {
-        id: documents.map(document => document._id),
-        label: 'Remove documents attached to the collection',
-        apiModel: 'documents',
-      },
-    ];
+      }];
+
+      // Attach documents which using model data
+      if (documents && documents.length > 0) {
+        this.dataToDelete.push({
+          id: documents.map(document => document._id),
+          label: 'Remove documents attached to the collection',
+          apiModel: 'documents',
+        })
+      }
+    }
   }
 
   createForm(): void {
@@ -85,7 +89,10 @@ export class CollectionComponent implements OnInit {
   submit(): void {
     console.log('CollectionComponent#submit()', this.form.value);
     this.api.create$('collections', this.form.value)
-      .subscribe((collection) => this.collection = collection);
+      .subscribe((collection) => {
+        this.collection = collection;
+        this.prepareDataOfDelete(this.documents);
+      });
   }
 
   onClickDocumentRow($event) {
