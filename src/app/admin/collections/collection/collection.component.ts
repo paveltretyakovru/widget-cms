@@ -18,7 +18,7 @@ import { RemoveButtonItemInterface } from 'src/app/shared/components/remove-butt
 export class CollectionComponent implements OnInit {
   form: FormGroup;
   models: Model[];
-  documents: CmsDocument[];
+  documents: CmsDocument[] = [];
   collection: Collection;
   dataToDelete: RemoveButtonItemInterface[] = [];
 
