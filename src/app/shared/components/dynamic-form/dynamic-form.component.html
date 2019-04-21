@@ -25,7 +25,7 @@
     </button>
 
     <app-remove-button
-      *ngIf="options && options.model && options.model._id"
+      *ngIf="options?._id"
       [items]="[{ label: options.name, id: options._id, apiModel: 'documents' }]"
       (removed)="onRemovedDocument($event)">
     </app-remove-button>
