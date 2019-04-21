@@ -24,6 +24,7 @@
         </h3>
 
 				<app-datatable
+					*ngIf="documents?.length > 0"
 					[data]="documents"
 					(rowClicked)="onClickRowDatatable($event)">
 				</app-datatable>
