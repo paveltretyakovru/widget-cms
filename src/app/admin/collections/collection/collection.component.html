@@ -74,6 +74,7 @@
         <h3 class="mat-subheading-2">There is no documents yet</h3>
       </div>
       <app-datatable
+        *ngIf="collection?.documents?.length > 0"
         [data]="documents"
         (rowClicked)="onClickDocumentRow($event)">
       </app-datatable>
