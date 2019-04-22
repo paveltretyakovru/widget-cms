@@ -110,21 +110,22 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
   preparePaginationInformation() {
     if (this.collection) {
       const documents: CmsDocument[] = [];
+
       for (let index = 0; index < this.data.documents.length; index++) {
         const document = this.data.documents[index];
+
         if (document.collectionId === this.collection) {
           documents.push(document);
         }
       }
 
       if (this.content && this.content.group) {
-        const countWidgets = this.content.group.length;
-        const countDocuments = documents.length;
-        const countPages = Math.ceil(countDocuments / countWidgets);
-        const currentPage = this.route.snapshot.params.list || 1;
-
-        const startIndex = (currentPage - 1) * countWidgets;
-        const endIndex = startIndex + countWidgets - 1;
+        const countWidgets: number = this.content.group.length;
+        const countDocuments: number = documents.length;
+        const countPages: number = Math.ceil(countDocuments / countWidgets);
+        const currentPage: number = this.route.snapshot.params.list || 1;
+        const startIndex: number = (currentPage - 1) * countWidgets;
+        const endIndex: number = startIndex + countWidgets - 1;
         const currentPageDocuments: CmsDocument[] = [];
 
         for (let i = startIndex; i <= endIndex; i++) {
@@ -223,7 +224,6 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
     }
 
     return ['/p', link.pageId];
-
   }
 
   getBackgroundImageStyle(): string {

@@ -32,7 +32,7 @@ async function getDocuments(widget, docs, collections, images) {
     }
 
     const collection = widget.content.collection;
-    if (collection) {
+    if (collection && !collections.find(c => c._id.toString() === collection)) {
       const searchCollection = await new CollectionService().getById(collection);
 
       if (searchCollection) {
