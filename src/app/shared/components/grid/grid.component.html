@@ -76,7 +76,7 @@
             matInput
             placeholder="Grid height (px)"
             [(ngModel)]="gridHeight"
-            [disabled]="!editable">
+            [disabled]="!gridResizable">
         </mat-form-field>
 
         <mat-form-field class="grid__wrapper-size-field">
@@ -86,7 +86,7 @@
             matInput
             placeholder="Grid width (px)"
             [(ngModel)]="gridWidth"
-            [disabled]="!editable">
+            [disabled]="!gridResizable">
         </mat-form-field>
       </div>
   

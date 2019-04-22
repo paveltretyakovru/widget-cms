@@ -72,6 +72,7 @@ export class GridComponent implements OnInit, AfterViewInit {
   @Input() showPanel = true;
   @Input() resizable = true;
   @Input() swapWidgets = false;
+  @Input() gridResizable = true;
   @Input() highlightNextPosition = false;
 
   @Input() currentPageDocuments: Document[];

@@ -1,12 +1,13 @@
 <div class="group-dialog">
   <app-grid
     [data]="data.data"
-    [widgets]="data.widgets"
-    (widgetsUpdated)="onGridWidgetsUpdated($event)"
     [cols]="data.position.width"
     [rows]="data.position.height"
+    [widgets]="data.widgets"
     [gridWidth]="data.size.width"
-    [gridHeight]="data.size.height">
+    [gridHeight]="data.size.height"
+    [gridResizable]="false"
+    (widgetsUpdated)="onGridWidgetsUpdated($event)">
   </app-grid>
 
   <div class="widget-editor-dialog__actions">
