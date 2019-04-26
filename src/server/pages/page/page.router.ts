@@ -23,11 +23,19 @@ async function getDocuments(widget, docs, collections, images) {
 
     const image = widget.content.image;
     if (image) {
-      console.log('IMMMAGE ISSETTT ---> ', image);
       const searchImage = await new ImageService().getById(image);
 
       if (searchImage) {
         images.push(searchImage);
+
+        // If image is a document image field link
+        const { field: searchField } = searchImage;
+        if (searchField && searchField.id && searchField.documentId) {
+          if (!docs.find(doc => doc.id === searchField.documentId)) {
+            const search = await documentService.getById(searchField.documentId);
+            docs.push(search);
+          }
+        }
       }
     }
 

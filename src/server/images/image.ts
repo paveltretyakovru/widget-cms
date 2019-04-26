@@ -1,14 +1,14 @@
 import { Schema, model } from 'mongoose';
 
 const imageSchema: Schema = new Schema({
-  url: { type: String, default: null },
-  title: { type: String, default: null },
-  description: { type: String, default: null },
+  url: { type: String, default: '' },
+  title: { type: String, default: '' },
+  description: { type: String, default: '' },
 
   field: {
     type: {
-      id: Schema.Types.ObjectId,
-      documentId: Schema.Types.ObjectId,
+      id: String,
+      documentId: String,
     },
     default: null,
   }
