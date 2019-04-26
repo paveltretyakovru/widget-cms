@@ -128,8 +128,11 @@ export class GridComponent implements OnInit, AfterViewInit {
     if (dialogResult) {
       const { height: rows, width: cols } = widget.position;
 
+      // If earliear the widget was field type then we should clear field data
+      const { field, ...contentWithoudField } = widget.content;
+
       widget.content = {
-        ...widget.content,
+        ...contentWithoudField,
         grid: { cols, rows },
         group: dialogResult.widgets,
       };
@@ -366,8 +369,6 @@ export class GridComponent implements OnInit, AfterViewInit {
     if (widget.content.link) {
       delete widget.content.link;
     }
-
-    console.log('Remove link', widget);
   }
 
   openModelLinkSheet(widget: Widget): void {
@@ -384,8 +385,6 @@ export class GridComponent implements OnInit, AfterViewInit {
       widget,
       images: this.data.images,
     };
-
-    console.log('openSelectImageSheet, data ->', this.data);
 
     this.bottomSheet
       .open(ImageSheetComponent, { data: imageSheetData })
