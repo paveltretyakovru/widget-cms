@@ -3,6 +3,8 @@ import { ApiService } from 'src/app/shared/services/api.service';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material';
 import { Widget } from '../../interfaces/widget';
 import { CmsImage } from 'src/app/shared/interfaces/cms-image';
+import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
+import { CmsField } from 'src/app/shared/interfaces/cms-field';
 
 export interface ImageSheetDataInterface {
   widget: Widget;
@@ -14,6 +16,8 @@ export interface ImageSheetComponentInterface {
   file: File;
   data: ImageSheetDataInterface;
   image: CmsImage;
+  field: CmsField;
+  document: CmsDocument;
   sheetRef: MatBottomSheetRef<ImageSheetComponent>;
 
   // Template methods
@@ -21,6 +25,7 @@ export interface ImageSheetComponentInterface {
 
   // Events
   onChange($event: EventTarget): void;
+  onFieldSelected($event: { document: CmsDocument, field: CmsField }): void;
   onImageWasRemoved($event): void;
   onClickButtonApply(): void;
   onClickButtonRemove(): void;
@@ -37,7 +42,9 @@ export class ImageSheetComponent
   // =============================== Members ===================================
   // ---------------------------------------------------------------------------
   file: File;
-  image: CmsImage = { title: '', url: '' };
+  field: CmsField = null;
+  image: CmsImage = { title: '', url: '', field: null };
+  document: CmsDocument = null;
 
   // ---------------------------------------------------------------------------
   // =============================== Live loop =================================
@@ -50,8 +57,6 @@ export class ImageSheetComponent
 
   ngOnInit() {
     if (this.data && this.data.widget.content.image) {
-      console.log('ImageSheetComponent#ngOnInit()', this.data.widget.content);
-
       const imageId = this.data.widget.content.image;
       this.image = this.data.images.find((image) => image._id === imageId);
     }
@@ -61,8 +66,7 @@ export class ImageSheetComponent
   // ========================== Template methods ===============================
   // ---------------------------------------------------------------------------
   checkToDisabledApply(): boolean {
-    console.log('checkToDisabledApply', !this.file, !this.image.url);
-    return !this.file && !this.image.url;
+    return !this.file && !this.image.url && !this.image.field;
   }
 
   // ---------------------------------------------------------------------------
@@ -78,9 +82,11 @@ export class ImageSheetComponent
   onClickButtonApply(): void {
     // Prepare image form data
     const formData: FormData = new FormData();
-    formData.append('url', this.image.url || '');
+    formData.append('url', this.image.url || null);
     formData.append('file', this.file);
-    formData.append('title', this.image.title || '');
+    formData.append('title', this.image.title || null);
+    formData.append('fieldId', this.image.field.id || null);
+    formData.append('documentId', this.document._id || null);
 
     const responseHandler = (imageContent: CmsImage) => {
       const image = this.data.images.find((i) => i._id === imageContent._id);
@@ -113,5 +119,17 @@ export class ImageSheetComponent
   onImageWasRemoved($event): void {
     this.data.widget.content.image = null;
     this.sheetRef.dismiss();
+  }
+
+  onFieldSelected($event: { document: CmsDocument, field: CmsField }): void {
+    if ($event && $event.field) {
+      this.field = $event.field;
+      this.document = $event.document;
+
+      this.image.field = {
+        id: $event.field._id,
+        documentId: $event.document._id,
+      };
+    }
   }
 }

@@ -87,5 +87,17 @@
         </div>
       </div>
     </mat-tab>
+
+    <mat-tab label="Document field">
+      <div class="image-sheet__tab-content">
+        <app-get-document-field
+          (selected)="onFieldSelected($event)">
+        </app-get-document-field>
+
+        <div *ngIf="field && document">
+          Selected {{document.name}} {{field.name}}
+        </div>
+      </div>
+    </mat-tab>
   </mat-tab-group>
 </ng-template>

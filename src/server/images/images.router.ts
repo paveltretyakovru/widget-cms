@@ -17,12 +17,24 @@ imagesRouter.post('', async (req, res, next) => {
   console.log('[POST]/api/images:', req.body);
 
   try {
-    const { title, url } = req.body;
+    const { title, url, fieldId, documentId } = req.body;
     const file = (req.files && req.files.file) ? req.files.file : null;
 
     // If using url to make create image document
     if (url) {
       imageService.create({ title, url })
+        .then((image) => res.json({
+          data: image,
+          success: true,
+          message: 'Image was created',
+        })).catch(err => next(err));
+    }
+
+    // If using document file to create image document
+    if (fieldId && documentId) {
+      const field = { id: fieldId, documentId: documentId };
+
+      imageService.create({ title, field })
         .then((image) => res.json({
           data: image,
           success: true,
