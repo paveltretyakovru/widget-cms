@@ -90,6 +90,11 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
               }
             }
           }
+
+          // If child is a image
+          if (ctx.image) {
+            ctx.document = doc._id;
+          }
         };
 
         // If current widget is widget, replace widget data
@@ -203,7 +208,6 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
     }
 
     if (this.content && !this.content.field && this.content.link) {
-      console.log('Should set link label', this.content.link);
       return this.content.link.label;
     }
 
@@ -211,8 +215,12 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
   }
 
   routeToLink(): void {
-    if (this.content.link.pageId) {
-      this.router.navigate(['/p', this.content.link.pageId]);
+    const link = this.content.link;
+
+    if (link && link.pageId && link.documentId) {
+      this.router.navigate(['/p', link.pageId, 'd', link.documentId]);
+    } else {
+      this.router.navigate(['/p', link.pageId]);
     }
   }
 
@@ -230,6 +238,35 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
     if (this.content.image) {
       const image = this.getImageFromDataById(this.content.image);
 
+      if (image && image.field && image.field.id) {
+        const field = this.getFieldFromDataById(image.field);
+        const ctxDocId = this.content.document;
+
+        // If isset context document
+        if (field && ctxDocId) {
+          if (this.data.documents && this.data.documents.length > 0) {
+
+            // Search context document
+            const ctxDoc = this.data.documents.find((d) => (
+              (d && d._id) ? d._id === ctxDocId : undefined
+            ));
+
+            if (ctxDoc) {
+              // Search context document image field by image field name
+              const ctxField = ctxDoc.fields.find(f => f.name === field.name);
+
+              if (ctxField) {
+                return `url(${ctxField.value})`;
+              }
+            }
+          }
+        }
+
+        if (field) {
+          return `url(${field.value})`;
+        }
+      }
+
       if (image) {
         return `url(${image.url})`;
       }
@@ -242,7 +279,7 @@ export class WidgetContainerComponent implements OnInit, OnDestroy {
     if (this.content.image) {
       const image = this.getImageFromDataById(this.content.image);
       if (image) {
-        return image.title;
+        return (image.title !== 'null') ? image.title : '';
       }
     }
 

@@ -26,6 +26,8 @@ export interface WidgetContentInterface {
   };
 
   image?: string;
+
+  document?: string;
 }
 
 export interface WidgetBackbone {
