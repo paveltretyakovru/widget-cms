@@ -19,6 +19,8 @@ export class ErrorInterceptor implements HttpInterceptor {
         location.reload(true);
       }
 
+      // TODO: Create 404 not found page
+
       const error = (err && err.error) ? err.error.message || err.statusText : '';
       this.snackBar.open(error, '');
 

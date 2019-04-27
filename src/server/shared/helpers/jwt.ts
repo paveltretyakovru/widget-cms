@@ -10,8 +10,6 @@ export const jwt = () => {
       // Routing paths
       '/',
       /\/p/i,
-      '/login',
-      '/registration',
       /\/admin/i,
 
       // Backend api routes

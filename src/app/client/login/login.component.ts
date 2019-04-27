@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { patternValidator } from 'src/app/shared/validators/pattern-validator';
 import { AuthenticationService } from 'src/app/shared/services/authentication.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ApiResponse } from 'src/app/shared/models/api-response';
 
 /* tslint:disable-next-line:max-line-length */
@@ -16,8 +16,10 @@ const emailPattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  returnUrl: string;
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService
   ) { }
@@ -25,6 +27,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     console.log('LoginComponent#ngOnInit()');
     this.createForm();
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/admin';
   }
 
   createForm() {
@@ -43,7 +46,8 @@ export class LoginComponent implements OnInit {
     this.authenticationService.login(email, password)
       .subscribe((res: ApiResponse) => {
         if (res.success) {
-          this.router.navigate(['admin']);
+          // this.router.navigate(['admin']);
+          this.router.navigateByUrl(this.returnUrl);
         }
       });
   }
