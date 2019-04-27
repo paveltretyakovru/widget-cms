@@ -181,6 +181,14 @@
       </button>
 
       <button mat-menu-item
+        *ngIf="widget.content.link"
+        (click)="removeLink(widget)">
+          <mat-icon>link_off</mat-icon>
+
+          <span>Switch off link</span>
+      </button>
+
+      <button mat-menu-item
         *ngIf="widget.content.model?.id"
         (click)="removeModelFromWidgetf(widget)">
           <mat-icon>work_off</mat-icon>
