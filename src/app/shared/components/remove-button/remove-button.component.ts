@@ -32,7 +32,7 @@ export class RemoveButtonComponent
 
   ngOnInit() {
     this._items.subscribe((items) => {
-      console.log('Subscribe to _items', items);
+      // console.log('Subscribe to _items', items);
     });
   }
 

@@ -58,7 +58,11 @@ export class ImageSheetComponent
   ngOnInit() {
     if (this.data && this.data.widget.content.image) {
       const imageId = this.data.widget.content.image;
-      this.image = this.data.images.find((image) => image._id === imageId);
+      const image = this.data.images.find((image) => image._id === imageId);
+
+      if (image) {
+        this.image = image;
+      }
     }
   }
 
@@ -82,11 +86,24 @@ export class ImageSheetComponent
   onClickButtonApply(): void {
     // Prepare image form data
     const formData: FormData = new FormData();
-    formData.append('url', this.image.url || null);
-    formData.append('file', this.file);
-    formData.append('title', this.image.title || null);
-    formData.append('fieldId', this.image.field.id || null);
-    formData.append('documentId', this.document._id || null);
+
+    const formDataAppend = (name: string, value: any) => {
+      if (typeof value !== 'undefined' && name !== '') {
+        formData.append(name, value);
+      }
+    };
+
+    formDataAppend('url', this.image.url);
+    formDataAppend('file', this.file);
+    formDataAppend('title', this.image.title);
+
+    if (this.document && this.document._id) {
+      formDataAppend('documentId', this.document._id);
+    }
+
+    if (this.image.field && this.image.field.id) {
+      formDataAppend('fieldId', this.image.field.id);
+    }
 
     const responseHandler = (imageContent: CmsImage) => {
       const image = this.data.images.find((i) => i._id === imageContent._id);

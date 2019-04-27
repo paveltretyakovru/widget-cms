@@ -34,7 +34,12 @@ imagesRouter.post('', async (req, res, next) => {
     if (fieldId && documentId) {
       const field = { id: fieldId, documentId: documentId };
 
-      imageService.create({ title, field })
+      console.log(
+        'Using document file to create image document',
+        { title, field }
+      );
+
+      return imageService.create({ title, field })
         .then((image) => res.json({
           data: image,
           success: true,
@@ -46,9 +51,12 @@ imagesRouter.post('', async (req, res, next) => {
     if (file) {
       const publicName = await imageService.upload(req.files.file);
 
-      console.log('Uploading image, publicName: ', publicName);
+      console.log(
+        'Using image file to create image document',
+        { publicName, title }
+      );
 
-      imageService.create({ title, url: publicName })
+      return imageService.create({ title, url: publicName })
         .then((image) => res.json({
           data: image,
           success: true,
