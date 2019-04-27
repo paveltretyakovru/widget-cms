@@ -5,10 +5,12 @@ import { Widget } from '../../interfaces/widget';
 import { CmsImage } from 'src/app/shared/interfaces/cms-image';
 import { CmsDocument } from 'src/app/admin/documents/document/cms-document';
 import { CmsField } from 'src/app/shared/interfaces/cms-field';
+import { GridData } from '../../../grid.component';
 
 export interface ImageSheetDataInterface {
   widget: Widget;
   images: CmsImage[];
+  documents: CmsDocument[];
 }
 
 export interface ImageSheetComponentInterface {
@@ -142,6 +144,15 @@ export class ImageSheetComponent
     if ($event && $event.field) {
       this.field = $event.field;
       this.document = $event.document;
+
+      const searchDoc = this.data.documents.find((doc) => {
+          return (doc) ? doc._id === this.document._id : false;
+      });
+
+      // If document is not exists on page data then add the doc to there
+      if (!searchDoc && this.document) {
+        this.data.documents.push(this.document);
+      }
 
       this.image.field = {
         id: $event.field._id,

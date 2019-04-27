@@ -384,6 +384,7 @@ export class GridComponent implements OnInit, AfterViewInit {
     const imageSheetData: ImageSheetDataInterface = {
       widget,
       images: this.data.images,
+      documents: this.data.documents,
     };
 
     this.bottomSheet
