@@ -68,6 +68,7 @@ export class PageComponent implements OnInit {
       this.api.create$('pages', { name, widgets, size })
         .subscribe((page) => {
           console.log('Page was created', { page });
+          this.page._id = page._id;
           // this.page = { ...page };
           // this.widgets = page.widgets;
         });
