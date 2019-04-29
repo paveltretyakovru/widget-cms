@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { Observable, forkJoin } from 'rxjs';
 import { SystemConfigurationInterface } from 'src/app/shared/interfaces/system-configuration.interface';
@@ -50,6 +50,8 @@ export class PanelComponent implements PanelComponentInterface, OnInit {
 
   fetchedConfigs: ServerConfigInterface[] = [];
 
+  @ViewChild('faviconImage') faviconImage: ElementRef;
+
   // ---------------------------------------------------------------------------
   // =============================== Live loop =================================
   // ---------------------------------------------------------------------------
@@ -91,7 +93,10 @@ export class PanelComponent implements PanelComponentInterface, OnInit {
         formData.append('file', this.file);
 
         this.api.post$('/api/uploads/favicon', formData)
-          .subscribe(response => console.log('Upload favicon', { response }));
+          .subscribe(response => {
+            const cashSrc = `/favicon.ico?${new Date().getTime()}`;
+            this.faviconImage.nativeElement.src = cashSrc;
+          });
       } else {
         this.snackBar.open(
           'Files type should be icon (*.ico)',
