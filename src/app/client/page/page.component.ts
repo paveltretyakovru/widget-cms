@@ -2,19 +2,25 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { ActivatedRoute } from '@angular/router';
 import { PageModel } from 'src/app/admin/pages/page/page.component';
+import { Title } from '@angular/platform-browser';
+
+export interface PageComponentInterface {
+  setPageHeaderTitle(): void;
+}
 
 @Component({
   selector: 'app-page',
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss']
 })
-export class PageComponent implements OnInit {
+export class PageComponent implements PageComponent, OnInit {
   page: PageModel;
   widgets = [];
 
   constructor(
     private api: ApiService,
     private route: ActivatedRoute,
+    private titleService: Title,
   ) { }
 
   ngOnInit() {
@@ -43,9 +49,18 @@ export class PageComponent implements OnInit {
                 console.log('Fetched page model', page, list);
                 this.page = { ...page };
                 this.widgets = page.widgets;
+
+                // Update header title
+                this.setPageHeaderTitle();
               });
           }
         });
+    }
+  }
+
+  setPageHeaderTitle() {
+    if (this.page && this.page.name) {
+      this.titleService.setTitle(this.page.name);
     }
   }
 
