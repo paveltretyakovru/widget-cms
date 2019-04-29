@@ -3,12 +3,17 @@
 @import '~typeface-roboto/index.css';
 @import "~flexboxgrid/css/flexboxgrid.css";
 @import '~material-design-icons/iconfont/material-icons.css';
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+/* Font Awesome */
 @import "~font-awesome/css/font-awesome.css";
+/* @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"); */
+
+/* Angular Material Themes */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 /* @import '~@angular/material/prebuilt-themes/pink-bluegrey.css'; */
 /* @import '~@angular/material/prebuilt-themes/purple-green.css'; */
 /* @import '~@angular/material/prebuilt-themes/indigo-pink.css'; */
-/* @import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"); */
+
 
 html, body {
   height: 100%;
