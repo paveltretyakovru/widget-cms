@@ -28,7 +28,7 @@
 <ng-template #pagePanel>
   <div class="row middle-xs">
     <div class="col-md-3 col-xs-6">
-      <mat-form-field class="widget-player__form-field">
+      <mat-form-field class="page__form-field">
         <input
           type="text"
           matInput
@@ -37,20 +37,19 @@
       </mat-form-field>
     </div>
 
-    <div class="col-md-2 col-xs-6">
+    <div class="col-lg-3 col-md-3 col-xs-6 page__panel-buttons">
       <button mat-raised-button
         color="primary"
-        (click)="onClickSavePage()">
-        Save page
-      </button>   
-    </div>
+        (click)="onClickSavePage()">Save page
+      </button>
 
-    <div class="col-md-2 col-xs-6">
       <app-remove-button
         *ngIf="page?._id"
         [items]="[{ id: page._id, apiModel: 'pages', label: 'Page: ' + page.name, required: true }]"
         [afterRedirectTo]="'/admin/pages'">
       </app-remove-button>
+
+      <a [routerLink]="[ '/p', page?._id ]">Open page</a>
     </div>
   </div>
 </ng-template>
