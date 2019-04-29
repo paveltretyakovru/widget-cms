@@ -20,8 +20,12 @@ import * as bodyParser from 'body-parser';
 // Middlewares
 import { errorHandler } from './server/shared/helpers/error-handler';
 import { jwt } from './server/shared/helpers/jwt';
+import { uploadsRouter } from './server/uploads/uploads.router';
 
 export const PUBLIC_IMAGE_PATH = join(__dirname, '..', '..' , '..', 'public', 'images');
+
+export const PUBLIC_FAVICON_PATH = join(__dirname, '..', 'browser', 'favicon.ico');
+export const SRC_FAVICON_PATH = join(__dirname, '..', '..', '..' , 'src' , 'favicon.ico');
 
 export function createApi(distPath: string, ngSetupOptions: NgSetupOptions) {
   const api = express();
@@ -52,6 +56,7 @@ export function createApi(distPath: string, ngSetupOptions: NgSetupOptions) {
   api.use('/api/models', modelsRouter);
   api.use('/api/images', imagesRouter);
   api.use('/api/configs', configsRouter);
+  api.use('/api/uploads', uploadsRouter);
   api.use('/api/documents', documentsRouter);
   api.use('/api/collections', collectionsRouter);
   api.use('/api/registration', registrationRouter);

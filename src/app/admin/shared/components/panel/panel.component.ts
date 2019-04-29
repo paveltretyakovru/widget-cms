@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/shared/services/api.service';
 import { Observable, forkJoin } from 'rxjs';
 import { SystemConfigurationInterface } from 'src/app/shared/interfaces/system-configuration.interface';
+import { MatSnackBar } from '@angular/material';
 
 export interface ServerConfigInterface {
   _id: string;
@@ -16,11 +17,13 @@ export interface Section {
 
 // Component interface
 export interface PanelComponentInterface {
+  file: File;
   folders: Section[];
   fetchedConfigs: ServerConfigInterface[];
   systemConfiguration: SystemConfigurationInterface;
 
   onClickSave(): void;
+  onChangeFavicon($event: EventTarget): void;
 }
 
 @Component({
@@ -29,6 +32,11 @@ export interface PanelComponentInterface {
   styleUrls: ['./panel.component.scss']
 })
 export class PanelComponent implements PanelComponentInterface, OnInit {
+  // ---------------------------------------------------------------------------
+  // =============================== Members ===================================
+  // ---------------------------------------------------------------------------
+  file: File;
+
   folders: Section[] = [
     { name: 'Models', route: '/admin/models' },
     { name: 'Collections', route: '/admin/collections' },
@@ -42,7 +50,12 @@ export class PanelComponent implements PanelComponentInterface, OnInit {
 
   fetchedConfigs: ServerConfigInterface[] = [];
 
-  constructor(private api: ApiService) { }
+  // ---------------------------------------------------------------------------
+  // =============================== Live loop =================================
+  // ---------------------------------------------------------------------------
+  constructor(
+    private api: ApiService,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     // Fetching and preapre index admin panel configs
@@ -55,6 +68,39 @@ export class PanelComponent implements PanelComponentInterface, OnInit {
         };
         this.fetchedConfigs = configs;
       });
+  }
+
+
+  // ---------------------------------------------------------------------------
+  // =============================== Events ====================================
+  // ---------------------------------------------------------------------------
+  onChangeFavicon($event: EventTarget): void {
+    const eventObject: MSInputMethodContext = <MSInputMethodContext> $event;
+    const target: HTMLInputElement = <HTMLInputElement> eventObject.target;
+    const files: FileList = target.files;
+
+    if (files && files[0]) {
+      const file: File = target.files[0];
+
+      if (file.type === 'image/x-icon') {
+        console.log('Selected icon', file);
+
+        this.file = file;
+        const formData: FormData = new FormData();
+
+        formData.append('file', this.file);
+
+        this.api.post$('/api/uploads/favicon', formData)
+          .subscribe(response => console.log('Upload favicon', { response }));
+      } else {
+        this.snackBar.open(
+          'Files type should be icon (*.ico)',
+          null, { duration: 3000 }
+        );
+      }
+    } else {
+      this.snackBar.open('File is not selected', null, { duration: 3000 });
+    }
   }
 
   onClickSave(): void {

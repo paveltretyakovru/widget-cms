@@ -56,4 +56,36 @@
 			</mat-card>
 		</div>
 	</div>
+
+	<div class="row admin-panel__configuration">
+			<div class="col-xs-12">
+				<mat-card>
+					<mat-card-header>
+						<div mat-card-avatar>
+							<mat-icon>palette</mat-icon>
+						</div>
+	
+						<mat-card-title>Theme configuration</mat-card-title>
+	
+						<mat-card-subtitle>Quick site style configuration</mat-card-subtitle>
+					</mat-card-header>
+	
+					<mat-card-content>
+						<div class="admin-panel__upload-icon-input">
+							<img src="favicon.ico" alt="">
+
+							<input
+								id="upload-icon-input"
+								type="file"
+								[hidden]="true"
+								(change)="onChangeFavicon($event)" />
+				
+							<label for="upload-icon-input" class="mat-raised-button mat-primary">
+								Upload new favicon
+							</label>
+						</div>
+					</mat-card-content>
+				</mat-card>
+			</div>
+		</div>
 </div>

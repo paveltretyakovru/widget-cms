@@ -43,3 +43,5 @@ package-lock.json
 
 # Public paths
 /public
+
+src/favicon.ico

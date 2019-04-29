@@ -4,4 +4,16 @@
 	&__configuration {
 		margin-top: 24px;
 	}
+
+	&__upload-icon-input {
+		display: flex;
+		margin-top: 13px;
+		align-items: center;
+
+		img {
+			width: 48px;
+			height: 48px;
+			margin-right: 13px;
+		}
+	}
 }

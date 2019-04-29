@@ -60,7 +60,7 @@ export class ImageSheetComponent
   ngOnInit() {
     if (this.data && this.data.widget.content.image) {
       const imageId = this.data.widget.content.image;
-      const image = this.data.images.find((image) => image._id === imageId);
+      const image = this.data.images.find((img) => img._id === imageId);
 
       if (image) {
         this.image = image;

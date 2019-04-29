@@ -19,6 +19,7 @@ export const jwt = () => {
       /\/api\/auth/i,
       /\/api\/models/i,
       /\/api\/configs/i,
+      /\/api\/uploads/i,
       /\/api\/documents/i,
       /\/api\/collections/i,
     ]
