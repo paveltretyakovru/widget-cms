@@ -434,4 +434,8 @@ export class GridComponent implements OnInit, AfterViewInit {
       widget.size = config.size;
     }
   }
+
+  toggleWidgetPaper(widget: Widget) {
+    console.log('Togge widget paper', widget);
+  }
 }

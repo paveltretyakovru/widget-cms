@@ -157,21 +157,25 @@
     </i>
 
     <mat-menu #widgetMenu="matMenu">
+      <!-- DOCUMENT button -->
       <button mat-menu-item (click)="openFieldDialog(widget)">
         <mat-icon>text_fields</mat-icon>
         <span>Document field</span>
       </button>
 
+      <!-- COLLECTION button -->
       <button mat-menu-item (click)="openCollectionSheet(widget)">
         <mat-icon>view_list</mat-icon>
         <span>Collection</span>
       </button>
 
+      <!-- WIDGET GROUP button -->
       <button mat-menu-item (click)="openGroupDialog(widget)">
           <mat-icon>view_quilt</mat-icon>
           <span>Widgets group</span>
       </button>
 
+      <!-- LINK buttons -->
       <button mat-menu-item
         *ngIf="!widget.content.link"
         (click)="openLinkSheet(widget)">
@@ -179,6 +183,7 @@
           <mat-icon>link</mat-icon>
           <span>Link</span>
       </button>
+      <!-- END of links button -->
 
       <button mat-menu-item
         *ngIf="widget.content.link"
@@ -188,6 +193,7 @@
           <span>Switch off link</span>
       </button>
 
+      <!-- MODEL buttons -->      
       <button mat-menu-item
         *ngIf="widget.content.model?.id"
         (click)="removeModelFromWidgetf(widget)">
@@ -201,7 +207,9 @@
           <mat-icon>work</mat-icon>
           <span>Attach model</span>
       </button>
+      <!-- END of models button -->
 
+      <!-- IMAGE button -->
       <button mat-menu-item
         *ngIf="!widget.content.model?.id"
         (click)="openSelectImageSheet(widget)">
@@ -209,6 +217,24 @@
         <mat-icon>image</mat-icon>
         <span>Use image</span>
       </button>
+
+      <!-- MAT CARD BORDER buttons -->
+      <button mat-menu-item
+        *ngIf="!widget.content.model?.id"
+        (click)="toggleWidgetPaper(widget)">
+
+        <mat-icon>web_asset</mat-icon>
+        <span>Enable card border</span>
+      </button>
+
+      <button mat-menu-item
+        *ngIf="!widget.content.model?.id"
+        (click)="toggleWidgetPaper(widget)">
+
+        <mat-icon>web_asset</mat-icon>
+        <span>Disable card border</span>
+      </button>
+      <!-- END of mat card borders buttons -->
     </mat-menu>
   </div>
 </ng-template>
