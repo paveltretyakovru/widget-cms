@@ -1,5 +1,9 @@
 <mat-drawer-container class="client">
-  <mat-toolbar color="primary" class="mat-elevation-z6">
+  <mat-toolbar
+    color="primary"
+    class="mat-elevation-z6"
+    *ngIf="systemConfiguration.showToolbar">
+
     <mat-toolbar-row>
       <button
         mat-button

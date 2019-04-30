@@ -45,6 +45,12 @@
 							placeholder="Logo text"
 							[(ngModel)]="systemConfiguration.logoText">
 					</mat-form-field>
+
+					<div>
+						<mat-checkbox [(ngModel)]="systemConfiguration.showToolbar">
+							Show toolbar
+						</mat-checkbox>
+					</div>
 				</mat-card-content>
 
 				<mat-card-actions>

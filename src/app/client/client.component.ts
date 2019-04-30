@@ -13,7 +13,8 @@ import { ApiService } from '../shared/services/api.service';
 export class ClientComponent implements OnInit {
   user: User;
   systemConfiguration: SystemConfigurationInterface = {
-    logoText: '',
+    logoText: null,
+    showToolbar: null,
   };
 
   constructor(

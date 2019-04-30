@@ -19,6 +19,8 @@ export interface Section {
 export interface PanelComponentInterface {
   file: File;
   folders: Section[];
+
+  // Need to check need create system config or update on click save button
   fetchedConfigs: ServerConfigInterface[];
   systemConfiguration: SystemConfigurationInterface;
 
@@ -45,7 +47,8 @@ export class PanelComponent implements PanelComponentInterface, OnInit {
   ];
 
   systemConfiguration: SystemConfigurationInterface = {
-    logoText: '',
+    logoText: null,
+    showToolbar: null,
   };
 
   fetchedConfigs: ServerConfigInterface[] = [];
@@ -63,11 +66,11 @@ export class PanelComponent implements PanelComponentInterface, OnInit {
     // Fetching and preapre index admin panel configs
     this.api.getAll$('configs')
       .subscribe((configs) => {
-        const config = configs.find((c) => c.name === 'logoText');
-
-        this.systemConfiguration = {
-          logoText: (config) ? config.value : '',
-        };
+        configs.forEach((config) => {
+          if (typeof this.systemConfiguration[config.name] !== 'undefined') {
+            this.systemConfiguration[config.name] = config.value;
+          }
+        });
         this.fetchedConfigs = configs;
       });
   }
