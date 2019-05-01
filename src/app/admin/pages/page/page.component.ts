@@ -63,7 +63,10 @@ export class PageComponent implements OnInit {
   //                   Events
   //  ========================================================
   onClickSavePage() {
-    const { name, widgets, size, _id } = this.page;
+    // const { name, widgets, size, _id } = this.page;
+    const widgets = this.widgets;
+    const { name, size, _id } = this.page;
+
     if (!_id) {
       this.api.create$('pages', { name, widgets, size })
         .subscribe((page) => {

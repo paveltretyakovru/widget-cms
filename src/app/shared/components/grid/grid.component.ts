@@ -435,7 +435,17 @@ export class GridComponent implements OnInit, AfterViewInit {
     }
   }
 
-  toggleWidgetPaper(widget: Widget) {
-    console.log('Togge widget paper', widget);
+  /**
+   * Toogle material paper shawdow style on the widget
+   * @param {Widget} widget
+   */
+  toggleWidgetPaper(widget: Widget): void {
+    if (widget && widget.view && widget.view.paper) {
+      widget.view.paper = null;
+    } else {
+      widget.view = {
+        paper: 2,
+      };
+    }
   }
 }

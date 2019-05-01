@@ -43,6 +43,10 @@ export interface WidgetBackbone {
   };
 
   content: WidgetContentInterface;
+
+  view?: {
+    paper: number;
+  };
 }
 
 export interface Widget extends WidgetBackbone {
@@ -55,6 +59,7 @@ export const createEmptyWidgetObject = (): Widget => {
     size: { width: 0, height: 0 },
     position: { top: null, left: null, height: null, width: null },
     content: {},
+    view: { paper: null },
   };
 };
 

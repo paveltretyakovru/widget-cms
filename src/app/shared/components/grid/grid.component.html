@@ -17,6 +17,7 @@
       [highlightNextPosition]="highlightNextPosition">
   
       <ngx-widget #widgetsRefs
+        [ngClass]="{'card card-2': widget.view?.paper}"
         [id]="widget.id"
         *ngFor="let widget of widgets;let $index = index;"
         [movable]="editable"
@@ -218,23 +219,25 @@
         <span>Use image</span>
       </button>
 
-      <!-- MAT CARD BORDER buttons -->
+      <!-- MAT PAPER buttons -->
+      <!-- enable paper -->
       <button mat-menu-item
-        *ngIf="!widget.content.model?.id"
+        *ngIf="!widget.view?.paper"
         (click)="toggleWidgetPaper(widget)">
 
         <mat-icon>web_asset</mat-icon>
-        <span>Enable card border</span>
+        <span>Enable paper</span>
       </button>
 
+      <!-- disable paper -->
       <button mat-menu-item
-        *ngIf="!widget.content.model?.id"
+        *ngIf="widget.view?.paper"
         (click)="toggleWidgetPaper(widget)">
 
         <mat-icon>web_asset</mat-icon>
-        <span>Disable card border</span>
+        <span>Disable paper</span>
       </button>
-      <!-- END of mat card borders buttons -->
+      <!-- END of mat paper buttons -->
     </mat-menu>
   </div>
 </ng-template>
