@@ -12,8 +12,11 @@
   }
 
   .widget-panel {
+    top: 5px;
+    left: 5px;
+    right: 5px;
     color: #fff;
-    width: 100%;
+    width: calc(100% - 10px);
     height: 31px;
     z-index: 21;
     display: flex;

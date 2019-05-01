@@ -22,9 +22,9 @@ const DEFAULT_PAGE_MODEL = {
   data: INIT_GRID_DATA,
   widgets: [],
   size: {
-    cols: 12,
-    rows: 12,
-    height: 800,
+    cols: 56,
+    rows: 56,
+    height: 900,
     width: 1200
   }
 };

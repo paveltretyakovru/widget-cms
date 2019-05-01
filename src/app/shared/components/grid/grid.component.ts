@@ -64,8 +64,8 @@ export class GridComponent implements OnInit, AfterViewInit {
   @Input() gridWidth;
   @Input() gridHeight = 500;
 
-  @Input() cols = 12;
-  @Input() rows = 12;
+  @Input() cols = 56;
+  @Input() rows = 56;
   @Input() movable = true;
   @Input() editable = true;
   @Input() showGrid = true;
